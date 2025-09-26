@@ -141,7 +141,8 @@ const theme = createTheme({
     },
     custom: {
         colors: {
-            cartBackground: "#c4d1dfff",
+            cartBackground: "#ffffffff",
+            
             topHeader: "#fcc5d8",
             mainHeader: "#334b8c",
             categoryHeader: "#021136",

@@ -1,7 +1,28 @@
 import TopHeader from "../layout/header/TopHeader";
 import Header from "../layout/header/MainHeader";
 import TopHeader2 from "../layout/header2/TopHeader2";
-export default function HeaderSection() {
+import { useRouter } from "next/navigation";
+
+interface HeaderSectionProps {
+    pageType: "home" | "productDetail" | "other";
+    pageName?: string;
+}
+
+export default function HeaderSection({ pageType, pageName }: HeaderSectionProps) {
+
+    const router = useRouter();
+    const handleLogin = () => {
+        router.push("/customer/login");
+    };
+    const handleRegister = () => {
+        router.push("/register");
+    };
+    const handleHome = () => {
+        router.push("/");
+    };
+    const handleCart = () => {
+        router.push("/user/cart");
+    }
     return (
         <>
             <TopHeader
@@ -12,15 +33,17 @@ export default function HeaderSection() {
                 ]}
             />
 
-          <Header
-                  userName="Aswin"
-                  cartCount={3}
-                  wishlistCount={2}
-                  onLogin={() => console.log("Login clicked")}
-                  onProfile={() => console.log("Profile clicked")}
-                  onCart={() => console.log("Cart clicked")}
-                  onWishlist={() => console.log("Wishlist clicked")}
-                />
+            <Header
+                pageName={pageName || ""}
+                pageType={pageType}
+                userName="Aswin"
+                cartCount={3}
+                wishlistCount={2}
+                onLogin={() => console.log("Login clicked")}
+                onProfile={() => console.log("Profile clicked")}
+                onCart={() => handleCart()}
+                onWishlist={() => console.log("Wishlist clicked")}
+            />
         </>
     );
 }

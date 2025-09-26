@@ -5,12 +5,29 @@ import React, { ReactNode } from "react";
 import { Box } from "@mui/material";
 import HeaderSection from "./HeaderContainer";
 import Footer from "../layout/footer/Footer1";
+import { usePathname } from "next/navigation";
 
 interface LayoutProps {
     children: ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+    const pathname = usePathname();
+    
+    // Determine pageType based on URL
+    let pageType: "home" | "productDetail" | "other" = "other";
+    if (pathname === "/") pageType = "home";
+    else if (pathname.startsWith("/user/products/")) pageType = "productDetail";
+
+    const pageTitle = pathname
+        .split("/")
+        .filter(Boolean)
+        .pop() || ""; // take only the last segment
+
+    // Capitalize first letter if it's a word
+    const formattedTitle =
+        pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1);
+
     return (
         <Box
             sx={{
@@ -19,7 +36,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 minHeight: "100vh",
             }}
         >
-            <HeaderSection />
+            <HeaderSection pageType={pageType} pageName={formattedTitle} />
             <Box component="main" sx={{ flex: 1 }}>
                 {children}
             </Box>

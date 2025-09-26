@@ -10,42 +10,42 @@ const sampleProducts = [
         price: 299,
         images: ["/images/2.webp", "/images/3.webp"],
         backgroundColor: "#ffffff",
-        link: "/products/1",
+        link: "/user/products/1",
     },
     {
         name: "Classic Leather Bag",
         price: 149,
         images: ["/images/111.jpg", "/images/11.webp"],
         backgroundColor: "#ffffffff",
-        link: "/products/1",
+        link: "/user/products/1",
     },
     {
         name: "Sports Shoes",
         price: 99,
         images: ["/images/111.jpg", "/images/11.webp"],
         backgroundColor: "#ffffff",
-        link: "/products/1",
+        link: "/user/products/1",
     },
     {
         name: "Sports Shoes",
         price: 99,
         images: ["/images/111.jpg", "/images/11.webp"],
         backgroundColor: "#fff",
-        link: "/products/1",
+        link: "/user/products/1",
     },
     {
         name: "Sports Shoes",
         price: 99,
         images: ["/images/111.jpg", "/images/11.webp"],
         backgroundColor: "#ffffffff",
-        link: "/products/1",
+        link: "/user/products/1",
     },
     {
         name: "Sports Shoes",
         price: 99,
         images: ["/images/111.jpg", "/images/11.webp"],
         backgroundColor: "#ffffffff",
-        link: "/products/1",
+        link: "/user/products/1",
     },
 ];
 export default function ProductsPage() {
@@ -56,7 +56,7 @@ export default function ProductsPage() {
             sx={{
                 display: "flex",
                 flexDirection: { xs: "column", md: "row" }, // 👈 stack on mobile
-                gap: 1,
+                gap: {xs:0 ,md:1},
                 mt: 1,
                 px: 1,
             }}

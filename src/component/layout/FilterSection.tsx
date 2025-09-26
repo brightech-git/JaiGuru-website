@@ -37,7 +37,10 @@ interface FilterBarProps {
 
 const FilterBar: React.FC<FilterBarProps> = ({ onFilterChange }) => {
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"), {
+        defaultMatches: true,  // assume mobile until proven otherwise
+
+    });
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     // Filter states
@@ -383,7 +386,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFilterChange }) => {
                     startIcon={<FilterListIcon />}
                     onClick={toggleDrawer}
                     sx={{
-                        mb: 1.5,
+                        
                         width: "100%",
                         textTransform: "none",
                         bgcolor: theme.custom.colors.mainHeader,

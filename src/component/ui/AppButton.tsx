@@ -20,7 +20,7 @@ export default function AppButton({
 }: AppButtonProps) {
     // Map fontVariant to font family
     const fontMap: Record<FontVariant, string> = {
-        default: `"Saira", sans-serif`,
+        default: `"Poiret One", sans-serif`,
         shadow: `"Shadow Into Light", cursive`,
         satisfy: `"Satisfy", cursive`,
         exo: `"Exo", sans-serif`,

@@ -75,10 +75,10 @@ export default function ProductDetailsPage() {
   };
 
   const priceBreakupData = [
-    { component: "Silver", value: "¥1,747", discount: "¥262", finalValue: "¥1,485" },
-    { component: "Total", value: "¥1,747", discount: "-", finalValue: "¥1,485" },
-    { component: "GST(3%)", value: "¥52", discount: "", finalValue: "¥45" },
-    { component: "Grand Total", value: "¥1,799", discount: "", finalValue: "¥1,529" },
+    { component: "Silver", value: "₹1,747", discount: "₹262", finalValue: "₹1,485" },
+    { component: "Total", value: "₹1,747", discount: "-", finalValue: "₹1,747" },
+    { component: "GST(3%)", value: "₹52", discount: "₹7", finalValue: "₹45" },
+    { component: "Grand Total", value: "₹1,799", discount: "-", finalValue: "₹1,799" },
   ];
 
   const featuresWithIcons = [

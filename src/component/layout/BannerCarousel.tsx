@@ -44,7 +44,7 @@ export default function BannerCarousel({ banners }: BannerCarouselProps) {
                 height: { xs: 200, sm: 350, md: 400, lg: 550 },
                 position: "relative",
                 overflow: "hidden",
-                borderRadius: theme.shape.borderRadius,
+                borderRadius: { xs: 2, md: theme.shape.borderRadius },
                 mb: 4,
             }}
         >
