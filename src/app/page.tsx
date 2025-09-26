@@ -3,7 +3,7 @@
 import AppButton from "@/component/ui/AppButton";
 import { Container, Typography, Button, Card, CardContent, TextField, AppBar, Toolbar ,Box} from "@mui/material";
 import InfoOutlined from "@mui/icons-material/InfoOutlined";
-import HeaderSection from "@/component/layoutWrapper/HeaderContainer";
+
 import Banner from "@/component/layout/Banner";
 import BannerCarousel from "@/component/layout/BannerCarousel";
 import img1 from "../images/11.webp";
@@ -23,6 +23,10 @@ import TwoRowProducts from "@/component/layout/TwoRowProducts";
 import LargeScreenBanner from "@/component/layout/LargeScreenBanner";
 import LargeScreenBanner2 from "@/component/layout/LargerScreenBanner2";
 import HandpickedProducts from "@/component/layout/FeaturedProduct";
+import HighlightBanner from "@/component/layout/HighlightBanner";
+import ProductCard from "@/component/ui/ProductCard";
+import ProductGrid from "@/component/layout/ProductGrid";
+import ToastExample from "@/component/layout/ToastExample";
 
 
 export default function HomePage() {
@@ -144,9 +148,49 @@ export default function HomePage() {
       ],
     },
   ];
+
+
+  const sampleProducts = [
+    {
+      name: "Luxury Watch",
+      price: 299,
+      images: ["/images/111.jpg", "/images/111.jpg"],
+      backgroundColor: "#ffffff",
+    },
+    {
+      name: "Classic Leather Bag",
+      price: 149,
+      images: ["/images/111.jpg", "/images/111.jpg"],
+      backgroundColor: "#e0f7fa",
+    },
+    {
+      name: "Sports Shoes",
+      price: 99,
+      images: ["/images/111.jpg", "/images/11.webp"],
+      backgroundColor: "#ffffff",
+    },
+    {
+      name: "Sports Shoes",
+      price: 99,
+      images: ["/images/111.jpg", "/images/111.jpg"],
+      backgroundColor: "#fff",
+    },
+     {
+      name: "Sports Shoes",
+      price: 99,
+      images: ["/images/111.jpg", "/images/111.jpg"],
+      backgroundColor: "#fff3e0",
+    },
+    {
+      name: "Sports Shoes",
+      price: 99,
+      images: ["/images/111.jpg", "/images/111.jpg"],
+      backgroundColor: "#fff3e0",
+    },
+  ];
   return (
     <>
-      <HeaderSection />
+     
       <Banner
         title="Summer Collection 2025"
         subtitle="Discover fresh arrivals and trending styles curated just for you."
@@ -154,6 +198,7 @@ export default function HomePage() {
         ctaHref="/collection/summer"
         imageUrl="/images/33.webp"
       />
+     
       <BannerCarousel banners={banners} />
       <TwoBannerRow
         leftImage="/images/11.webp"
@@ -186,6 +231,17 @@ export default function HomePage() {
         backgroundColor="#f5f5f5"
         baseUrl="https://app.bmgjewellers.com"
       />
+      <HighlightBanner
+        title="Discover Premium Watches"
+        body="Explore timeless craftsmanship and modern designs. Hand-picked to suit your style."
+        products={[
+          { name: "Watch 1", image: "/images/111.jpg", link: "/products/1" },
+          { name: "Watch 2", image: "/images/111.jpg", link: "/products/2" },
+          { name: "Watch 3", image: "/images/111.jpg", link: "/products/3" },
+        ]}
+        backgroundColor="#d3adf1ff"
+      />
+      <ToastExample />
       <Box
         sx={{
           display: "flex",
@@ -199,7 +255,7 @@ export default function HomePage() {
         }}
       >
         {categories.map((item, id) => (
-          <ThemeRadiusCategoryCard key={id} title={item.title} image={item.image} link={item.link} />
+          <ThemeRadiusCategoryCard key={id} title={item.title} image={item.image} link={item.link} backgroundColor="#ffffffff" />
         ))}
       </Box>
       <PremiumFinds title="Premium Finds for You" products={products}  />
@@ -210,6 +266,12 @@ export default function HomePage() {
         height={450}
         backgroundColor="rgba(0,0,0,0.2)"
       />
+
+
+
+
+      <ProductGrid products={sampleProducts} />
+
       <Container sx={{ py: 6 }}>
         <Typography variant="h1" gutterBottom>
           Welcome to Our Store
@@ -257,6 +319,8 @@ export default function HomePage() {
           </CardContent>
         </Card>
       </Container>
+
+   
     </>
   );
 }

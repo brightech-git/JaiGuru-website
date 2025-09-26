@@ -14,6 +14,7 @@ declare module "@mui/material/styles" {
                 highlight: string;
                 subtleBlue: string;
                 danger: string;
+                imageBorder?: string;
             };
             shadows: {
                 light: string;
@@ -24,6 +25,7 @@ declare module "@mui/material/styles" {
                 special: string;
             };
             fontSize?: {
+                title?: string;
                 larger?: string;
                 medium?: string;
                 small?: string;
@@ -41,6 +43,7 @@ declare module "@mui/material/styles" {
                 highlight: string;
                 subtleBlue: string;
                 danger: string;
+                imageBorder?: string;
             };
             shadows?: {
                 light?: string;
@@ -51,6 +54,7 @@ declare module "@mui/material/styles" {
                 special?: string;
             };
             fontSize?:{
+                title?: string;
                 larger?: string;
                 medium?: string;
                 small?: string;
@@ -141,10 +145,11 @@ const theme = createTheme({
             topHeader: "#fcc5d8",
             mainHeader: "#334b8c",
             categoryHeader: "#021136",
-            footer: "#041f60",
+            footer: "#686868ff",
             highlight: "#ffcc00",
             subtleBlue: "#eef2ff",
             danger: "#d32f2f",
+            imageBorder: "#8f8e8eff",
         },
         shadows: {
             light: "0 2px 4px rgba(0,0,0,0.05)",
@@ -155,9 +160,10 @@ const theme = createTheme({
             special: `"Creepster", "Amatic SC", "Parisienne", "Poiret One", cursive`,
         },
         fontSize:{
-            larger:  "1rem",
-            medium: "0.75rem",
-            small: "0.5rem"
+            title: "1.55rem",
+            larger:  "1.05rem",
+            medium: "0.85rem",
+            small: "0.7rem"
         }
     },
 });

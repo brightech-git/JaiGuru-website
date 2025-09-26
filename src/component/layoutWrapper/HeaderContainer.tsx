@@ -7,18 +7,10 @@ export default function HeaderSection() {
             <TopHeader
                 message="Free shipping on orders over $50!"
                 links={[
-                    { label: "Login", href: "/login" },
+                    { label: "Login", href: "/customer/login" },
                     { label: "Register", href: "/register" },
                 ]}
             />
-            {/* <TopHeader2
-                labels={[
-                    { label: "Free Shipping Today!", href: "/shipping" },
-                    { label: "New Arrivals Just In", href: "/new" },
-                    { label: "50% Off Sale!", href: "/sale" },
-                ]}
-                interval={4000} // switch every 4 seconds
-            /> */}
 
           <Header
                   userName="Aswin"
