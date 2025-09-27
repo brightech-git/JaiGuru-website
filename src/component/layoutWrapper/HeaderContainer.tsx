@@ -4,12 +4,12 @@ import TopHeader2 from "../layout/header2/TopHeader2";
 import { useRouter } from "next/navigation";
 
 interface HeaderSectionProps {
-    pageType: "home" | "productDetail" | "other";
+    pageType: "home" | "productDetail" | "other" | "cart" | "checkout";
     pageName?: string;
 }
 
 export default function HeaderSection({ pageType, pageName }: HeaderSectionProps) {
-
+    console.log("HeaderSection render with pageType:", pageType, "and pageName:", pageName);
     const router = useRouter();
     const handleLogin = () => {
         router.push("/customer/login");

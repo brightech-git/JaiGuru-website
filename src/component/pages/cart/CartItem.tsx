@@ -15,8 +15,11 @@ import {
     DialogContent,
     DialogTitle,
     Button,
+    useMediaQuery,
+    Divider,
 } from "@mui/material";
-import { DeleteOutline, WarningAmber } from "@mui/icons-material";
+import { DeleteOutline, WarningAmber, ShoppingCartCheckout } from "@mui/icons-material";
+import AppButton from "@/component/ui/AppButton";
 
 interface CartItemProps {
     id: number;
@@ -26,6 +29,7 @@ interface CartItemProps {
     weight: number;
     sku?: string;
     onRemove: (id: number) => void;
+    onBuyNow?: (id: number) => void;
 }
 
 const CartItem: React.FC<CartItemProps> = ({
@@ -36,9 +40,10 @@ const CartItem: React.FC<CartItemProps> = ({
     weight,
     sku,
     onRemove,
-    
+    onBuyNow,
 }) => {
     const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const handleRemoveClick = () => {
@@ -54,13 +59,17 @@ const CartItem: React.FC<CartItemProps> = ({
         setDeleteDialogOpen(false);
     };
 
+    const handleBuyNow = () => {
+        onBuyNow?.(id);
+    };
+
     return (
         <>
             <Card
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    p: 2,
+                    p: { xs: 1, md: 2 },
                     borderBottomLeftRadius: 0,
                     borderBottomRightRadius: 0,
                     borderTopLeftRadius: 10,
@@ -70,18 +79,20 @@ const CartItem: React.FC<CartItemProps> = ({
                     transition: "all 0.3s ease",
                     '&:hover': {
                         boxShadow: theme.shadows[3],
-                        transform: 'translateY(-2px)',
+                        transform: { md: 'translateY(-2px)' },
                     },
+                    flexDirection: { xs: 'column', md: 'row' },
+                    position: 'relative',
                 }}
             >
-                {/* Product Image */}
+                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' ,flexDirection:'row',gap:2}}>                {/* Product Image */}
                 <CardMedia
                     component="img"
                     image={image}
                     alt={name}
                     sx={{
-                        width: 100,
-                        height: 100,
+                        width: { xs: 100, md: 100 },
+                        height: { xs: 100, md: 100 },
                         borderRadius: 1,
                         objectFit: 'cover',
                         flexShrink: 0,
@@ -89,48 +100,110 @@ const CartItem: React.FC<CartItemProps> = ({
                 />
 
                 {/* Product Details */}
-                <CardContent sx={{ flex: 1, p: 0, pl: 2 }}>
+                <CardContent sx={{
+                    flex: 1,
+                    p: 0,
+                    pl: { md: 2 },
+                    width: { xs: '100%', md: 'auto' },
+                    mt: { xs: 1, md: 0 }
+                }}>
                     <Stack spacing={1}>
                         <Typography variant="h6" component="h3" sx={{
                             fontWeight: 500,
-                            lineHeight: 1.2
+                            lineHeight: 1.2,
+                            fontSize: { xs: '1.1rem', md: '1.25rem' }
                         }}>
                             {name}
                         </Typography>
-                        <Typography variant="h6" component="h6" sx={{
-                            fontWeight: 500,
-                            lineHeight: 1
-                        }}>
-                            {sku}
-                        </Typography>
 
-                      
+                        {sku && (
+                            <Typography variant="body2" component="p" sx={{
+                                fontWeight: 400,
+                                lineHeight: 1,
+                                color: theme.palette.text.secondary,
+                                fontSize: { xs: '0.875rem', md: '1rem' }
+                            }}>
+                                SKU: {sku}
+                            </Typography>
+                        )}
+
+                        <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: 0.5, md: 2 }}>
                             <Typography variant="body1" color="primary" fontWeight={600}>
-                                Price : ${price.toFixed(2)}
+                                Price: ${price.toFixed(2)}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Weight:{weight.toFixed(3)}grams
+                                Weight: {weight.toFixed(3)} grams
                             </Typography>
-                        
+                        </Stack>
                     </Stack>
                 </CardContent>
+              
+                </Box>
+                {/* Desktop Remove Button */}
+                {!isMobile && (
+                    <IconButton
+                        onClick={handleRemoveClick}
+                        aria-label={`Remove ${name} from cart`}
+                        sx={{
+                            color: theme.palette.text.secondary,
+                            transition: 'all 0.2s ease',
+                            '&:hover': {
+                                backgroundColor: theme.palette.error.light,
+                                color: theme.palette.error.main,
+                                transform: 'scale(1.1)',
+                            },
+                        }}
+                    >
+                        <DeleteOutline />
+                    </IconButton>
+                )}
+                <Divider sx={{ width: '100%', display:{md:'none'}}} />
+                {/* Mobile Action Buttons */}
+                {isMobile && (
+                   
+                    <Stack
+                        direction="row"
+                        spacing={1}
+                        sx={{
+                            width: '100%',
+                            mt: 1,
+                            justifyContent: 'space-between'
+                        }}
+                    >
+                        <AppButton
+                            label="Remove"
+                            appVariant="ghost"
+                            fontVariant="shadow"
+                            color="error"
+                            startIcon={<DeleteOutline />}
+                            onClick={handleRemoveClick}
+                            size="small"
+                            sx={{
+                                flex: 1,
+                                borderRadius: 2,
+                                textTransform: 'none',
+                                fontWeight: 500,
+                            }}
+                        />
+                           
 
-                {/* Remove Button */}
-                <IconButton
-                    onClick={handleRemoveClick}
-                    aria-label={`Remove ${name} from cart`}
-                    sx={{
-                        color: theme.palette.text.secondary,
-                        transition: 'all 0.2s ease',
-                        '&:hover': {
-                            backgroundColor: theme.palette.error.light,
-                            color: theme.palette.error.main,
-                            transform: 'scale(1.1)',
-                        },
-                    }}
-                >
-                    <DeleteOutline />
-                </IconButton>
+                        <AppButton
+                            label="Buy Now"
+                            appVariant="secondary"
+                            fontVariant="shadow"
+                            onClick={handleBuyNow}
+                            size="small"
+                            sx={{
+                                flex: 1,
+                                borderRadius: 2,
+                                textTransform: 'none',
+                                fontWeight: 500,
+                               
+                            }}
+                        />
+                          
+                    </Stack>
+                )}
             </Card>
 
             {/* Delete Confirmation Dialog */}
@@ -142,6 +215,7 @@ const CartItem: React.FC<CartItemProps> = ({
                     sx: {
                         borderRadius: 2,
                         maxWidth: '400px',
+                        m: { xs: 2, md: 3 }
                     }
                 }}
             >
@@ -185,19 +259,20 @@ const CartItem: React.FC<CartItemProps> = ({
                     </Stack>
                 </DialogContent>
 
-                <DialogActions sx={{ p: 3, gap: 1 }}>
-                    <Button
+                <DialogActions sx={{ p: 2, gap: 1 }}>
+                    <AppButton
+                        label="Keep Item"
                         onClick={handleCancelDelete}
-                        variant="outlined"
+                        appVariant="ghost"
                         sx={{
                             borderRadius: 2,
                             textTransform: 'none',
                             fontWeight: 500,
                         }}
-                    >
-                        Keep Item
-                    </Button>
-                    <Button
+                    />
+                        
+                    <AppButton
+                        label="Remove Item"
                         onClick={handleConfirmDelete}
                         variant="contained"
                         color="error"
@@ -208,9 +283,9 @@ const CartItem: React.FC<CartItemProps> = ({
                             px: 3,
                         }}
                         autoFocus
-                    >
-                        Remove Item
-                    </Button>
+                    />
+                      
+             
                 </DialogActions>
             </Dialog>
         </>

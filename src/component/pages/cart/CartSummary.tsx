@@ -8,7 +8,8 @@ import {
     Card,
     useTheme,
     Button,
-    Stack
+    Stack,
+    useMediaQuery,
 } from "@mui/material";
 import { ShoppingBagOutlined } from "@mui/icons-material";
 import AppButton from "@/component/ui/AppButton";
@@ -18,18 +19,21 @@ interface CartSummaryProps {
     tax: number;
     total: number;
     itemCount: number;
+    onCheckout?: () => void;
 }
 
 const CartSummary: React.FC<CartSummaryProps> = ({
     subtotal,
     tax,
     total,
-    itemCount
+    itemCount,
+    onCheckout,
 }) => {
     const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const handleCheckout = () => {
-        // Handle checkout logic
+        onCheckout?.();
         console.log("Proceeding to checkout");
     };
 
@@ -44,8 +48,9 @@ const CartSummary: React.FC<CartSummaryProps> = ({
                 p: 3,
                 borderRadius: 2,
                 boxShadow: theme.shadows[3],
-                position: 'sticky',
-                top: 40,
+                position: { md: 'sticky' },
+                top: { md: 40 },
+                mb: { xs: 8, md: 0 }, // Add margin bottom for mobile to accommodate sticky button
             }}
         >
             <Typography
@@ -90,42 +95,43 @@ const CartSummary: React.FC<CartSummaryProps> = ({
                     ${total.toFixed(2)}
                 </Typography>
             </Box>
-            <Box sx={{ textAlign: 'center' ,justifyContent:'center'}}>
-            {/* Checkout Button */}
-            <AppButton
-                label="Proceed to Checkout"
-                variant="contained"
-                onClick={handleCheckout}
-                size="large"
-                sx={{
-                    py: 1.5,
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    textTransform: 'none',
-                    fontSize: '1rem',
-                    background:'linear-gradient(45deg, #ec607eff 30%, #ff53e2ff 90%)',
-                    '&:hover': {
-                        transform: 'translateY(-1px)',
-                        boxShadow: theme.shadows[4],
-                    },
-                    transition: 'all 0.2s ease-in-out',
-                }}
-            >
-               
-                </AppButton>
 
-            <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{
-                    display: 'block',
-                    textAlign: 'center',
-                    mt: 1
-                }}
-            >
-                Free shipping on orders over $100
-            </Typography>
-            </Box>
+            {/* Checkout Button - Hidden on Mobile */}
+            {!isMobile && (
+                <Box sx={{ textAlign: 'center', justifyContent: 'center' }}>
+                    <AppButton
+                        label="Proceed to Checkout"
+                        variant="contained"
+                        onClick={handleCheckout}
+                        size="large"
+                        sx={{
+                            py: 1.5,
+                            borderRadius: 2,
+                            fontWeight: 600,
+                            textTransform: 'none',
+                            fontSize: '1rem',
+                            background: 'linear-gradient(45deg, #ec607eff 30%, #ff53e2ff 90%)',
+                            '&:hover': {
+                                transform: 'translateY(-1px)',
+                                boxShadow: theme.shadows[4],
+                            },
+                            transition: 'all 0.2s ease-in-out',
+                        }}
+                    />
+
+                    <Typography
+                        variant="caption"
+                        color="text.secondary"
+                        sx={{
+                            display: 'block',
+                            textAlign: 'center',
+                            mt: 1
+                        }}
+                    >
+                        Free shipping on orders over $100
+                    </Typography>
+                </Box>
+            )}
         </Card>
     );
 };

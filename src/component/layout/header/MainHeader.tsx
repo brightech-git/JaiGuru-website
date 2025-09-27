@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
 
 
 interface HeaderProps {
-    pageType?: "home" | "productDetail" | "other";
+    pageType?: "home" | "productDetail" | "other" | "cart" | "checkout";
     pageName?: string;
     userName?: string;
     cartCount?: number;
@@ -186,7 +186,7 @@ export default function Header({
 
             case "productDetail":
                 // Dynamic title
-                const pageTitle = pageType === "productDetail" ? "Product" : "Page";
+             
 
                 return (
                     <Toolbar sx={{ display: { xs: "flex", md: "none" }, justifyContent: "space-between", px: 1 }}>
@@ -195,7 +195,7 @@ export default function Header({
                             <ArrowBack sx={{ color: theme.palette.primary.contrastText }} />
                         </IconButton>
                         <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700 }}>
-                            {pageName || pageTitle}
+                            {pageName || "Product"}
                         </Typography>
                         </Box>
                         <Box display="flex" alignItems="center" gap={1}>
@@ -208,6 +208,41 @@ export default function Header({
                                 </Badge>
                             </IconButton>
                         </Box>
+                    </Toolbar>
+                );
+            case "cart":
+                // Dynamic title
+                const pageTitle = pageType === "cart" ? "Cart Page" : "Page";
+
+                return (
+                    <Toolbar sx={{ display: { xs: "flex", md: "none" }, justifyContent: "space-between", px: 1 }}>
+                        <Box display="flex" alignItems="center" gap={0.5}>
+                            <IconButton onClick={handleBack}>
+                                <ArrowBack sx={{ color: theme.palette.primary.contrastText }} />
+                            </IconButton>
+                            <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700 }}>
+                                {pageName || pageTitle}
+                            </Typography>
+                        </Box>
+                     
+                    </Toolbar>
+                );
+
+            case "checkout":
+                // Dynamic title
+             
+
+                return (
+                    <Toolbar sx={{ display: { xs: "flex", md: "none" }, justifyContent: "space-between", px: 1 }}>
+                        <Box display="flex" alignItems="center" gap={0.5}>
+                            <IconButton onClick={handleBack}>
+                                <ArrowBack sx={{ color: theme.palette.primary.contrastText }} />
+                            </IconButton>
+                            <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700 }}>
+                                {pageName || "Checkout"}
+                            </Typography>
+                        </Box>
+
                     </Toolbar>
                 );
             case "other":

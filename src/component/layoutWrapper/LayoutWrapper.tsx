@@ -13,10 +13,12 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
     const pathname = usePathname();
-    
+    console.log("Current pathname:", pathname);
     // Determine pageType based on URL
-    let pageType: "home" | "productDetail" | "other" = "other";
+    let pageType: "home" | "productDetail" | "cart"| "checkout" |"other" = "other";
     if (pathname === "/") pageType = "home";
+    else if (pathname === "/user/cart") pageType = "cart";
+    else if (pathname === "/user/checkout") pageType = "checkout";
     else if (pathname.startsWith("/user/products/")) pageType = "productDetail";
 
     const pageTitle = pathname
