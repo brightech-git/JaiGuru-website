@@ -8,6 +8,9 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AppButton from "./AppButton";
 
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
+
 interface ProductCardProps {
     name: string;
     price: string | number;
@@ -31,7 +34,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
     onToggleWishlist,
     onAddToCart,
 }) => {
-
+    const { isAuthenticated } = useAuth();
+    const router = useRouter();
     console.log("Rendering ProductCard:", { name, price, images, link, backgroundColor, itemSno, isWishlisted });
     const theme = useTheme();
     const bg = backgroundColor || theme.palette.background.paper;
@@ -64,6 +68,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
     };
 
     const handleAddToCart = (e: React.MouseEvent) => {
+        if (isAuthenticated) {
+            router.push("user/customer/login"); // redirect to login if not logged in
+            return;
+        }
         e.preventDefault();
         e.stopPropagation();
         if (itemSno && onAddToCart) {
@@ -86,8 +94,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <Box
-            component="a"
-            href={link ? String(link) : "#"}
+            
+        
             className="card-container"
             sx={{
                 display: "flex",
@@ -100,7 +108,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
             onTouchStart={handleTouchToggle}
         >
             <Box
+                component="a"
                 className="product-item"
+                href={link ? String(link) : "#"}
                 sx={{
                     position: "relative",
                     background: bg,

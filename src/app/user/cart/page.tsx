@@ -1,7 +1,12 @@
+// src/app/cart/page.tsx
 "use client";
-
 import CartPage from "@/component/pages/cart/CartPage";
+import ProtectedRoute from "@/component/auth/ProtectedRoute";
 
 export default function Cart() {
-  return <CartPage />;
+  return (
+    <ProtectedRoute>
+      <CartPage />
+    </ProtectedRoute>
+  );
 }

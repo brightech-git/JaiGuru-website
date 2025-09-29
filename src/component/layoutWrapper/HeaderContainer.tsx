@@ -1,7 +1,10 @@
+"use client";
 import TopHeader from "../layout/header/TopHeader";
 import Header from "../layout/header/MainHeader";
-import TopHeader2 from "../layout/header2/TopHeader2";
 import { useRouter } from "next/navigation";
+import { Box } from "@mui/material";
+import { useState } from "react";
+import AuthDrawer from "../ui/AuthDrawer";
 
 interface HeaderSectionProps {
     pageType: "home" | "productDetail" | "other" | "cart" | "checkout";
@@ -9,41 +12,38 @@ interface HeaderSectionProps {
 }
 
 export default function HeaderSection({ pageType, pageName }: HeaderSectionProps) {
-    console.log("HeaderSection render with pageType:", pageType, "and pageName:", pageName);
     const router = useRouter();
-    const handleLogin = () => {
-        router.push("/customer/login");
-    };
-    const handleRegister = () => {
-        router.push("/register");
-    };
-    const handleHome = () => {
-        router.push("/");
-    };
-    const handleCart = () => {
-        router.push("/user/cart");
-    }
+    const [authOpen, setAuthOpen] = useState(false);
+
+    const handleHome = () => router.push("/");
+    const handleCart = () => router.push("/user/cart");
+
     return (
         <>
+            {/* TopHeader */}
             <TopHeader
                 message="Free shipping on orders over $50!"
-                links={[
-                    { label: "Login", href: "/customer/login" },
-                    { label: "Register", href: "/register" },
-                ]}
+                onLogin={() => setAuthOpen(true)}   // open drawer
+                onRegister={() => setAuthOpen(true)} // same drawer, different tab inside
             />
 
-            <Header
-                pageName={pageName || ""}
-                pageType={pageType}
-                userName="Aswin"
-                cartCount={3}
-                wishlistCount={2}
-                onLogin={() => console.log("Login clicked")}
-                onProfile={() => console.log("Profile clicked")}
-                onCart={() => handleCart()}
-                onWishlist={() => console.log("Wishlist clicked")}
-            />
+            {/* MainHeader */}
+            <Box className="sticky top-0 z-50 bg-white shadow-sm">
+                <Header
+                    pageName={pageName || ""}
+                    pageType={pageType}
+                    userName="Aswin"
+                    cartCount={3}
+                    wishlistCount={2}
+                    onLogin={() => setAuthOpen(true)}
+                    onProfile={() => console.log("Profile clicked")}
+                    onCart={handleCart}
+                    onWishlist={() => console.log("Wishlist clicked")}
+                />
+            </Box>
+
+            {/* Auth Drawer */}
+            <AuthDrawer open={authOpen} onClose={() => setAuthOpen(false)} />
         </>
     );
 }

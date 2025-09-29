@@ -245,7 +245,7 @@ const CheckoutPage: React.FC = () => {
                 </Box>
 
                 {/* Right Section - Price Details (Sticky) */}
-                <Box sx={{ position: 'sticky', top: 40, alignSelf: 'flex-start' }}>
+                <Box sx={{ position: 'sticky', top: 100, alignSelf: 'flex-start' }}>
                     <PriceDetailsCard
                         subtotal={subtotal}
                         platformFee={platformFee}

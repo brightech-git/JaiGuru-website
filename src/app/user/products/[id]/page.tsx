@@ -93,16 +93,7 @@ export default function ProductDetailsPage() {
   return (
     <Container maxWidth="xl" sx={{ py: 4, px: { xs: 1, sm: 2 } }}>
       <Box sx={{ maxWidth: "1400px", mx: "auto" }}>
-        {/* Back Button */}
-        <Box sx={{ mb: 2 }}>
-          <AppButton
-            label="Back to Products"
-            appVariant="ghost"
-            fontVariant="default"
-            startIcon={<ArrowBack />}
-            sx={{ mb: 2 }}
-          />
-        </Box>
+      
 
         <Grid container spacing={2}>
           {/* Left: Product Images (Sticky) */}
@@ -110,7 +101,7 @@ export default function ProductDetailsPage() {
             size={{ xs: 12, sm: 6, md: 6, lg: 5 }}
             sx={{
               position: { md: "sticky" }, // Sticky on medium and larger screens
-              top: { md: 16 }, // Stick to top with some offset
+              top: { md: 86 }, // Stick to top with some offset
               alignSelf: { md: "flex-start" }, // Align to start for sticky behavior
               zIndex: 10, // Ensure it stays above other content
               mb: { xs: 2, md: 0 }, // Margin for mobile

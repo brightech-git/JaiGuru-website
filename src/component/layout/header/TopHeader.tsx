@@ -1,14 +1,14 @@
-// src/components/layout/TopHeader.tsx
 "use client";
 
-import { Box, Typography, Link, useTheme } from "@mui/material";
+import { Box, Typography, Button, useTheme } from "@mui/material";
 
 interface TopHeaderProps {
-    message?: string; // optional top message
-    links?: { label: string; href: string }[];
+    message?: string;
+    onLogin?: () => void;
+    onRegister?: () => void;
 }
 
-export default function TopHeader({ message, links = [] }: TopHeaderProps) {
+export default function TopHeader({ message, onLogin, onRegister }: TopHeaderProps) {
     const theme = useTheme();
 
     return (
@@ -17,7 +17,7 @@ export default function TopHeader({ message, links = [] }: TopHeaderProps) {
                 width: "100%",
                 bgcolor: theme.custom.colors.topHeader,
                 px: 2,
-                py: 0.5,
+                py: 1,
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
@@ -37,28 +37,31 @@ export default function TopHeader({ message, links = [] }: TopHeaderProps) {
                 {message || "Free shipping on orders over $50!"}
             </Typography>
 
-
-            {/* Right links */}
-            <Box display="flex" gap={2}>
-                {links.map((link) => (
-                    <Link
-                        key={link.label}
-                        href={link.href}
-                        sx={{
-                            color: theme.palette.primary.main,
-                            fontSize: "clamp(0.6rem, 1vw, 0.9rem)",
-                            fontWeight: 500,
-                            textDecoration: "none",
-                            "&:hover": {
-                                textDecoration: "underline",
-                            },
-                        }}
-                    >
-                        {link.label}
-                    </Link>
-                ))}
+            {/* Right actions */}
+            <Box display="flex" gap={2} alignItems="center" >
+                <Typography
+                    onClick={onLogin}
+                    sx={{
+                        color: theme.palette.primary.main,
+                        fontSize: "clamp(0.6rem, 1vw, 0.9rem)",
+                        fontWeight: 500,
+                        textTransform: "none",
+                    }}
+                >
+                    Login
+                </Typography>
+                <Typography
+                    onClick={onRegister}
+                    sx={{
+                        color: theme.palette.primary.main,
+                        fontSize: "clamp(0.6rem, 1vw, 0.9rem)",
+                        fontWeight: 500,
+                        textTransform: "none",
+                    }}
+                >
+                    Register
+                </Typography>
             </Box>
-
         </Box>
     );
 }

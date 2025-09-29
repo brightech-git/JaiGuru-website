@@ -118,7 +118,7 @@ const LoginForm: React.FC = () => {
 
                     <Typography variant="body2" textAlign="center">
                         Don't have an account?{" "}
-                        <MuiLink href="/register" underline="hover">
+                        <MuiLink href="/user/customer/register" underline="hover">
                             Create One
                         </MuiLink>
                     </Typography>

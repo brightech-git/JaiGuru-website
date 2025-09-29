@@ -571,7 +571,7 @@ const Footer: React.FC = () => {
                                     "&:hover": { bgcolor: theme.palette.primary.dark },
                                 }}
                             >
-                                <Image
+                                {/* <Image
                                     src={method.icon}
                                     alt={method.name}
                                     width={24}
@@ -579,7 +579,7 @@ const Footer: React.FC = () => {
                                     onError={(e) => {
                                         e.currentTarget.src = "/fallback-icon.png";
                                     }}
-                                />
+                                /> */}
                             </IconButton>
                         ))}
                     </Box>

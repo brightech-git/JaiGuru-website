@@ -10,6 +10,13 @@ interface LoginPayload {
     contactOrEmailOrUsername?: string;
     password: string;
 }
+interface RegisterPayload {
+    username: string;
+    email: string;
+    contactNumber: string;
+    password: string;
+    roles: string[];
+}
 
 interface AuthState {
     user: User | null;
@@ -55,12 +62,20 @@ export const login = createAsyncThunk<
 
 
 // Register
-export const register = createAsyncThunk<AuthResponse, { name: string; email: string; password: string }, { extra: ThunkExtra }>(
+export const register = createAsyncThunk<AuthResponse, RegisterPayload, { extra: ThunkExtra }>(
     "auth/register",
     async (userData, thunkAPI) => {
         const { enqueueSnackbar } = thunkAPI.extra || {};
         try {
             const response = await registerUser(userData);
+            console.log("Register response:", response);
+
+            // if backend returns an error in response
+            if (response?.message) {
+                enqueueSnackbar?.(response.message, { variant: "error" });
+                return thunkAPI.rejectWithValue(response.message);
+            }
+
             enqueueSnackbar?.("🎉 Registered successfully! Please verify OTP.", { variant: "success" });
             return response;
         } catch (error: any) {
@@ -69,6 +84,7 @@ export const register = createAsyncThunk<AuthResponse, { name: string; email: st
         }
     }
 );
+
 
 // Verify OTP
 export const verifyOtp = createAsyncThunk<User, { contactNumber: string; otp: string }, { extra: ThunkExtra }>(

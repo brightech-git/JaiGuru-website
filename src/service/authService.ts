@@ -26,6 +26,8 @@ export interface LoginPayload {
 export const registerUser = async (
     userData: Record<string, any>
 ): Promise<AuthResponse> => {
+    console.log("Registering user with data:", userData);
+  
     const response = await PublicUrl.post<AuthResponse>("auth/user/register", userData);
     return response.data;
 };

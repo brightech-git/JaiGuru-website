@@ -13,7 +13,6 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
     const pathname = usePathname();
-    console.log("Current pathname:", pathname);
     // Determine pageType based on URL
     let pageType: "home" | "productDetail" | "cart"| "checkout" |"other" = "other";
     if (pathname === "/") pageType = "home";

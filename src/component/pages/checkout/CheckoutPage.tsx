@@ -7,10 +7,7 @@ import MobileCheckoutPage from "./MobileCheckoutPage";
 
 const CheckoutPage: React.FC = () => {
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("md"), {
-           defaultMatches: true,  // assume mobile until proven otherwise
-   
-       });
+   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     return isMobile ? <MobileCheckoutPage /> : <DesktopCheckoutPage />;
 };
