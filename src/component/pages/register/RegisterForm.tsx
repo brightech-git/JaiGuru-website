@@ -86,8 +86,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ switchToLogin }) => {
 
     return (
         <Box sx={{ p: 1 }}>
-            <Typography variant="h5" mb={3} textAlign="center">
-                Create Your Account
+            <Typography variant="h5" mb={{xs:1,md:2}} textAlign="center">
+                Create Your Own Account Today ! 
             </Typography>
 
             <form onSubmit={handleRegister} className="space-y-4">
@@ -98,7 +98,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ switchToLogin }) => {
                     onChange={(e) => setUserName(e.target.value)}
                     error={!!errors.username}
                     helperText={errors.username}
-                    sx={{ mb: 2 }}
+                    sx={{ mb: {xs:0.5,md:2} }}
                 />
                 <TextField
                     label="Email"
@@ -108,7 +108,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ switchToLogin }) => {
                     onChange={(e) => setEmail(e.target.value)}
                     error={!!errors.email}
                     helperText={errors.email}
-                    sx={{ mb: 2 }}
+                    sx={{ mb: { xs: 0.5, md: 2 } }}
                 />
                 <TextField
                     label="Contact Number"
@@ -117,7 +117,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ switchToLogin }) => {
                     onChange={(e) => setContactNumber(e.target.value)}
                     error={!!errors.contactNumber}
                     helperText={errors.contactNumber}
-                    sx={{ mb: 2 }}
+                    sx={{ mb: { xs: 0.5, md: 2 } }}
                 />
                 <TextField
                     label="Password"
@@ -140,12 +140,15 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ switchToLogin }) => {
                 />
             </form>
 
-            <Typography variant="body2" textAlign="center" mt={2}>
+            <Box  textAlign="center" mt={1} display={"flex"} justifyContent="center" alignItems="center" gap={1}>
+                <Typography variant="body2"  textAlign="center">
+              
                 Already have an account?{" "}
-                <MuiLink component="button" onClick={switchToLogin} underline="hover">
+                </Typography>
+                <MuiLink component="button" onClick={switchToLogin} underline="hover" sx={{ cursor: "pointer" ,fontWeight:600 }} >
                     Login
                 </MuiLink>
-            </Typography>
+            </Box>
 
             {/* OTP Modal */}
             <Dialog open={showOtpModal} onClose={() => setShowOtpModal(false)}>

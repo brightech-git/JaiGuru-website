@@ -74,8 +74,8 @@ const SubProductCard = ({ product, baseUrl }: { product: Product; baseUrl: strin
     return (
         <Card
             sx={{
-                width: { xs: "4rem", sm: "4rem", md: "5rem", lg: "6rem" },
-                height: { xs: "4rem", sm: "4rem", md: "5rem", lg: "6rem" },
+                width: { xs: "4rem", sm: "4rem", md: "5rem", lg: "5rem" },
+                height: { xs: "4rem", sm: "4rem", md: "5rem", lg: "5rem" },
                 borderRadius:0,
                 overflow: "hidden",
                 boxShadow: theme.custom.shadows.light,

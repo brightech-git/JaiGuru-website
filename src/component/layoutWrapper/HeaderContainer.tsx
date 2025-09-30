@@ -14,6 +14,7 @@ interface HeaderSectionProps {
 export default function HeaderSection({ pageType, pageName }: HeaderSectionProps) {
     const router = useRouter();
     const [authOpen, setAuthOpen] = useState(false);
+    const [authView, setAuthView] = useState<"login" | "register">("login");
 
     const handleHome = () => router.push("/");
     const handleCart = () => router.push("/user/cart");
@@ -23,8 +24,14 @@ export default function HeaderSection({ pageType, pageName }: HeaderSectionProps
             {/* TopHeader */}
             <TopHeader
                 message="Free shipping on orders over $50!"
-                onLogin={() => setAuthOpen(true)}   // open drawer
-                onRegister={() => setAuthOpen(true)} // same drawer, different tab inside
+                onLogin={() => {
+                    setAuthView("login");
+                    setAuthOpen(true);
+                }}
+                onRegister={() => {
+                    setAuthView("register");
+                    setAuthOpen(true);
+                }}
             />
 
             {/* MainHeader */}
@@ -35,7 +42,10 @@ export default function HeaderSection({ pageType, pageName }: HeaderSectionProps
                     userName="Aswin"
                     cartCount={3}
                     wishlistCount={2}
-                    onLogin={() => setAuthOpen(true)}
+                    onLogin={() => {
+                        setAuthView("login");
+                        setAuthOpen(true);
+                    }}
                     onProfile={() => console.log("Profile clicked")}
                     onCart={handleCart}
                     onWishlist={() => console.log("Wishlist clicked")}
@@ -43,7 +53,11 @@ export default function HeaderSection({ pageType, pageName }: HeaderSectionProps
             </Box>
 
             {/* Auth Drawer */}
-            <AuthDrawer open={authOpen} onClose={() => setAuthOpen(false)} />
+            <AuthDrawer
+                open={authOpen}
+                onClose={() => setAuthOpen(false)}
+                initialView={authView} // 👈 pass correct view
+            />
         </>
     );
 }

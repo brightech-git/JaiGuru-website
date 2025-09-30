@@ -69,6 +69,7 @@ export default function Header({
                             display: { xs: "none", md: "flex" },
                             justifyContent: "space-between",
                             px: 4,
+                            py:0
                         }}
                     >
                         <Typography variant="h5" sx={{ color: theme.palette.primary.contrastText ,cursor:'pointer'}} onClick={() => router.push('/')} >
@@ -167,7 +168,7 @@ export default function Header({
                             <MenuIcon sx={{ color: theme.palette.primary.contrastText }} />
                         </IconButton>
                         <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700 ,cursor:"pointer"}}  onClick={() => router.push('/')} >
-                            MyShop
+                            MyShops
                         </Typography>
                         <Box display="flex" alignItems="center" gap={1}>
                             <IconButton onClick={onWishlist}>
@@ -284,11 +285,9 @@ export default function Header({
                     sx={{
                         display: { xs: "flex", md: "none" },
                         px: 1,
-                        py: 0.5,
                         bgcolor: theme.custom.colors.subtleBlue,
                         borderRadius: 2,
                         mx: 1,
-                        mt: 1,
                     }}
                 >
                     <SearchBar />

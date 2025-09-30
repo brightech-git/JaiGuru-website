@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Typography, Button, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 
 interface TopHeaderProps {
     message?: string;
@@ -29,7 +29,7 @@ export default function TopHeader({ message, onLogin, onRegister }: TopHeaderPro
                 variant="body2"
                 sx={{
                     color: theme.palette.text.secondary,
-                    fontSize: "clamp(0.6rem, 1vw, 0.9rem)",
+                    fontSize: "clamp(0.8rem, 1vw, 1rem)",
                     lineHeight: 1.4,
                     fontWeight: 400,
                 }}
@@ -38,14 +38,14 @@ export default function TopHeader({ message, onLogin, onRegister }: TopHeaderPro
             </Typography>
 
             {/* Right actions */}
-            <Box display="flex" gap={2} alignItems="center" >
+            <Box display="flex" gap={2} alignItems="center">
                 <Typography
                     onClick={onLogin}
                     sx={{
                         color: theme.palette.primary.main,
-                        fontSize: "clamp(0.6rem, 1vw, 0.9rem)",
+                        fontSize: "clamp(0.8rem, 1vw, 1rem)",
                         fontWeight: 500,
-                        textTransform: "none",
+                        cursor: "pointer",
                     }}
                 >
                     Login
@@ -54,9 +54,9 @@ export default function TopHeader({ message, onLogin, onRegister }: TopHeaderPro
                     onClick={onRegister}
                     sx={{
                         color: theme.palette.primary.main,
-                        fontSize: "clamp(0.6rem, 1vw, 0.9rem)",
+                        fontSize: "clamp(0.8rem, 1vw, 1rem)",
                         fontWeight: 500,
-                        textTransform: "none",
+                        cursor: "pointer",
                     }}
                 >
                     Register

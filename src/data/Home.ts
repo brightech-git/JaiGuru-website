@@ -69,6 +69,39 @@ export const mainProducts = [
             { name: "Charger", image: "/images/111.jpg", link: "/products/charger" ,id:2},
         ],
     },
+    {
+        name: "Smart Watch",
+        image: "/images/111.jpg",
+        link: "/products/smartwatch",
+        itemName: "Smartwatch",
+        subItemName: "Classic",
+        subProducts: [
+            { name: "Extra Strap", image: "/images/111.jpg", link: "/products/strap", id: 1 },
+            { name: "Charger", image: "/images/111.jpg", link: "/products/charger", id: 2 },
+        ],
+    },
+    {
+        name: "Smart Watch",
+        image: "/images/111.jpg",
+        link: "/products/smartwatch",
+        itemName: "Smartwatch",
+        subItemName: "Classic",
+        subProducts: [
+            { name: "Extra Strap", image: "/images/111.jpg", link: "/products/strap", id: 1 },
+            { name: "Charger", image: "/images/111.jpg", link: "/products/charger", id: 2 },
+        ],
+    },
+    {
+        name: "Smart Watch",
+        image: "/images/111.jpg",
+        link: "/products/smartwatch",
+        itemName: "Smartwatch",
+        subItemName: "Classic",
+        subProducts: [
+            { name: "Extra Strap", image: "/images/111.jpg", link: "/products/strap", id: 1 },
+            { name: "Charger", image: "/images/111.jpg", link: "/products/charger", id: 2 },
+        ],
+    },
 ];
 
 export const sampleProducts = [

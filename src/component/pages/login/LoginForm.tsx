@@ -17,11 +17,12 @@ import { useRouter } from "next/navigation";
 import type { AppDispatch } from "@/redux/store/store";
 
 interface LoginFormProps {
+    switchToForgot?: () => void; // 👈 so we can switch tab in AuthDrawer
     switchToRegister?: () => void; // 👈 so we can switch tab in AuthDrawer
     onSuccess?: () => void; // 👈 new prop
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ switchToRegister ,onSuccess }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ switchToRegister, onSuccess, switchToForgot }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("md"));
     const dispatch = useDispatch<AppDispatch>();
@@ -82,6 +83,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ switchToRegister ,onSuccess }) =>
                 display: "flex",
                 flexDirection: "column",
                 gap: 2,
+               
             }}
         >
             <Typography
@@ -89,9 +91,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ switchToRegister ,onSuccess }) =>
                 textAlign="center"
                 color={theme.palette.primary.main}
                 fontWeight={600}
-                mb={1}
+                mb={{xs:0,md:1}}
             >
-                Login
+                Continue to Your Account
             </Typography>
 
             {localError && (
@@ -111,7 +113,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ switchToRegister ,onSuccess }) =>
                     variant="outlined"
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
-                    sx={{ mb: 2 }}
+                    sx={{ mb: {xs:1,md:2} }}
                 />
                 <TextField
                     fullWidth
@@ -124,7 +126,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ switchToRegister ,onSuccess }) =>
                 />
 
                 <Box textAlign="right" mb={2}>
-                    <MuiLink href="/forgot-password" underline="hover" variant="body2">
+                    <MuiLink  underline="hover" variant="body2" onClick={switchToForgot} >
                         Forgot Password?
                     </MuiLink>
                 </Box>

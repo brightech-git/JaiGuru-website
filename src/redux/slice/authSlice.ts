@@ -2,7 +2,7 @@
 "use client";
 
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { loginUser, registerUser, verifyOtpService, User, AuthResponse } from "@/service/authService";
+import { loginUser, registerUser, verifyOtpService, forgotPasswordService ,resetPasswordService ,User, AuthResponse } from "@/service/authService";
 import { SnackbarKey, OptionsObject } from "notistack";
 
 // ================== Types ==================
@@ -103,6 +103,30 @@ export const verifyOtp = createAsyncThunk<User, { contactNumber: string; otp: st
         } catch (error: any) {
             enqueueSnackbar?.(error.message || "OTP verification failed", { variant: "error" });
             return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
+
+export const forgotPassword = createAsyncThunk(
+    "auth/forgotPassword",
+    async (contactNumber: string, thunkAPI) => {
+        try {
+            const res = await forgotPasswordService(contactNumber);
+            return res;
+        } catch (err: any) {
+            return thunkAPI.rejectWithValue(err.message);
+        }
+    }
+);
+
+export const resetPassword = createAsyncThunk(
+    "auth/resetPassword",
+    async (params: { contactNumber: string; otp: string; newPassword: string }, thunkAPI) => {
+        try {
+            const res = await resetPasswordService(params);
+            return res;
+        } catch (err: any) {
+            return thunkAPI.rejectWithValue(err.message);
         }
     }
 );

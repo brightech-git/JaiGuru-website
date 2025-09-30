@@ -84,7 +84,7 @@ export const forgotPasswordService = async (
     const response = await PublicUrl.post<AuthResponse>("auth/user/forgot-password", {
         contactNumber,
     });
-
+    console.log("Forgot Password response:", response.data);
     const data = response.data;
 
     if (data.error) {
