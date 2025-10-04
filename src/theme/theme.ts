@@ -142,7 +142,6 @@ const theme = createTheme({
     custom: {
         colors: {
             cartBackground: "#ffffffff",
-            
             topHeader: "#fcc5d8",
             mainHeader: "#334b8c",
             categoryHeader: "#021136",
@@ -159,6 +158,7 @@ const theme = createTheme({
         },
         fonts: {
             special: `"Creepster", "Amatic SC", "Parisienne", "Poiret One", cursive`,
+            
         },
         fontSize:{
             title: "1.55rem",

@@ -6,6 +6,7 @@ import { Box, Typography, Card, CardMedia, useTheme } from "@mui/material";
 import Image from "next/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import AppButton from "../ui/AppButton";
 
 interface Product {
     name: string;
@@ -30,10 +31,17 @@ interface HandpickedProductsProps {
 const ArrowButton = ({ onClick, direction }: { onClick?: () => void; direction: "next" | "prev" }) => {
     const theme = useTheme();
     return (
-        <button
+        <AppButton
+            label={direction === "next" ? ">" : "<"}
             onClick={onClick}
             aria-label={direction === "next" ? "Next slide" : "Previous slide"}
-            style={{
+            sx={{
+                border: "none",
+                borderRadius: theme.shape.borderRadius,
+                width: { xs: 40, sm: 48, md: 56 },
+                height: { xs: 40, sm: 48, md: 56 },
+                cursor: "pointer",
+                fontSize: { xs: "14px", sm: "16px", md: "18px" },
                 position: "absolute",
                 top: "50%",
                 [direction === "next" ? "right" : "left"]: 16,
@@ -41,23 +49,11 @@ const ArrowButton = ({ onClick, direction }: { onClick?: () => void; direction: 
                 zIndex: 10,
                 background: "rgba(255, 255, 255, 0.95)",
                 color: theme.palette.text.primary,
-                border: "none",
-                borderRadius: theme.shape.borderRadius,
-                width: { xs: 40, sm: 48, md: 56 },
-                height: { xs: 40, sm: 48, md: 56 },
-                cursor: "pointer",
-                fontSize: { xs: "14px", sm: "16px", md: "18px" },
                 boxShadow: theme.custom.shadows.medium,
                 transition: "all 0.3s ease",
-                "&:hover": {
-                    backgroundColor: theme.custom.colors.highlight,
-                    color: theme.palette.common.white,
-                    transform: "translateY(-50%) scale(1.1)",
-                },
             }}
-        >
-            {direction === "next" ? ">" : "<"}
-        </button>
+        />
+
     );
 };
 
@@ -125,6 +121,7 @@ export default function HandpickedProducts({
             { breakpoint: 576, settings: { slidesToShow: 1, arrows: false } },
             { breakpoint: 420, settings: { slidesToShow: 1, arrows: false } },
         ],
+        
     };
 
     const handleShopNow = (itemName?: string, subItemName?: string) => {
@@ -199,24 +196,27 @@ export default function HandpickedProducts({
                     Loading products...
                 </Typography>
             ) : (
-                <Slider
-                    {...settings}
-                    sx={{
-                        "& .slick-track": {
-                            display: "flex",
-                            alignItems: "center",
-                        },
-                        "& .slick-slide": {
-                            px: 1,
-                            opacity: 1,
-                            transform: "none",
-                            "&.slick-active, &.slick-current, &.slick-center": {
+                    <Box
+                        sx={{
+                            "& .slick-track": {
+                                display: "flex",
+                                alignItems: "center",
+                            },
+                            "& .slick-slide": {
+                                px: 1,
                                 opacity: 1,
                                 transform: "none",
-                                filter: "none",
+                                "&.slick-active, &.slick-current, &.slick-center": {
+                                    opacity: 1,
+                                    transform: "none",
+                                    filter: "none",
+                                },
                             },
-                        },
-                    }}
+                        }}
+                    >
+                <Slider
+                    {...settings}
+              
                 >
                     {mainProducts.map((main, idx) => (
                         <Box
@@ -303,6 +303,7 @@ export default function HandpickedProducts({
                         </Box>
                     ))}
                 </Slider>
+                </Box>
             )}
         </Box>
     );

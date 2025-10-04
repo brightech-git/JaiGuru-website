@@ -49,12 +49,7 @@ const MOCK_SELECTED_ADDRESS = {
 const PaymentPage: React.FC = () => {
     const theme = useTheme();
     const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('online');
-    const [cardDetails, setCardDetails] = useState({
-        number: '',
-        name: '',
-        expiry: '',
-        cvv: ''
-    });
+    
 
     // Calculate order totals
     const { subtotal, platformFee, total, savings } = useMemo(() => {
@@ -66,7 +61,7 @@ const PaymentPage: React.FC = () => {
     }, []);
 
     const handlePaymentSubmit = () => {
-        console.log("Processing payment with:", { paymentMethod, cardDetails });
+        console.log("Processing payment with:", { paymentMethod });
         // Handle payment processing logic
     };
 
@@ -92,13 +87,13 @@ const PaymentPage: React.FC = () => {
             <Typography variant="body2" color="text.secondary">
                 Pay when you receive your order
             </Typography>
-
+{/* 
             <Box sx={{ p: 2, bgcolor: theme.palette.success.light, borderRadius: 1, }}>
                 <Typography variant="body2" color="success.dark" fontWeight={500} sx={{fontSize:{md:'0.675rem',lg:'0.825rem'}}}>
                     Cash on Delivery available for this order
                 </Typography>
                
-            </Box>
+            </Box> */}
             <AppButton
                 label="Place Order"
                 

@@ -82,7 +82,7 @@ const PriceDetailsCard: React.FC<PriceDetailsCardProps> = ({
 
                 {/* Place Order Button */}
                 <AppButton
-                    label="Place Order"
+                    label="Continue to Place Order"
                     fullWidth
                     onClick={onPlaceOrder}
                     sx={{

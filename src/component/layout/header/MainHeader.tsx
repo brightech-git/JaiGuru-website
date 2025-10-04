@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import {
     Menu as MenuIcon,
-    Search as SearchIcon,
     ArrowBack,
     AccountCircle,
     ShoppingCart,
@@ -19,7 +18,9 @@ import {
 import { useTheme } from "@mui/material/styles";
 import SearchBar from "@/component/ui/SearchBar";
 import { useRouter } from "next/navigation";
-
+import { useState, useRef, useEffect } from "react";
+import MiniCartModal from "@/component/ui/MiniCartModal";
+import MobileCategoryDrawer from "./MobileCategoryDrawer";
 
 interface HeaderProps {
     pageType?: "home" | "productDetail" | "other" | "cart" | "checkout";
@@ -33,6 +34,34 @@ interface HeaderProps {
     onWishlist?: () => void;
     onBack?: () => void;
 }
+
+// Mock cart data - replace with your actual cart data
+const mockCartItems = [
+    {
+        id: 1,
+        name: "Wireless Bluetooth Headphones",
+        price: 99.99,
+        quantity: 1,
+        image: "/images/2.webp",
+        color: "Black",
+    },
+    {
+        id: 2,
+        name: "Smart Watch Series 5",
+        price: 299.99,
+        quantity: 1,
+        image: "/images/111.jpg",
+        color: "Silver",
+    },
+    {
+        id: 3,
+        name: "USB-C Charging Cable",
+        price: 19.99,
+        quantity: 2,
+        image: "/images/3.webp",
+        color: "White",
+    },
+];
 
 export default function Header({
     pageType = "home",
@@ -50,111 +79,152 @@ export default function Header({
     const theme = useTheme();
     const router = useRouter();
 
+    const [cartOpen, setCartOpen] = useState(false);
+    const cartButtonRef = useRef<HTMLButtonElement>(null);
+    const hoverTimeoutRef = useRef<NodeJS.Timeout>(null);
 
+
+    const [drawerOpen, setDrawerOpen] = useState(false);
     const handleBack = () => {
         router.back();
     };
-    
 
+    const toggleDrawer = (open: boolean) => () => {
+        setDrawerOpen(open);
+    };
+    // Handle cart hover with proper timing
+    const handleCartMouseEnter = () => {
+        if (hoverTimeoutRef.current) {
+            clearTimeout(hoverTimeoutRef.current);
+        }
+        if (cartCount > 0) {
+            setCartOpen(true);
+        }
+    };
+
+    const handleCartMouseLeave = (event: React.MouseEvent) => {
+        const relatedTarget = event.relatedTarget as Node;
+
+        // Don't close if moving to the modal
+        if (relatedTarget && (relatedTarget as Element).closest?.('.mini-cart-modal')) {
+            return;
+        }
+
+        hoverTimeoutRef.current = setTimeout(() => {
+            setCartOpen(false);
+        }, 200);
+    };
+
+    const handleCartClick = () => {
+        if (onCart) {
+            onCart();
+        } else {
+            router.push('/user/cart');
+        }
+        setCartOpen(false);
+    };
+
+    // Cleanup timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (hoverTimeoutRef.current) {
+                clearTimeout(hoverTimeoutRef.current);
+            }
+        };
+    }, []);
+
+    // Consistent height for all headers
+    const headerHeight = { xs: "60px", md: "70px" };
 
     // Desktop Header
     const renderDesktopHeader = () => {
         switch (pageType) {
             case "home":
-            case "productDetail":
+            case "other":
             default:
                 return (
                     <Toolbar
                         sx={{
                             display: { xs: "none", md: "flex" },
                             justifyContent: "space-between",
-                            px: 4,
-                            py:0
+                            px: { md: 2, lg: 4 },
+                            minHeight: headerHeight,
+                            position: 'relative',
                         }}
                     >
-                        <Typography variant="h5" sx={{ color: theme.palette.primary.contrastText ,cursor:'pointer'}} onClick={() => router.push('/')} >
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                color: theme.palette.primary.contrastText,
+                                cursor: 'pointer',
+                                fontWeight: 700,
+                            }}
+                            onClick={() => router.push('/')}
+                        >
                             MyShop
                         </Typography>
-                        <Box sx={{ flex: 1, mx: 4 }}>
+                        <Box sx={{ flex: 1, mx: 4, maxWidth: "600px" }}>
                             <SearchBar />
                         </Box>
-                        <Box display="flex" alignItems="center" gap={3}>
+                        <Box display="flex" alignItems="center" gap={3} position="relative">
                             {/* Wishlist */}
                             <IconButton onClick={onWishlist}>
                                 <Badge badgeContent={wishlistCount} color="secondary">
                                     <FavoriteBorder sx={{ color: theme.palette.primary.contrastText }} />
                                 </Badge>
                             </IconButton>
-                            {/* Cart */}
-                            <IconButton onClick={onCart}>
-                                <Badge badgeContent={cartCount} color="secondary">
-                                    <ShoppingCart sx={{ color: theme.palette.primary.contrastText }}  />
-                                </Badge>
-                            </IconButton>
+
+                            {/* Cart with Mini Cart Modal */}
+                            <Box position="relative">
+                                <IconButton
+                                    ref={cartButtonRef}
+                                    onClick={handleCartClick}
+                                    onMouseEnter={handleCartMouseEnter}
+                                    onMouseLeave={handleCartMouseLeave}
+                                    sx={{
+                                        position: 'relative',
+                                        '&:hover': {
+                                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                        }
+                                    }}
+                                >
+                                    <Badge badgeContent={cartCount} color="secondary">
+                                        <ShoppingCart sx={{ color: theme.palette.primary.contrastText }} />
+                                    </Badge>
+                                </IconButton>
+
+                                <MiniCartModal
+                                    cartItems={mockCartItems}
+                                    cartCount={cartCount}
+                                    isOpen={cartOpen}
+                                    onClose={() => setCartOpen(false)}
+                                    anchorEl={cartButtonRef.current}
+                                />
+                            </Box>
+
                             {/* Profile */}
-                            <Box display="flex" alignItems="center" gap={1} onClick={isLoggedIn ? onProfile : onLogin} sx={{ cursor: "pointer" }}>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                gap={1}
+                                onClick={isLoggedIn ? onProfile : onLogin}
+                                sx={{
+                                    cursor: "pointer",
+                                    padding: '8px 12px',
+                                    borderRadius: 1,
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                    }
+                                }}
+                            >
                                 <AccountCircle sx={{ color: theme.palette.primary.contrastText }} />
-                                <Typography sx={{ color: theme.palette.primary.contrastText }}>
+                                <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 500 }}>
                                     {isLoggedIn ? userName : "Login"}
                                 </Typography>
                             </Box>
                         </Box>
                     </Toolbar>
                 );
-
-           
-                // return (
-                //     <Toolbar
-                //         sx={{
-                //             display: { xs: "none", md: "flex" },
-                //             justifyContent: "space-between",
-                //             px: 4,
-                //         }}
-                //     >
-                //         <IconButton onClick={onBack}>
-                //             <ArrowBack sx={{ color: theme.palette.primary.contrastText }} />
-                //         </IconButton>
-                //         <Box sx={{ flex: 1, mx: 4 }}>
-                //             <SearchBar />
-                //         </Box>
-                //         <IconButton onClick={onCart}>
-                //             <Badge badgeContent={cartCount} color="secondary">
-                //                 <ShoppingCart sx={{ color: theme.palette.primary.contrastText }} />
-                //             </Badge>
-                //         </IconButton>
-                //     </Toolbar>
-                // );
-
-           
-                // return (
-                //     <Toolbar
-                //         sx={{
-                //             display: { xs: "none", md: "flex" },
-                //             justifyContent: "space-between",
-                //             px: 4,
-                //         }}
-                //     >
-                //         <IconButton onClick={onBack}>
-                //             <ArrowBack sx={{ color: theme.palette.primary.contrastText }} />
-                //         </IconButton>
-                //         <Box sx={{ flex: 1, mx: 4 }}>
-                //             <SearchBar />
-                //         </Box>
-                //         <Box display="flex" alignItems="center" gap={3}>
-                //             <IconButton onClick={onCart}>
-                //                 <Badge badgeContent={cartCount} color="secondary">
-                //                     <ShoppingCart sx={{ color: theme.palette.primary.contrastText }} />
-                //                 </Badge>
-                //             </IconButton>
-                //             <Box display="flex" alignItems="center" gap={1} onClick={isLoggedIn ? onProfile : onLogin} sx={{ cursor: "pointer" }}>
-                //                 <AccountCircle sx={{ color: theme.palette.primary.contrastText }} />
-                //                 <Typography sx={{ color: theme.palette.primary.contrastText }}>
-                //                     {isLoggedIn ? userName : "Login"}
-                //                 </Typography>
-                //             </Box>
-                //         </Box>
-                //     </Toolbar>
-                // );
         }
     };
 
@@ -163,111 +233,73 @@ export default function Header({
         switch (pageType) {
             case "home":
                 return (
-                    <Toolbar sx={{ display: { xs: "flex", md: "none" }, justifyContent: "space-between", px: 2 }}>
-                        <IconButton>
-                            <MenuIcon sx={{ color: theme.palette.primary.contrastText }} />
-                        </IconButton>
-                        <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700 ,cursor:"pointer"}}  onClick={() => router.push('/')} >
-                            MyShops
-                        </Typography>
+                    <Toolbar sx={{
+                        display: { xs: "flex", md: "none" },
+                        px: 2,
+                        justifyContent: "space-between",
+                        minHeight: headerHeight,
+                    }}>
+                        <Box display="flex" alignItems="center" gap={{ xs: 1, sm: 2 }}>
+                            <IconButton onClick={toggleDrawer(true)}>
+                                <MenuIcon sx={{ color: theme.palette.primary.contrastText }} />
+                            </IconButton>
+                            <Typography
+                                sx={{
+                                    color: theme.palette.primary.contrastText,
+                                    fontWeight: 700,
+                                    cursor: "pointer"
+                                }}
+                                onClick={() => router.push('/')}
+                            >
+                                MyShop
+                            </Typography>
+                        </Box>
                         <Box display="flex" alignItems="center" gap={1}>
                             <IconButton onClick={onWishlist}>
                                 <Badge badgeContent={wishlistCount} color="secondary">
                                     <FavoriteBorder sx={{ color: theme.palette.primary.contrastText }} />
                                 </Badge>
                             </IconButton>
-                            <IconButton onClick={onCart}>
+                            <IconButton onClick={handleCartClick}>
                                 <Badge badgeContent={cartCount} color="secondary">
                                     <ShoppingCart sx={{ color: theme.palette.primary.contrastText }} />
                                 </Badge>
                             </IconButton>
                         </Box>
+                        <MobileCategoryDrawer open={drawerOpen} onClose={toggleDrawer(false)} />
                     </Toolbar>
                 );
 
-            case "productDetail":
-                // Dynamic title
-             
-
+            default:
                 return (
-                    <Toolbar sx={{ display: { xs: "flex", md: "none" }, justifyContent: "space-between", px: 1 }}>
-                        <Box display="flex" alignItems="center" gap={0.5}>
-                        <IconButton onClick={handleBack}>
-                            <ArrowBack sx={{ color: theme.palette.primary.contrastText }} />
-                        </IconButton>
-                        <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700 }}>
-                            {pageName || "Product"}
-                        </Typography>
-                        </Box>
+                    <Toolbar sx={{
+                        display: { xs: "flex", md: "none" },
+                        justifyContent: "space-between",
+                        px: 1,
+                        minHeight: headerHeight,
+                    }}>
                         <Box display="flex" alignItems="center" gap={1}>
-                            <IconButton>
-                                <SearchIcon sx={{ color: theme.palette.primary.contrastText }} />
-                            </IconButton>
-                            <IconButton onClick={onCart}>
-                                <Badge badgeContent={cartCount} color="secondary">
-                                    <ShoppingCart sx={{ color: theme.palette.primary.contrastText }} />
-                                </Badge>
-                            </IconButton>
-                        </Box>
-                    </Toolbar>
-                );
-            case "cart":
-                // Dynamic title
-                const pageTitle = pageType === "cart" ? "Cart Page" : "Page";
-
-                return (
-                    <Toolbar sx={{ display: { xs: "flex", md: "none" }, justifyContent: "space-between", px: 1 }}>
-                        <Box display="flex" alignItems="center" gap={0.5}>
                             <IconButton onClick={handleBack}>
                                 <ArrowBack sx={{ color: theme.palette.primary.contrastText }} />
                             </IconButton>
-                            <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700 }}>
-                                {pageName || pageTitle}
+                            <Typography
+                                sx={{
+                                    color: theme.palette.primary.contrastText,
+                                    fontWeight: 700,
+                                    fontSize: "1rem"
+                                }}
+                            >
+                                {pageName || (pageType === "cart" ? "Cart" : pageType === "checkout" ? "Checkout" : "Page")}
                             </Typography>
                         </Box>
-                     
-                    </Toolbar>
-                );
-
-            case "checkout":
-                // Dynamic title
-             
-
-                return (
-                    <Toolbar sx={{ display: { xs: "flex", md: "none" }, justifyContent: "space-between", px: 1 }}>
-                        <Box display="flex" alignItems="center" gap={0.5}>
-                            <IconButton onClick={handleBack}>
-                                <ArrowBack sx={{ color: theme.palette.primary.contrastText }} />
-                            </IconButton>
-                            <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700 }}>
-                                {pageName || "Checkout"}
-                            </Typography>
-                        </Box>
-
-                    </Toolbar>
-                );
-            case "other":
-                // Dynamic title
-            
-
-                return (
-                    <Toolbar sx={{ display: { xs: "flex", md: "none" }, justifyContent: "space-between", px: 1 }}>
                         <Box display="flex" alignItems="center" gap={1}>
-                        <IconButton onClick={handleBack}>
-                            <ArrowBack sx={{ color: theme.palette.primary.contrastText }} />
-                        </IconButton>
-                     
-                        <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700 }}>
-                            {pageName || ""}
-                        </Typography>
-                        </Box>
-                        <Box display="flex" alignItems="center" gap={1}>
-                           <SearchBar />
-                            <IconButton onClick={onCart}>
-                                <Badge badgeContent={cartCount} color="secondary">
-                                    <ShoppingCart sx={{ color: theme.palette.primary.contrastText }} />
-                                </Badge>
-                            </IconButton>
+                            {pageType !== "cart" && pageType !== "checkout" && (
+                                <IconButton onClick={handleCartClick}>
+                                    <Badge badgeContent={cartCount} color="secondary">
+                                        <ShoppingCart sx={{ color: theme.palette.primary.contrastText }} />
+                                    </Badge>
+                                </IconButton>
+                            )}
                         </Box>
                     </Toolbar>
                 );
@@ -275,8 +307,16 @@ export default function Header({
     };
 
     return (
-        <AppBar position="static" color="inherit" elevation={2} sx={{ backgroundColor: theme.custom.colors.mainHeader, py: { xs: 0.5, md: 1 } }}>
-            {renderDesktopHeader()} {/* unchanged */}
+        <AppBar
+            position="static"
+            color="inherit"
+            elevation={1}
+            sx={{
+                backgroundColor: theme.custom?.colors?.mainHeader || theme.palette.primary.main,
+                minHeight: headerHeight,
+            }}
+        >
+            {renderDesktopHeader()}
             {renderMobileHeader()}
 
             {/* Mobile Search Bar for Home only */}
@@ -284,10 +324,8 @@ export default function Header({
                 <Box
                     sx={{
                         display: { xs: "flex", md: "none" },
-                        px: 1,
-                        bgcolor: theme.custom.colors.subtleBlue,
-                        borderRadius: 2,
-                        mx: 1,
+                        px: 2,
+                        pb: 1,
                     }}
                 >
                     <SearchBar />

@@ -13,21 +13,40 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
     const pathname = usePathname();
-    // Determine pageType based on URL
-    let pageType: "home" | "productDetail" | "cart"| "checkout" |"other" = "other";
+
+    // Enhanced page type detection
+    let pageType: "home" | "productDetail" | "cart" | "checkout" | "other" = "other";
     if (pathname === "/") pageType = "home";
     else if (pathname === "/user/cart") pageType = "cart";
     else if (pathname === "/user/checkout") pageType = "checkout";
     else if (pathname.startsWith("/user/products/")) pageType = "productDetail";
 
-    const pageTitle = pathname
-        .split("/")
-        .filter(Boolean)
-        .pop() || ""; // take only the last segment
+    // Better page title formatting
+    const getPageTitle = () => {
+        const segments = pathname.split("/").filter(Boolean);
+        if (segments.length === 0) return "Home";
 
-    // Capitalize first letter if it's a word
-    const formattedTitle =
-        pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1);
+        const lastSegment = segments[segments.length - 1];
+        return lastSegment
+            .split('-')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    };
+
+    // Calculate proper top padding based on page type
+    const getMainTopPadding = () => {
+        switch (pageType) {
+            case "home":
+                return { xs: "0px", md: "60px",xl:'55px'}; // Spacer handles the space
+            case "productDetail":
+                return { xs: "0px", md: "0px" }; // No extra padding needed
+            case "cart":
+            case "checkout":
+                return { xs: "0px", md: "0px" }; // No extra padding needed
+            default:
+                return { xs: "0px", md: "0px" }; // No extra padding needed
+        }
+    };
 
     return (
         <Box
@@ -35,10 +54,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 display: "flex",
                 flexDirection: "column",
                 minHeight: "100vh",
+                overflowX: "hidden",
             }}
         >
-            <HeaderSection pageType={pageType} pageName={formattedTitle} />
-            <Box component="main" sx={{ flex: 1 }}>
+            <HeaderSection
+                pageType={pageType}
+                pageName={getPageTitle()}
+            />
+            <Box
+                component="main"
+                sx={{
+                    flex: 1,
+                    pt: getMainTopPadding(), // Dynamic padding based on page type
+                    minHeight: "calc(100vh - 120px)", // Ensure footer stays at bottom
+                }}
+            >
                 {children}
             </Box>
             <Footer />

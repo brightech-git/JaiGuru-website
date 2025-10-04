@@ -8,11 +8,11 @@ import BannerCarousel from "@/component/layout/BannerCarousel";
 import TwoBannerRow from "@/component/layout/TwoBannerRow";
 import FullWidthBanner from "@/component/layout/FullWidthBanner";
 import ThemeRadiusCategoryCard from "@/component/layout/ThemeRadiusCategoryCard";
-import PremiumFinds from "@/component/layout/PremiumFinds";
-import TwoRowProducts from "@/component/layout/TwoRowProducts";
-import LargeScreenBanner from "@/component/layout/LargeScreenBanner";
-import LargeScreenBanner2 from "@/component/layout/LargerScreenBanner2";
-import HandpickedProducts from "@/component/layout/FeaturedProduct";
+// import PremiumFinds from "@/component/layout/PremiumFinds";
+// import TwoRowProducts from "@/component/layout/TwoRowProducts";
+// import LargeScreenBanner from "@/component/layout/LargeScreenBanner";
+// import LargeScreenBanner2 from "@/component/layout/LargerScreenBanner2";
+// import HandpickedProducts from "@/component/layout/FeaturedProduct";
 import HighlightBanner from "@/component/layout/HighlightBanner";
 import ProductGrid from "@/component/layout/ProductGrid";
 import ToastExample from "@/component/layout/ToastExample";
@@ -40,7 +40,7 @@ export default function HomePage() {
                 rightImage="/images/22.webp"
                 height={{ xs: 200, sm: 300, md: 400 }}
             />
-
+{/* 
             <LargeScreenBanner title="Featured Products" products={products} banner={banner} />
             <LargeScreenBanner2 title="Featured Products" products={products} banner={banner} />
 
@@ -51,7 +51,7 @@ export default function HomePage() {
                 mainProducts={mainProducts}
                 backgroundColor="#f5f5f5"
                 baseUrl="https://app.bmgjewellers.com"
-            />
+            /> */}
 
             <HighlightBanner
                 title="Discover Premium Watches"
@@ -83,7 +83,7 @@ export default function HomePage() {
                 ))}
             </Box>
 
-            <PremiumFinds title="Premium Finds for You" products={products} />
+            {/* <PremiumFinds title="Premium Finds for You" products={products} /> */}
 
             <FullWidthBanner
                 backgroundImage="/images/111.jpg"

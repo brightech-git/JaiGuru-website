@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import { Box, useTheme, useMediaQuery } from "@mui/material";
-
+import type { StaticImageData } from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
@@ -12,7 +12,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 interface BannerItem {
-    image: string;
+    image: string | StaticImageData; // allow both URL string and imported image
 }
 
 interface BannerCarouselProps {

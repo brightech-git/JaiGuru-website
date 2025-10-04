@@ -3,6 +3,7 @@
 import { Box } from "@mui/material";
 import FilterBar from "@/component/layout/FilterSection";
 import ProductGrid from "@/component/layout/ProductGrid";
+import BreadcrumbBanner from "@/component/layout/BreadcrumbBanner";
 
 const sampleProducts = [
     {
@@ -52,6 +53,16 @@ export default function ProductsPage() {
  
    
     return (
+        <>
+            <BreadcrumbBanner
+                title="Smartphones"
+                image="/images/22.webp"
+                breadcrumbs={[
+                    { label: "Home", href: "/" },
+                    { label: "Electronics", href: "/electronics" },
+                    { label: "Smartphones" },
+                ]}
+            />
         <Box
             sx={{
                 display: "flex",
@@ -77,5 +88,6 @@ export default function ProductsPage() {
                 <ProductGrid products={sampleProducts} />
             </Box>
         </Box>
+        </>
     );
 }

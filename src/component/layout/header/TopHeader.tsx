@@ -17,7 +17,7 @@ export default function TopHeader({ message, onLogin, onRegister }: TopHeaderPro
                 width: "100%",
                 bgcolor: theme.custom.colors.topHeader,
                 px: 2,
-                py: 1,
+                py: 0.5,
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
