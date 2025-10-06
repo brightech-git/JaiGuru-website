@@ -48,20 +48,18 @@ import {
 import AppButton from "@/component/ui/AppButton";
 import { productData } from "@/data/productData";
 
-export default function ProductDetailsPage() {
+export default function ProductDetails({ params }: { params: { id: string } }) {
+  console.log(params.id, "id in details");
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [selectedImage, setSelectedImage] = useState(productData.images[0]);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [quantity, setQuantity] = useState(1);
   const [showPriceBreakup, setShowPriceBreakup] = useState(false);
   const [showMetalDetails, setShowMetalDetails] = useState(false);
 
-  const handleQuantityChange = (delta: number) => {
-    setQuantity((prev) => Math.max(1, prev + delta));
-  };
+ 
 
   const jewelleryData = {
     sku: "JWL-50-GLD",
@@ -119,7 +117,7 @@ export default function ProductDetailsPage() {
                 sx={{
                   mb: 2,
                   borderRadius: 0,
-                  boxShadow: theme.custom.shadows.medium,
+                  boxShadow: theme.custom?.shadows?.medium || "0px 4px 12px rgba(0, 0, 0, 0.1)",
                   position: "relative",
                   backgroundColor: "transparent",
                   display: "inline-block",
@@ -155,7 +153,7 @@ export default function ProductDetailsPage() {
                       height: { xs: 45, sm: 50, md: 55, lg: 60, xl: 70 },
                       cursor: "pointer",
                       border: selectedImage === img ? 2 : 1,
-                      borderColor: selectedImage === img ? theme.custom.colors.imageBorder : 'grey.300',
+                      borderColor: selectedImage === img ? theme?.custom?.colors.imageBorder : 'grey.300',
                       borderRadius: 2,
                       transition: "all 0.3s ease",
                       "&:hover": {
@@ -236,7 +234,7 @@ export default function ProductDetailsPage() {
                     textDecoration: "line-through",
                     color: "text.secondary",
                     fontFamily:theme.typography.fontFamily,
-                    fontSize:theme.custom.fontSize?.medium
+                    fontSize: { xs: "0.95rem", sm: "1.2rem", md: "1.5rem" },
                   }}
                 >
                   ₹{productData.price}
@@ -349,7 +347,7 @@ export default function ProductDetailsPage() {
             p: 1,
             backgroundColor: theme.palette.background.paper,
             borderRadius: 2,
-            boxShadow: theme.custom.shadows.light,
+            boxShadow: theme.custom?.shadows?.medium || "0px 4px 12px rgba(0, 0, 0, 0.1)",
             border: `1px solid ${theme.palette.divider}`,
           }}
         >
@@ -419,7 +417,7 @@ export default function ProductDetailsPage() {
             p: 1,
             backgroundColor: theme.palette.background.paper,
             borderRadius: 2,
-            boxShadow: theme.custom.shadows.light,
+            boxShadow: theme.custom?.shadows?.medium || "0px 4px 12px rgba(0, 0, 0, 0.1)",
             border: `1px solid ${theme.palette.divider}`,
           }}
         >

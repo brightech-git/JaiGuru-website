@@ -16,16 +16,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
     // Enhanced page type detection
     let pageType: "home" | "productDetail" | "cart" | "checkout" | "other" = "other";
+
     if (pathname === "/") pageType = "home";
     else if (pathname === "/user/cart") pageType = "cart";
     else if (pathname === "/user/checkout") pageType = "checkout";
-    else if (pathname.startsWith("/user/products/")) pageType = "productDetail";
+    else if (pathname?.startsWith("/user/products/")) pageType = "productDetail";
+
 
     // Better page title formatting
     const getPageTitle = () => {
-        const segments = pathname.split("/").filter(Boolean);
+        const segments = pathname?.split("/").filter(Boolean) || [];
         if (segments.length === 0) return "Home";
-
         const lastSegment = segments[segments.length - 1];
         return lastSegment
             .split('-')
