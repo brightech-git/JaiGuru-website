@@ -38,7 +38,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const getMainTopPadding = () => {
         switch (pageType) {
             case "home":
-                return { xs: "0px", md: "60px",xl:'55px'}; // Spacer handles the space
+                return { xs: "10px", md: "60px",xl:'60px'}; // Spacer handles the space
             case "productDetail":
                 return { xs: "0px", md: "0px" }; // No extra padding needed
             case "cart":

@@ -1,4 +1,5 @@
 // src/data/homeData.ts
+import { Product } from "@/types/product";
 import img1 from "../images/11.webp";
 import img2 from "../images/22.webp";
 import img3 from "../images/33.webp";
@@ -103,20 +104,32 @@ export const mainProducts = [
         ],
     },
 ];
-
-export const sampleProducts = [
+// data/Home.ts
+export const sampleProducts: Product[] = [
     {
+        id: 1,
         name: "Luxury Watch",
         price: 299,
+        discountPrice: 249,
         images: ["/images/111.jpg", "/images/111.jpg"],
         backgroundColor: "#ffffff",
-        id:1
+        description: "A luxurious watch crafted with precision.",
+        category: "Watches",
+        rating: 4.5,
+        reviewCount: 128,
+        features: ["Water Resistant", "Stainless Steel", "2-Year Warranty"],
     },
     {
+        id: 2,
         name: "Classic Leather Bag",
         price: 149,
+        discountPrice: 129,
         images: ["/images/111.jpg", "/images/111.jpg"],
         backgroundColor: "#e0f7fa",
-        id:2
+        description: "A stylish and durable leather bag.",
+        category: "Bags & Luggage",
+        rating: 4.0,
+        reviewCount: 85,
+        features: ["Genuine Leather", "Adjustable Strap", "1-Year Warranty"],
     },
 ];

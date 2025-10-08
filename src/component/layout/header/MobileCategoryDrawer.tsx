@@ -263,10 +263,10 @@ export default function MobileCategoryDrawer({ open, onClose }: MobileCategoryDr
                         <Close />
                     </IconButton>
                 </Box>
-                <Grid container spacing={2}>
+                <Grid container spacing={1}>
                     {selectedSubMenu?.items.map((item, index) => (
                         <Fade in={true} timeout={400} key={item.name} style={{ transitionDelay: `${index * 30}ms` }}>
-                            <Grid size={{xs:4 , sm:4}}>
+                            <Grid size={{xs:4 , sm:4}} sx={{p:{xs:1, sm:0.5}}}>
                                 <Box
                                     sx={{
                                         display: "flex",
@@ -274,6 +274,7 @@ export default function MobileCategoryDrawer({ open, onClose }: MobileCategoryDr
                                         alignItems: "center",
                                         cursor: "pointer",
                                         p: 1,
+                                   
                                         border: `1px solid ${theme.palette.text.disabled || '#696868ff'}`,
                                         borderRadius: 2,
                                         '&:hover': {
@@ -294,8 +295,8 @@ export default function MobileCategoryDrawer({ open, onClose }: MobileCategoryDr
                                         src={item.image}
                                         alt={item.name}
                                         sx={{
-                                            width: 80,
-                                            height: 80,
+                                            width: 70,
+                                            height: 70,
                                             borderRadius: 2,
                                             objectFit: "cover",
                                             mb: 1.5,

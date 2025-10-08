@@ -7,27 +7,33 @@ import { Provider as ReduxProvider } from "react-redux";
 import { store } from "@/redux/store/store";
 import theme from "../theme/theme";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 interface ProviderProps {
     children: ReactNode;
 }
 
-const Provider: React.FC<ProviderProps> = ({ children }) => {
+const queryClient = new QueryClient();
+
+const AppProvider: React.FC<ProviderProps> = ({ children }) => {
     return (
         <ReduxProvider store={store}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <SnackbarProvider
-                    maxSnack={3}
-                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                    autoHideDuration={3000}
-                >
-                 
+            <QueryClientProvider client={queryClient}>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <SnackbarProvider
+                        maxSnack={3}
+                        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                        autoHideDuration={3000}
+                    >
                         {children}
-                  
-                </SnackbarProvider>
-            </ThemeProvider>
+                    </SnackbarProvider>
+                </ThemeProvider>
+                <ReactQueryDevtools initialIsOpen={false} />
+            </QueryClientProvider>
         </ReduxProvider>
     );
 };
 
-export default Provider;
+export default AppProvider;

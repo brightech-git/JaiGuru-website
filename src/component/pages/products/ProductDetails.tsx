@@ -1,53 +1,17 @@
-"use client";
+import { sampleProducts } from "@/data/Home";
+import ProductDetailsClient from "@/component/pages/product/ProductDetailClient";
 
-import React, { useState } from "react";
-import {
-  Box,
-  Typography,
-  Grid,
-  Card,
-  CardMedia,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-  Chip,
-  Rating,
-  IconButton,
-  useTheme,
-  useMediaQuery,
-  Container,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Paper,
-  Collapse,
-  Stepper,
-  Step,
-  StepLabel,
-  TableHead,
-} from "@mui/material";
-import {
-  Favorite,
-  FavoriteBorder,
-  Share,
-  LocalShipping,
-  Security,
-  ArrowBack,
-  CheckCircle,
-  ExpandLess,
-  ExpandMore,
-  Diamond,
-  Inventory,
-  
-} from "@mui/icons-material";
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
 
-import AppButton from "@/component/ui/AppButton";
-import { productData } from "@/data/productData";
+export function generateStaticParams() {
+  return sampleProducts.map((product) => ({
+    id: product.id.toString(),
+  }));
+}
 
+<<<<<<< Updated upstream:src/component/pages/products/ProductDetails.tsx
 export default function ProductDetails({ params }: { params: { id: string } }) {
   console.log(params.id, "id in details");
   const theme = useTheme();
@@ -484,4 +448,12 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
       </Box>
     </Container>
   );
+=======
+export default async function ProductPage({ params }: PageProps) {
+  const { id } = await params; // Await params to get the id
+  const product = sampleProducts.find((p) => p.id.toString() === id);
+  if (!product) return <div>Product not found</div>;
+
+  return <ProductDetailsClient product={product} />;
+>>>>>>> Stashed changes:src/app/user/products/[id]/page.tsx
 }
