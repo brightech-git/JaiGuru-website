@@ -8,10 +8,6 @@
     "start": "next start",
     "lint": "eslint",
     "export": "next export"
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

@@ -1,8 +1,19 @@
+// component/pages/product/ProductDetailClient.tsx
 "use client";
 
 import React, { useState } from "react";
-import { Box, Typography, Grid, Card, CardMedia, Chip, Rating, Container } from "@mui/material";
-import { useTheme, useMediaQuery } from "@mui/material";
+import {
+    Box,
+    Typography,
+    Grid,
+    Card,
+    CardMedia,
+    Chip,
+    Rating,
+    Container,
+    useTheme,
+    useMediaQuery,
+} from "@mui/material";
 import { Product } from "@/types/product";
 
 interface ProductDetailsClientProps {
@@ -24,7 +35,7 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                                 component="img"
                                 image={selectedImage}
                                 alt={product.name}
-                                sx={{ width: { xs: 300, md: 350, lg: 400 }, height: {xs:300 ,md:350,lg:400}, objectFit: "cover", aspectRatio: "1 / 1" }}
+                                sx={{ width: { xs: 250, sm: 300, md: 350, lg: 400 }, height: { xs: 250, sm: 300, md: 350, lg: 400 }, objectFit: "cover", aspectRatio: "1 / 1" }}
                             />
                         </Card>
                         <Box sx={{ display: "flex", gap: 1.5, justifyContent: "center", flexWrap: "wrap" }}>
@@ -32,15 +43,16 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                                 <Card
                                     key={i}
                                     sx={{
-                                        width: 60,
-                                        height: 60,
+                                        width: { xs: 40, sm: 40, md: 50, lg: 60 },
+                                        height: { xs: 40, sm: 40, md: 50, lg: 60 },
                                         cursor: "pointer",
                                         border: selectedImage === img ? 2 : 1,
-                                        borderColor: selectedImage === img ? theme.custom.colors.imageBorder : "grey.300",
+                                        borderColor: selectedImage === img ? theme.custom.colors.imageBorder : "grey.200",
+                                        borderRadius: {xs:1,md:2,lg:3},
                                     }}
                                     onClick={() => setSelectedImage(img)}
                                 >
-                                    <CardMedia component="img" image={img} alt={`Thumbnail ${i + 1}`} sx={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                                    <CardMedia component="img" image={img} alt={`Thumbnail ${i + 1}`} sx={{ width: "100%", height: "100%", objectFit: "cover" ,}} />
                                 </Card>
                             ))}
                         </Box>
@@ -76,6 +88,7 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                         <Typography variant="body1" sx={{ mb: 3, lineHeight: 1.7 }}>
                             {product.description}
                         </Typography>
+                        {/* Add other sections like features, price breakup, etc., as needed */}
                     </Box>
                 </Grid>
             </Grid>
