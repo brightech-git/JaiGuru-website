@@ -1,8 +1,9 @@
-"use client";
+'use client';
+
 import TopHeader from "../layout/header/TopHeader";
 import Header from "../layout/header/MainHeader";
 import { useRouter } from "next/navigation";
-import { Box, useScrollTrigger } from "@mui/material";
+import { Box, useScrollTrigger, useTheme } from "@mui/material";
 import { useState } from "react";
 import AuthDrawer from "../ui/AuthDrawer";
 import CategoryHeader from "../layout/header/CategoryHeader";
@@ -14,10 +15,11 @@ interface HeaderSectionProps {
 
 export default function HeaderSection({ pageType, pageName }: HeaderSectionProps) {
     const router = useRouter();
+    const theme = useTheme();
     const [authOpen, setAuthOpen] = useState(false);
     const [authView, setAuthView] = useState<"login" | "register">("login");
 
-    // Only enable sticky behavior for home page
+    // Enable sticky behavior for TopHeader on home page
     const trigger = useScrollTrigger({
         disableHysteresis: true,
         threshold: 50,
@@ -28,13 +30,16 @@ export default function HeaderSection({ pageType, pageName }: HeaderSectionProps
 
     const showTopHeader = pageType === "home";
     const showCategoryHeader = pageType === "home";
+ 
 
     // Calculate header heights for proper spacing
     const getHeaderHeight = () => {
+        const mainHeaderHeight = pageType==="home"?"30px":"50px"; // Fixed height for MainHeader
+        const categoryHeaderHeight = showCategoryHeader ? "50px" : "0px"; // Estimated CategoryHeader height
         if (pageType === "home") {
-            return trigger ? "70px" : showTopHeader ? "160px" : "110px";
+            return trigger ? `calc(${mainHeaderHeight} + ${categoryHeaderHeight})` : `calc(${mainHeaderHeight} + ${categoryHeaderHeight} + ${showTopHeader ? "50px" : "0px"})`;
         }
-        return "70px"; // Fixed height for other pages
+        return mainHeaderHeight; // Only MainHeader height for other pages
     };
 
     return (
@@ -45,9 +50,10 @@ export default function HeaderSection({ pageType, pageName }: HeaderSectionProps
                     sx={{
                         transition: "all 0.3s ease-in-out",
                         transform: trigger ? "translateY(-100%)" : "translateY(0)",
-                        opacity: trigger ? 0 : 1,
-                        height: trigger ? 0 : "auto",
                         overflow: "hidden",
+                        backgroundColor: theme.custom.colors.topHeader,
+                        boxShadow: theme.custom.shadows.light,
+                        zIndex: 60,
                     }}
                 >
                     <TopHeader
@@ -58,16 +64,16 @@ export default function HeaderSection({ pageType, pageName }: HeaderSectionProps
                 </Box>
             )}
 
-            {/* Main Header */}
+            {/* Main Header - Fixed on all pages */}
             <Box
                 sx={{
-                    position: pageType === "home" && trigger ? "fixed" : "relative",
-                    top: 0,
+                    position: "fixed",
+                    top: pageType === "home" ? (trigger ? 0 : {xs:30 ,lg:35}) : 0,
                     left: 0,
                     width: "100%",
                     zIndex: 50,
-                    backgroundColor: "white",
-                    boxShadow: pageType === "home" && trigger ? 2 : 0,
+                    backgroundColor: theme.custom.colors.mainHeader,
+                    boxShadow: theme.custom.shadows.medium,
                     transition: "all 0.3s ease-in-out",
                 }}
             >
@@ -85,18 +91,34 @@ export default function HeaderSection({ pageType, pageName }: HeaderSectionProps
                 />
             </Box>
 
-            <Box sx={{ width: "100%" ,display:{ xs: "none", md: "block"}}}> 
-                {/* Category Header - Only for home page */}
-                {showCategoryHeader && <CategoryHeader />}
-            </Box>
-            
-            {/* Dynamic Spacer - Only when header becomes fixed on home page */}
-            {pageType === "home" && trigger && (
-                <Box sx={{
+            {/* Category Header - Only for home page */}
+            {showCategoryHeader && (
+                <Box
+                    sx={{
+                        position: "fixed",
+                        top: 0, // Below MainHeader
+                        left: 0,
+                        width: "100%",
+                        zIndex: 49,
+                        backgroundColor: theme.custom.colors.categoryHeader,
+                        boxShadow: theme.custom.shadows.light,
+                        transition: "all 0.3s ease-in-out",
+                        transform: trigger && showTopHeader ? "translateY(-50px)" : "translateY(0)",
+                        opacity: trigger && showTopHeader ? 0 : 1,
+                        display: { xs: "none", md: "block" }, // Hidden on mobile
+                    }}
+                >
+                    <CategoryHeader />
+                </Box>
+            )}
+
+            {/* Dynamic Spacer */}
+            <Box
+                sx={{
                     height: getHeaderHeight(),
                     transition: "height 0.3s ease-in-out",
-                }} />
-            )}
+                }}
+            />
 
             {/* Auth Drawer */}
             <AuthDrawer

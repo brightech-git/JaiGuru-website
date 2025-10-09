@@ -45,6 +45,7 @@ const Footer: React.FC = () => {
         // Desktop Footer - 4 Columns
         return (
             <Box
+                id="footer"
                 sx={{
                     bgcolor: theme.custom.colors.footer,
                     color: contrastText,

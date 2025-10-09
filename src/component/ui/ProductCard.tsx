@@ -145,7 +145,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 }}
                                 sizes="(max-width: 600px) 220px, (max-width: 960px) 260px, 320px"
                                 onError={(e) => {
-                                    e.currentTarget.src = "/fallback-image.jpg";
+                                    e.currentTarget.src = "/Fallback-icon.png";
                                 }}
                             />
                         )}

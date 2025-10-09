@@ -1,54 +1,54 @@
-// src/redux/slices/filterSlice.ts
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { FilterParams } from '@/types/filter';
 
-export interface FilterState {
-    gender?: string;
-    occasion?: string;
-    sizes: string[];
-    color?: string;
-    finish?: string;
-    priceRange: [number, number];
+interface FilterState {
+    filters: FilterParams;
 }
 
 const initialState: FilterState = {
-    gender: undefined,
-    occasion: undefined,
-    sizes: [],
-    color: undefined,
-    finish: undefined,
-    priceRange: [0, 1000],
+    filters: {
+        page: 0,
+        pageSize: 20,
+        minGrandTotal: '0',
+        maxGrandTotal: '100000',
+        gender: '',
+        occasion: '',
+        sizeName: '',
+        colorAccent: '',
+        materialFinish: '',
+        itemName: '',
+        subItemName:'',
+        sortBy: 'GRAND_TOTAL',
+        sortDirection: 'ASC',
+        top_trending: false,
+        featured_products: false,
+        best_design: false,
+        new_arrival: '',
+        availability: '',
+    },
 };
 
 const filterSlice = createSlice({
-    name: "filters",
+    name: 'filters',
     initialState,
     reducers: {
-        setFilters(state, action: PayloadAction<Partial<FilterState>>) {
-            Object.assign(state, action.payload);
+        setFilters: (state, action: PayloadAction<Partial<FilterParams>>) => {
+            state.filters = { ...state.filters, ...action.payload };
         },
-        updateFilter(
-            state,
-            action: PayloadAction<{ key: keyof FilterState; value: any }>
-        ) {
-            state[action.payload.key] = action.payload.value;
+        resetFilters: (state) => {
+            state.filters = initialState.filters;
         },
-        toggleSize(state, action: PayloadAction<string>) {
-            if (state.sizes.includes(action.payload)) {
-                state.sizes = state.sizes.filter((s) => s !== action.payload);
-            } else {
-                state.sizes.push(action.payload);
-            }
+        setPage: (state, action: PayloadAction<number>) => {
+            state.filters.page = action.payload;
         },
-        resetFilters(state) {
-            state.gender = undefined;
-            state.occasion = undefined;
-            state.sizes = [];
-            state.color = undefined;
-            state.finish = undefined;
-            state.priceRange = [0, 1000];
+        setItemName: (state, action: PayloadAction<string>) => {
+            state.filters.itemName = action.payload;
+        },
+        setSubItemName: (state, action: PayloadAction<string>) => {
+            state.filters.subItemName = action.payload;
         },
     },
 });
 
-export const { setFilters, updateFilter, toggleSize, resetFilters } = filterSlice.actions;
+export const { setFilters, resetFilters, setPage, setItemName } = filterSlice.actions;
 export default filterSlice.reducer;

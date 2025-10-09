@@ -15,6 +15,7 @@ declare module "@mui/material/styles" {
                 subtleBlue: string;
                 danger: string;
                 imageBorder?: string;
+                addtoCart?:string;
             };
             shadows: {
                 light: string;
@@ -44,6 +45,7 @@ declare module "@mui/material/styles" {
                 subtleBlue: string;
                 danger: string;
                 imageBorder?: string;
+                addtoCart?:string;
             };
             shadows?: {
                 light?: string;
@@ -150,6 +152,7 @@ const theme = createTheme({
             subtleBlue: "#eef2ff",
             danger: "#d32f2f",
             imageBorder: "#8f8e8eff",
+            addtoCart: "linear-gradient(90deg, #ff7b00, #ffcc00)", // ✅ gradient stored as string
         },
         shadows: {
             light: "0 2px 4px rgba(0,0,0,0.05)",

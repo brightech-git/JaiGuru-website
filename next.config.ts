@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  output: 'export',
-  dynamicParams: true,// 👈 enables static HTML export
+  output: undefined, // remove 'export'
+  dynamicParams: "force-dynamic",
   images: {
     unoptimized: true, // required if you use next/image
   },

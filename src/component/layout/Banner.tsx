@@ -30,7 +30,7 @@ export default function Banner({
                 borderRadius: 3,
                 overflow: "hidden",
                 boxShadow: theme.custom.shadows.medium,
-                mb: 4,
+                mb: 2,
             }}
         >
             {/* Background Image */}

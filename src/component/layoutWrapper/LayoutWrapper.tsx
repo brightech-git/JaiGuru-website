@@ -38,7 +38,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const getMainTopPadding = () => {
         switch (pageType) {
             case "home":
-                return { xs: "10px", md: "60px",xl:'60px'}; // Spacer handles the space
+                return { xs: "0px", md: "0px",xl:'0px'}; // Spacer handles the space
             case "productDetail":
                 return { xs: "0px", md: "0px" }; // No extra padding needed
             case "cart":
@@ -67,7 +67,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 sx={{
                     flex: 1,
                     pt: getMainTopPadding(), // Dynamic padding based on page type
-                    minHeight: "calc(100vh - 120px)", // Ensure footer stays at bottom
+                    minHeight: "calc(100vh - 60px)", // Ensure footer stays at bottom
                 }}
             >
                 {children}
