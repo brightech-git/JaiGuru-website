@@ -2,9 +2,9 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 
 // ✅ Use NEXT_PUBLIC_ prefix so it's available in Next.js client-side
-const base_url = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const BASE_URL = 'https://app.bmgjewellers.com/api/v1';
+const baseURL = 'https://app.bmgjewellers.com/api/v1';
 
 console.log("BASE_URL:", BASE_URL); // Debugging line
 

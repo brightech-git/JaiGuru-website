@@ -48,6 +48,12 @@ export default function ProductPage() {
             `Purity: ${productData.PURITY}%`,
             `Occasion: ${productData.Occasion}`,
             `Studded: ${productData.STUDDEDSTONE}`,
+            
+        ],
+        badges: [
+            ...(productData.FeaturedProducts === "1" ? ["Featured"] : []),
+            ...(productData.BestDesign === "1" ? ["Best Design"] : []),
+            ...(productData.TopTrending === true || productData.TopTrending === "1" ? ["Trending"] : []),
         ],
     };
 

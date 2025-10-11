@@ -10,4 +10,5 @@ export interface Product {
     rating: number;
     reviewCount: number;
     features: string[];
+    badges:string[];
 }
