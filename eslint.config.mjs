@@ -19,6 +19,17 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+    rules: {
+      // TypeScript
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
+
+      // React
+      "react/no-unescaped-entities": "warn",
+
+      // Hooks
+      "react-hooks/exhaustive-deps": "warn",
+    },
   },
 ];
 
