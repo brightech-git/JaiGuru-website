@@ -145,7 +145,11 @@ const theme = createTheme({
         colors: {
             cartBackground: "#ffffffff",
             topHeader: "#fcc5d8",
+<<<<<<< Updated upstream
             mainHeader: "#334b8c",
+=======
+            mainHeader: "#041f60",
+>>>>>>> Stashed changes
             categoryHeader: "#021136",
             footer: "#686868ff",
             highlight: "#ffcc00",

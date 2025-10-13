@@ -21,6 +21,8 @@ import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import MiniCartModal from "@/component/ui/MiniCartModal";
 import MobileCategoryDrawer from "./MobileCategoryDrawer";
+import { useCompanyName } from "@/context/name/companyNameContext";
+import Image from "next/image";
 
 interface HeaderProps {
     pageType?: "home" | "productDetail" | "other" | "cart" | "checkout";
@@ -78,6 +80,10 @@ export default function Header({
     const isLoggedIn = Boolean(userName);
     const theme = useTheme();
     const router = useRouter();
+    const companyName = useCompanyName();
+
+    const logo = companyName?.company?.logo || "/images/2.webp";
+    const title = companyName?.company?.name || "VRAjewels";
 
     const [cartOpen, setCartOpen] = useState(false);
     const cartButtonRef = useRef<HTMLButtonElement>(null);
@@ -151,18 +157,33 @@ export default function Header({
                             minHeight: headerHeight,
                             position: 'relative',
                         }}
-                    >
-                        <Typography
-                            variant="h5"
-                            sx={{
-                                color: theme.palette.primary.contrastText,
-                                cursor: 'pointer',
-                                fontWeight: 700,
-                            }}
-                            onClick={() => router.push('/')}
-                        >
-                            MyShop
-                        </Typography>
+                    >   
+                    <Box display="flex" flexDirection="row" gap={2}>
+
+                            <Image
+                                src={logo}
+                                alt={title}
+                                height={50}
+                                width={50}
+                                priority
+                                style={{ objectFit: "cover" }}
+                            />
+
+                            <Typography
+                                variant="h5"
+                                sx={{
+                                    color: theme.palette.primary.contrastText,
+                                    cursor: 'pointer',
+                                    fontWeight: 700,
+                                }}
+                                onClick={() => router.push('/')}
+                            >
+                                {title}
+                            </Typography>
+
+
+                    </Box>
+                        
                         <Box sx={{ flex: 1, mx: 4, maxWidth: "600px" }}>
                             <SearchBar />
                         </Box>
@@ -239,21 +260,36 @@ export default function Header({
                         justifyContent: "space-between",
                         minHeight: headerHeight,
                     }}>
-                        <Box display="flex" alignItems="center" gap={{ xs: 1, sm: 2 }}>
+                       
                             <IconButton onClick={toggleDrawer(true)}>
                                 <MenuIcon sx={{ color: theme.palette.primary.contrastText }} />
                             </IconButton>
-                            <Typography
-                                sx={{
-                                    color: theme.palette.primary.contrastText,
-                                    fontWeight: 700,
-                                    cursor: "pointer"
-                                }}
-                                onClick={() => router.push('/')}
-                            >
-                                MyShop
-                            </Typography>
-                        </Box>
+                          
+                     
+                                <Box display="flex" alignItems="center" gap={1}>
+                                   <Image
+                                    src={logo}
+                                    alt={title}
+                                    height={40}
+                                    width={40}
+                                    priority
+                                    style={{ objectFit: "cover" }}
+                                />
+
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        color: theme.palette.primary.contrastText,
+                                        cursor: 'pointer',
+                                        fontWeight: 600,
+                                    }}
+                                    onClick={() => router.push('/')}
+                                >
+                                    {title}
+                                </Typography>
+                            </Box>
+
+                       
                         <Box display="flex" alignItems="center" gap={1}>
                             <IconButton onClick={onWishlist}>
                                 <Badge badgeContent={wishlistCount} color="secondary">

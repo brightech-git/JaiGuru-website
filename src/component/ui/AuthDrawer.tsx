@@ -15,6 +15,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import LoginForm from "../pages/login/LoginForm";
 import RegisterForm from "../pages/register/RegisterForm";
 import ForgotPasswordForm from "../pages/forgotPassword/ForgotPasswordForm";
+import TransitionWrapper from "../transition/SmoothSection";
 
 interface AuthDrawerProps {
     open: boolean;
@@ -63,6 +64,12 @@ const AuthDrawer: React.FC<AuthDrawerProps> = ({
                     },
             }}
         >
+            <TransitionWrapper
+                isVisible={open}
+                variant={isMobile ? "slideDown" :"slideUp"}
+                duration={0.4}
+                
+            >
             <Box sx={{ overflowY: "auto" }}>
              
                     <Box
@@ -145,6 +152,7 @@ const AuthDrawer: React.FC<AuthDrawerProps> = ({
                     </Box>
                 </Box>
             </Box>
+            </TransitionWrapper>
         </Drawer>
     );
 };

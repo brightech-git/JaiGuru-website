@@ -22,7 +22,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     else if (pathname === "/user/checkout") pageType = "checkout";
     else if (pathname?.startsWith("/user/products/")) pageType = "productDetail";
 
-
     // Better page title formatting
     const getPageTitle = () => {
         const segments = pathname?.split("/").filter(Boolean) || [];
@@ -34,18 +33,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             .join(' ');
     };
 
-    // Calculate proper top padding based on page type
+    // Enhanced main content with better spacing
     const getMainTopPadding = () => {
         switch (pageType) {
             case "home":
-                return { xs: "0px", md: "0px",xl:'0px'}; // Spacer handles the space
+                return { xs: "0px", md: "0px", xl: "0px" };
             case "productDetail":
-                return { xs: "0px", md: "0px" }; // No extra padding needed
+                return { xs: "0px", md: "0px" };
             case "cart":
             case "checkout":
-                return { xs: "0px", md: "0px" }; // No extra padding needed
+                return { xs: "0px", md: "0px" };
             default:
-                return { xs: "0px", md: "0px" }; // No extra padding needed
+                return { xs: "0px", md: "0px" };
         }
     };
 
@@ -66,8 +65,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 component="main"
                 sx={{
                     flex: 1,
+<<<<<<< Updated upstream
                     pt: getMainTopPadding(), // Dynamic padding based on page type
                     minHeight: "calc(100vh - 60px)", // Ensure footer stays at bottom
+=======
+                    pt: getMainTopPadding(),
+                    minHeight: 'calc(100vh - 200px)', // Ensure footer stays at bottom
+>>>>>>> Stashed changes
                 }}
             >
                 {children}

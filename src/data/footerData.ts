@@ -8,7 +8,7 @@ export const footerData = {
     poweredBy: "Powered by BrightechSoftwareSolutions",
     social: [
       { name: "Facebook", icon: "/icons/facebook.svg", link: "https://www.facebook.com" },
-      { name: "Twitter", icon: "/icons/twitter.svg", link: "https://www.twitter.com" },
+      { name: "Twitter", icon: "/icons/twitter.svg", link: "https://www.twizter.com" },
       { name: "Instagram", icon: "/icons/instagram.svg", link: "https://www.instagram.com" },
       { name: "YouTube", icon: "/icons/youtube.svg", link: "https://www.youtube.com" },
     ],

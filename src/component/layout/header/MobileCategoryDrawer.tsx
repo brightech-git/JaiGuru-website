@@ -17,6 +17,7 @@ import { ArrowBack, Close } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { categories, Category, SubMenu } from "@/data/categoryData";
+import TransitionWrapper from '@/component/transition/SmoothSection'
 
 interface MobileCategoryDrawerProps {
     open: boolean;
@@ -337,6 +338,11 @@ export default function MobileCategoryDrawer({ open, onClose }: MobileCategoryDr
                 },
             }}
         >
+            <TransitionWrapper 
+                isVisible={open}
+                variant="slideRight"
+                duration={0.4} >
+           
             <Box
                 sx={{
                     width: '100%',
@@ -352,6 +358,7 @@ export default function MobileCategoryDrawer({ open, onClose }: MobileCategoryDr
                 {step === "submenu" && submenuContent}
                 {step === "items" && itemsContent}
             </Box>
+            </TransitionWrapper>
         </Drawer>
     );
 }

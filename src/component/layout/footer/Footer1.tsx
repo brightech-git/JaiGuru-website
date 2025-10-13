@@ -1,36 +1,36 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-    Box,
-    Typography,
-    Grid,
-    Link,
-    IconButton,
-    Accordion,
-    AccordionSummary,
-    AccordionDetails,
-    TextField,
-    Button,
-    useMediaQuery,
-    useTheme,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import YouTubeIcon from "@mui/icons-material/YouTube";
+import { ChevronDown, Mail, Phone, MapPin } from "lucide-react";
 import { footerData } from "@/data/footerData";
 import Image from "next/image";
+import Link from "next/link";
+import { useCompanyName } from "@/context/name/companyNameContext";
 
 const Footer: React.FC = () => {
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+    const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({});
     const [email, setEmail] = useState("");
+    const companyName = useCompanyName();
+    console.log(companyName, "companyName");
+
+    const companyname= companyName?.company?.name || 'VRA jewels';
+    const companylogo = companyName?.company?.logo || "/images/2.webp";
+
+    const ourcompanyname = companyName?.ourCompany?.name || 'VRA jewels';
+    const ourcompanylogo = companyName?.ourCompany?.logo || "/images/2.webp";
+
+
+
+    const toggleSection = (section: string) => {
+        setOpenSections((prev) => ({
+            ...prev,
+            [section]: !prev[section],
+        }));
+    };
 
     const handleNewsletterSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Newsletter subscription:", email); // Replace with actual API call
+        console.log("Newsletter subscription:", email);
         setEmail("");
     };
 
@@ -40,554 +40,308 @@ const Footer: React.FC = () => {
         { name: "PayPal", icon: "/icons/paypal.svg" },
         { name: "Apple Pay", icon: "/icons/apple-pay.svg" },
     ];
-    const contrastText = theme.palette.getContrastText(theme.custom.colors.footer);
-    if (!isMobile) {
-        // Desktop Footer - 4 Columns
-        return (
-            <Box
-                id="footer"
-                sx={{
-                    bgcolor: theme.custom.colors.footer,
-                    color: contrastText,
-                    p: { xs: 3, md: 4 },
-                    boxShadow: theme.custom.shadows.light,
-                }}
-            >
-                <Grid container spacing={3}>
-                    {/* Column 1 - Logo + Social + Copyright */}
-                    <Grid size={{ xs: 12, md: 4 }}>
-                        <Box sx={{ mb: 2 }}>
-                            {/* <Image
-                                src={footerData.company.logo}
-                                alt="Logo"
-                                width={120}
-                                height={40}
-                                style={{ filter: "brightness(1.2)" }}
-                                onError={(e) => {
-                                    e.currentTarget.src = "/fallback-logo.png";
-                                }}
-                            /> */}
-                        </Box>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                mb: 1,
-                                fontFamily: theme.typography.body2.fontFamily,
-                                fontSize: theme.custom.fontSize?.medium,
-                            }}
-                        >
-                            {footerData.company.copyright}
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                mb: 2,
-                                fontFamily: theme.typography.body2.fontFamily,
-                                fontSize: theme.custom.fontSize?.medium,
-                            }}
-                        >
-                            Powered by{" "}
-                            <Link
-                                href="https://www.brightechsoftware.com"
-                                target="_blank"
-                                sx={{
-                                    color: theme.custom.colors.highlight,
-                                    textDecoration: "none",
-                                    "&:hover": { textDecoration: "underline" },
-                                }}
-                            >
-                                BrightechSoftwareSolutions
-                            </Link>
-                        </Typography>
-                        <Box sx={{ display: "flex", gap: 1.5, mt: 1.5 }}>
-                            {footerData.company.social.map((s) => (
-                                <IconButton
-                                    key={s.name}
-                                    component="a"
-                                    href={s.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    sx={{
-                                        color: theme.palette.primary.contrastText,
-                                        bgcolor: theme.custom.colors.subtleBlue,
-                                        borderRadius: "50%",
-                                        p: 0.75,
-                                        "&:hover": {
-                                            bgcolor: theme.palette.primary.dark,
-                                            transform: "scale(1.1)",
-                                        },
-                                        transition: "all 0.2s ease",
-                                    }}
-                                >
-                                    {/* <Image
-                                        src={s.icon}
-                                        alt={s.name}
-                                        width={20}
-                                        height={20}
-                                        onError={(e) => {
-                                            e.currentTarget.src = "/fallback-icon.png";
-                                        }}
-                                    /> */}
-                                </IconButton>
-                            ))}
-                        </Box>
-                    </Grid>
 
-                    {/* Column 2 - Useful Links */}
-                    <Grid size={{ xs: 12, md: 4 }}>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                mb: 2,
-                                fontFamily: theme.typography.h6.fontFamily,
-                                fontSize: theme.custom.fontSize?.larger,
-                                fontWeight: 600,
-                            }}
-                        >
-                            Useful Links
-                        </Typography>
-                        {footerData.links.map((link) => (
-                            <Link
-                                key={link.name}
-                                href={link.link}
-                                sx={{
-                                    display: "block",
-                                    color: theme.palette.primary.contrastText,
-                                    mb: 0.75,
-                                    fontFamily: theme.typography.body2.fontFamily,
-                                    fontSize: theme.custom.fontSize?.medium,
-                                    textDecoration: "none",
-                                    "&:hover": {
-                                        color: theme.custom.colors.highlight,
-                                        textDecoration: "underline",
-                                        transform: "translateX(4px)",
-                                    },
-                                    transition: "all 0.2s ease",
-                                }}
-                            >
-                                {link.name}
-                            </Link>
-                        ))}
-                    </Grid>
-
-                    {/* Column 3 - Contact */}
-                    <Grid size={{ xs: 12, md: 4 }}>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                mb: 2,
-                                fontFamily: theme.typography.h6.fontFamily,
-                                fontSize: theme.custom.fontSize?.larger,
-                                fontWeight: 600,
-                            }}
-                        >
-                            Contact
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                mb: 0.75,
-                                fontFamily: theme.typography.body2.fontFamily,
-                                fontSize: theme.custom.fontSize?.medium,
-                            }}
-                        >
-                            <strong>Showroom Address:</strong> Tiruvallur Showroom: 712, TNHB, Kakkalur Bypass Road, Tiruvallur - 602001
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                mb: 0.75,
-                                fontFamily: theme.typography.body2.fontFamily,
-                                fontSize: theme.custom.fontSize?.medium,
-                            }}
-                        >
-                            <strong>Showroom Address:</strong> Tiruttani Showroom: 321/322 MaPoSi Salai, Tiruttani
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                mb: 0.75,
-                                fontFamily: theme.typography.body2.fontFamily,
-                                fontSize: theme.custom.fontSize?.medium,
-                            }}
-                        >
-                            <strong>Primary Contact:</strong> +91-9600972227, +91-9884808428, +91-9169161469
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                mb: 0.75,
-                                fontFamily: theme.typography.body2.fontFamily,
-                                fontSize: theme.custom.fontSize?.medium,
-                            }}
-                        >
-                            <Link
-                                href="mailto:info@jaigurujewellers.in"
-                                sx={{
-                                    color: theme.palette.primary.contrastText,
-                                    textDecoration: "none",
-                                    "&:hover": {
-                                        color: theme.custom.colors.highlight,
-                                        textDecoration: "underline",
-                                    },
-                                }}
-                            >
-                                info@jaigurujewellers.in
-                            </Link>
-                        </Typography>
-                    </Grid>
-
-                    {/* Column 4 - Newsletter */}
-                    {/* <Grid size={{ xs: 12, md: 3 }}>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                mb: 2,
-                                fontFamily: theme.typography.h6.fontFamily,
-                                fontSize: theme.custom.fontSize?.larger,
-                                fontWeight: 600,
-                            }}
-                        >
-                            Newsletter
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                mb: 1.5,
-                                fontFamily: theme.typography.body2.fontFamily,
-                                fontSize: theme.custom.fontSize?.small,
-                            }}
-                        >
-                            Subscribe to get the latest updates.
-                        </Typography>
-                        <Box component="form" onSubmit={handleNewsletterSubmit} sx={{ display: "flex", gap: 1 }}>
-                            <TextField
-                                placeholder="Enter your email"
-                                variant="outlined"
-                                size="small"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                sx={{
-                                    bgcolor: theme.palette.background.paper,
-                                    borderRadius: theme.shape.borderRadius,
-                                    "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { borderColor: theme.custom.colors.subtleBlue },
-                                        "&:hover fieldset": { borderColor: theme.palette.primary.main },
-                                        "&.Mui-focused fieldset": { borderColor: theme.palette.primary.main },
-                                    },
-                                    "& .MuiInputBase-input": {
-                                        fontSize: theme.custom.fontSize?.small,
-                                        color: theme.palette.text.primary,
-                                    },
-                                }}
-                            />
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                sx={{
-                                    bgcolor: theme.custom.colors.mainHeader,
-                                    color: theme.palette.primary.contrastText,
-                                    fontFamily: theme.typography.button.fontFamily,
-                                    fontSize: theme.custom.fontSize?.small,
-                                    borderRadius: theme.shape.borderRadius,
-                                    "&:hover": {
-                                        bgcolor: theme.palette.primary.dark,
-                                        transform: "translateY(-1px)",
-                                    },
-                                    transition: "all 0.2s ease",
-                                }}
-                            >
-                                Subscribe
-                            </Button>
-                        </Box>
-                    </Grid> */}
-                </Grid>
-
-                {/* Footer Bottom - Social Icons and Payment Methods */}
-               
-            </Box>
-        );
-    } else {
-        // Mobile Footer - Accordions
-        return (
-            <Box
-                sx={{
-                    bgcolor: theme.custom.colors.footer,
-                    color: theme.palette.primary.contrastText,
-                    p: { xs: 2, sm: 3 },
-                    boxShadow: theme.custom.shadows.light,
-                }}
-            >
-                {/* Company */}
-                <Accordion
-                    sx={{
-                        bgcolor: "transparent",
-                        boxShadow: "none",
-                        border: `1px solid ${theme.custom.colors.subtleBlue}`,
-                        mb: 1,
-                        borderRadius: theme.shape.borderRadius,
-                    }}
-                >
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon sx={{ color: theme.palette.primary.contrastText }} />}
-                        sx={{ py: 0.5 }}
-                    >
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontFamily: theme.typography.h6.fontFamily,
-                                fontSize: theme.custom.fontSize?.medium,
-                                fontWeight: 600,
-                            }}
-                        >
-                            Company
-                        </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails sx={{ pt: 0, pb: 1 }}>
-                        <Box sx={{ mb: 1.5 }}>
-                            {/* <Image
-                                src={footerData.company.logo}
-                                alt="Logo"
-                                width={100}
-                                height={32}
-                                style={{ filter: "brightness(1.2)" }}
-                                onError={(e) => {
-                                    e.currentTarget.src = "/fallback-logo.png";
-                                }}
-                            /> */}
-                        </Box>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                mb: 1,
-                                fontFamily: theme.typography.body2.fontFamily,
-                                fontSize: theme.custom.fontSize?.small,
-                            }}
-                        >
-                            {footerData.company.copyright}
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                mb: 1,
-                                fontFamily: theme.typography.body2.fontFamily,
-                                fontSize: theme.custom.fontSize?.small,
-                            }}
-                        >
-                            Powered by{" "}
-                            <Link
-                                href="https://www.brightechsoftware.com"
-                                target="_blank"
-                                sx={{
-                                    color: theme.custom.colors.highlight,
-                                    textDecoration: "none",
-                                    "&:hover": { textDecoration: "underline" },
-                                }}
-                            >
-                                BrightechSoftwareSolutions
-                            </Link>
-                        </Typography>
-                        <Box sx={{ display: "flex", gap: 1.5, mt: 1.5 }}>
-                            {footerData.company.social.map((s) => (
-                                <IconButton
-                                    key={s.name}
-                                    component="a"
-                                    href={s.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    sx={{
-                                        color: theme.palette.primary.contrastText,
-                                        bgcolor: theme.custom.colors.subtleBlue,
-                                        borderRadius: "50%",
-                                        p: 0.75,
-                                        "&:hover": {
-                                            bgcolor: theme.palette.primary.dark,
-                                            transform: "scale(1.1)",
-                                        },
-                                        transition: "all 0.2s ease",
-                                    }}
-                                >
-                                    {/* <Image
-                                        src={s.icon}
-                                        alt={s.name}
-                                        width={20}
-                                        height={20}
-                                        onError={(e) => {
-                                            e.currentTarget.src = "/fallback-icon.png";
-                                        }}
-                                    /> */}
-                                </IconButton>
-                            ))}
-                        </Box>
-                    </AccordionDetails>
-                </Accordion>
-
-                {/* Useful Links */}
-                <Accordion
-                    sx={{
-                        bgcolor: "transparent",
-                        boxShadow: "none",
-                        border: `1px solid ${theme.custom.colors.subtleBlue}`,
-                        mb: 1,
-                        borderRadius: theme.shape.borderRadius,
-                    }}
-                >
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon sx={{ color: theme.palette.primary.contrastText }} />}
-                        sx={{ py: 0.5 }}
-                    >
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontFamily: theme.typography.h6.fontFamily,
-                                fontSize: theme.custom.fontSize?.medium,
-                                fontWeight: 600,
-                            }}
-                        >
-                            Useful Links
-                        </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails sx={{ pt: 0, pb: 1 }}>
-                        {footerData.links.map((link) => (
-                            <Link
-                                key={link.name}
-                                href={link.link}
-                                sx={{
-                                    display: "block",
-                                    color: theme.palette.primary.contrastText,
-                                    mb: 0.75,
-                                    fontFamily: theme.typography.body2.fontFamily,
-                                    fontSize: theme.custom.fontSize?.small,
-                                    textDecoration: "none",
-                                    "&:hover": {
-                                        color: theme.custom.colors.highlight,
-                                        textDecoration: "underline",
-                                        transform: "translateX(4px)",
-                                    },
-                                    transition: "all 0.2s ease",
-                                }}
-                            >
-                                {link.name}
-                            </Link>
-                        ))}
-                    </AccordionDetails>
-                </Accordion>
-
-                {/* Contact */}
-                <Accordion
-                    sx={{
-                        bgcolor: "transparent",
-                        boxShadow: "none",
-                        border: `1px solid ${theme.custom.colors.subtleBlue}`,
-                        borderRadius: theme.shape.borderRadius,
-                    }}
-                >
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon sx={{ color: theme.palette.primary.contrastText }} />}
-                        sx={{ py: 0.5 }}
-                    >
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontFamily: theme.typography.h6.fontFamily,
-                                fontSize: theme.custom.fontSize?.medium,
-                                fontWeight: 600,
-                            }}
-                        >
-                            Contact
-                        </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails sx={{ pt: 0, pb: 1 }}>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                mb: 0.75,
-                                fontFamily: theme.typography.body2.fontFamily,
-                                fontSize: theme.custom.fontSize?.small,
-                            }}
-                        >
-                            <strong>Showroom Address:</strong> Tiruvallur Showroom: 712, TNHB, Kakkalur Bypass Road, Tiruvallur - 602001
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                mb: 0.75,
-                                fontFamily: theme.typography.body2.fontFamily,
-                                fontSize: theme.custom.fontSize?.small,
-                            }}
-                        >
-                            <strong>Showroom Address:</strong> Tiruttani Showroom: 321/322 Ma Po Si Salai, Tiruttani
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                mb: 0.75,
-                                fontFamily: theme.typography.body2.fontFamily,
-                                fontSize: theme.custom.fontSize?.small,
-                            }}
-                        >
-                            <strong>Primary Contact:</strong> +91-9600972227, +91-9884808428, +91-9169161469
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                mb: 0.75,
-                                fontFamily: theme.typography.body2.fontFamily,
-                                fontSize: theme.custom.fontSize?.small,
-                            }}
-                        >
-                            <Link
-                                href="mailto:info@jaigurujewellers.in"
-                                sx={{
-                                    color: theme.palette.primary.contrastText,
-                                    textDecoration: "none",
-                                    "&:hover": {
-                                        color: theme.custom.colors.highlight,
-                                        textDecoration: "underline",
-                                    },
-                                }}
-                            >
-                                info@jaigurujewellers.in
-                            </Link>
-                        </Typography>
-                    </AccordionDetails>
-                </Accordion>
-
-                {/* Footer Bottom - Social Icons and Payment Methods */}
-                <Box
-                    sx={{
-                        mt: 2,
-                        pt: 2,
-                        borderTop: `1px solid ${theme.custom.colors.subtleBlue}`,
-                        textAlign: "center",
-                    }}
-                >
-                    <Box sx={{ display: "flex", justifyContent: "center", gap: 1.5, mb: 2 }}>
-                        {paymentIcons.map((method) => (
-                            <IconButton
-                                key={method.name}
-                                sx={{
-                                    bgcolor: theme.custom.colors.subtleBlue,
-                                    color: theme.palette.primary.contrastText,
-                                    "&:hover": { bgcolor: theme.palette.primary.dark },
-                                }}
-                            >
+    return (
+        <footer className="bg-[#021136] text-white">
+            {/* Desktop Footer */}
+            <div className="hidden md:block ">
+                <div className=" max-w-7xl mx-auto  py-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        {/* Column 1 - Company Info */}
+                        <div className="ml-2">
+                            <div className="mb-4">
+                                {/* Logo placeholder - uncomment when ready */}
                                 {/* <Image
-                                    src={method.icon}
-                                    alt={method.name}
-                                    width={24}
-                                    height={24}
-                                    onError={(e) => {
-                                        e.currentTarget.src = "/fallback-icon.png";
-                                    }}
+                                    src={footerData.company.logo}
+                                    alt="Logo"
+                                    width={140}
+                                    height={45}
+                                    className="brightness-110"
                                 /> */}
-                            </IconButton>
+                                <h3 className="text-2xl font-bold text-white">{companyname}</h3>
+                            </div>
+                            <p className="text-sm text-gray-200 mb-3 leading-relaxed">
+                                © {new Date().getFullYear()} {companyname}. All rights reserved.
+                            </p>
+                            
+
+                            {/* Social Icons */}
+                            <div className="flex gap-3">
+                                {footerData.company.social.map((social) => (
+                                    <a
+                                        key={social.name}
+                                        href={social.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-300 hover:scale-110"
+                                        aria-label={social.name}
+                                    >
+                                        {/* Icon placeholder */}
+                                        <div className="w-5 h-5 bg-white/50 rounded-full" />
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Column 2 - Useful Links */}
+                        <div>
+                            <h3 className="text-lg font-semibold mb-6 text-white">Useful Links</h3>
+                            <div className="space-y-3">
+                                {footerData.links.map((link) => (
+                                    <Link
+                                        key={link.name}
+                                        href={link.link}
+                                        className="block text-sm text-gray-200 hover:text-yellow-400 transition-all duration-200 hover:translate-x-1"
+                                    >
+                                        {link.name}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Column 3 - Contact */}
+                        <div>
+                            <h3 className="text-lg font-semibold mb-6 text-white">Contact Us</h3>
+                            {/* <div className="space-y-4">
+                                <div className="flex gap-3">
+                                    <MapPin className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-1" />
+                                    <div>
+                                        <p className="text-sm text-gray-200 font-medium mb-1">Tiruvallur Showroom</p>
+                                        <p className="text-sm text-gray-300 leading-relaxed">
+                                            712, TNHB, Kakkalur Bypass Road, Tiruvallur - 602001
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-3">
+                                    <MapPin className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-1" />
+                                    <div>
+                                        <p className="text-sm text-gray-200 font-medium mb-1">Tiruttani Showroom</p>
+                                        <p className="text-sm text-gray-300 leading-relaxed">
+                                            321/322 MaPoSi Salai, Tiruttani
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-3">
+                                    <Phone className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-1" />
+                                    <div>
+                                        <p className="text-sm text-gray-300 leading-relaxed">
+                                            +91-9600972227<br />
+                                            +91-9884808428<br />
+                                            +91-9169161469
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-3">
+                                    <Mail className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-1" />
+                                    <a
+                                        href="mailto:info@jaigurujewellers.in"
+                                        className="text-sm text-gray-300 hover:text-yellow-400 transition-colors duration-200"
+                                    >
+                                        info@jaigurujewellers.in
+                                    </a>
+                                </div>
+                            </div> */}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Footer Bottom */}
+                <div className="border-t border-white/10">
+                    <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <p className="text-sm text-gray-300">
+                            © {new Date().getFullYear()} {companyname}. All rights reserved.
+                        </p>
+                        <div className="flex gap-2">
+                            <p className="text-md text-center align-center justify-center">
+                                Crafted by
+                            </p>
+                            <Image
+                                src={ourcompanylogo}
+                                alt={ourcompanyname}
+                                height={30}
+                                width={30}
+                                priority
+                                style={{ objectFit: "cover" }}
+                            />        
+                            <p className="text-md">
+                             {ourcompanyname}
+                            </p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Mobile Footer */}
+            <div className="md:hidden">
+                <div className="px-2 py-2">
+                    {/* Company Accordion */}
+                    <div className="mb-1">
+                        <button
+                            onClick={() => toggleSection("company")}
+                            className="w-full flex justify-between items-center py-4 text-left"
+                        >
+                            <h3 className="text-base font-semibold text-white">Company</h3>
+                            <ChevronDown
+                                className={`w-5 h-5 text-gray-300 transition-transform duration-300 ${openSections.company ? "rotate-180" : ""
+                                    }`}
+                            />
+                        </button>
+                        <div
+                            className={`overflow-hidden transition-all duration-300 ${openSections.company ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                                }`}
+                        >
+                            <div className="pb-4 pt-2">
+                                <div className="mb-4">
+                                    <h4 className="text-xl font-bold text-white mb-2">{companyname}</h4>
+                                </div>
+                                <p className="text-xs text-gray-200 mb-3 leading-relaxed">
+                                    © {new Date().getFullYear()} {companyname}. All rights reserved.
+                                </p>
+                                
+                                <div className="flex gap-3">
+                                    {footerData.company.social.map((social) => (
+                                        <a
+                                            key={social.name}
+                                            href={social.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-300"
+                                        >
+                                            <div className="w-4 h-4 bg-white/50 rounded-full" />
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Useful Links Accordion */}
+                    <div className="mb-1">
+                        <button
+                            onClick={() => toggleSection("links")}
+                            className="w-full flex justify-between items-center py-4 text-left border-t border-white/10"
+                        >
+                            <h3 className="text-base font-semibold text-white">Useful Links</h3>
+                            <ChevronDown
+                                className={`w-5 h-5 text-gray-300 transition-transform duration-300 ${openSections.links ? "rotate-180" : ""
+                                    }`}
+                            />
+                        </button>
+                        <div
+                            className={`overflow-hidden transition-all duration-300 ${openSections.links ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                                }`}
+                        >
+                            <div className="pb-4 pt-2 space-y-3">
+                                {footerData.links.map((link) => (
+                                    <Link
+                                        key={link.name}
+                                        href={link.link}
+                                        className="block text-sm text-gray-200 hover:text-yellow-400 transition-colors duration-200"
+                                    >
+                                        {link.name}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Contact Accordion */}
+                    <div className="mb-1">
+                        <button
+                            onClick={() => toggleSection("contact")}
+                            className="w-full flex justify-between items-center py-4 text-left border-t border-white/10"
+                        >
+                            <h3 className="text-base font-semibold text-white">Contact</h3>
+                            <ChevronDown
+                                className={`w-5 h-5 text-gray-300 transition-transform duration-300 ${openSections.contact ? "rotate-180" : ""
+                                    }`}
+                            />
+                        </button>
+                        {/* <div
+                            className={`overflow-hidden transition-all duration-300 ${openSections.contact ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+                                }`}
+                        >
+                            <div className="pb-4 pt-2 space-y-4">
+                                <div className="flex gap-3">
+                                    <MapPin className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-1" />
+                                    <div>
+                                        <p className="text-xs text-gray-200 font-medium mb-1">Tiruvallur Showroom</p>
+                                        <p className="text-xs text-gray-300 leading-relaxed">
+                                            712, TNHB, Kakkalur Bypass Road, Tiruvallur - 602001
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-3">
+                                    <MapPin className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-1" />
+                                    <div>
+                                        <p className="text-xs text-gray-200 font-medium mb-1">Tiruttani Showroom</p>
+                                        <p className="text-xs text-gray-300 leading-relaxed">
+                                            321/322 MaPoSi Salai, Tiruttani
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-3">
+                                    <Phone className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-1" />
+                                    <div>
+                                        <p className="text-xs text-gray-300 leading-relaxed">
+                                            +91-9600972227<br />
+                                            +91-9884808428<br />
+                                            +91-9169161469
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-3">
+                                    <Mail className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-1" />
+                                    <a
+                                        href="mailto:info@jaigurujewellers.in"
+                                        className="text-xs text-gray-300 hover:text-yellow-400"
+                                    >
+                                        info@jaigurujewellers.in
+                                    </a>
+                                </div>
+                            </div>
+                        </div> */}
+                    </div>
+                </div>
+
+                {/* Mobile Footer Bottom */}
+                <div className="border-t border-white/10 px-4 py-6">
+                    <div className="flex justify-center gap-3 mb-4">
+                        {paymentIcons.map((method) => (
+                            <div
+                                key={method.name}
+                                className="w-12 h-8 bg-white/10 rounded flex items-center justify-center"
+                            >
+                                <div className="w-8 h-5 bg-white/30 rounded" />
+                            </div>
                         ))}
-                    </Box>
-                </Box>
-            </Box>
-        );
-    }
+                    </div>
+                    <div className="flex gap-2 justify-center">
+                        <p className="text-xs">
+                            Crafted by
+                        </p>
+                        <Image
+                            src={ourcompanylogo}
+                            alt={ourcompanyname}
+                            height={30}
+                            width={30}
+                            priority
+                            style={{ objectFit: "cover" }}
+                        />
+                        <p className="text-xs">
+                            {ourcompanyname}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    );
 };
 
 export default Footer;

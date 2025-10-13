@@ -13,7 +13,7 @@ if (!BASE_URL) {
 }
 
 const PublicUrl: AxiosInstance = axios.create({
-    baseURL: BASE_URL,
+    baseURL: baseURL,
     withCredentials: true, // Enable if using cookies
 });
 
