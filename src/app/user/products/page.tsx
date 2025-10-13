@@ -1,7 +1,6 @@
-// app/user/products/page.js
 'use client';
 
-import React,{Suspense} from 'react';
+import React, { Suspense, useEffect, useRef, useState, useCallback } from 'react';
 import { Box, Typography, Skeleton } from '@mui/material';
 import FilterBar from '@/component/layout/FilterSection';
 import ProductGrid from '@/component/layout/ProductGrid';
@@ -12,10 +11,15 @@ import { RootState } from '@/redux/store/store';
 import { getProductImages } from '@/lib/utils';
 
 function ProductsContent() {
-    // Get filters from Redux store (same as FilterBar)
     const filters = useSelector((state: RootState) => state.filters.filters);
 
-    // Map Redux filters to API filters (same as FilterBar)
+    // ✅ Start with 10 per page
+    const [pageSize, setPageSize] = useState(10);
+
+    // Intersection observer ref
+    const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+    // Build API filters dynamically
     const apiFilters = {
         minGrandTotal: filters.minGrandTotal && filters.minGrandTotal !== '0' ? filters.minGrandTotal : undefined,
         maxGrandTotal: filters.maxGrandTotal && filters.maxGrandTotal !== '100000' ? filters.maxGrandTotal : undefined,
@@ -27,15 +31,12 @@ function ProductsContent() {
         itemName: filters.itemName || undefined,
         sortBy: filters.sortBy && filters.sortBy !== 'GRAND_TOTAL' ? filters.sortBy : undefined,
         sortDirection: filters.sortDirection && filters.sortDirection !== 'ASC' ? filters.sortDirection : undefined,
-        page: filters.page ?? 0,
-        pageSize: filters.pageSize ?? 20,
+        page: 0,
+        pageSize, // 👈 controlled dynamically
     };
 
-    // Fetch products using the same hook as FilterBar
-    const { data, isLoading, error } = useFilteredProducts(apiFilters);
-    console.log(data, 'filter data');
+    const { data, isLoading, error, isFetching } = useFilteredProducts(apiFilters);
 
-    // Map API data to ProductGrid format
     const products =
         (data?.data ?? []).map((product: any) => ({
             name: product.SUBITEMNAME || product.ITEMNAME || 'Unnamed Product',
@@ -48,6 +49,42 @@ function ProductsContent() {
             link: `/user/products/${product.TAGKEY}`,
         }));
 
+    // ✅ Infinite scroll — only load more if `hasMore` is true
+    // ✅ Infinite scroll — delayed and stops before footer
+    const handleObserver = useCallback(
+        (entries: IntersectionObserverEntry[]) => {
+            const target = entries[0];
+            const footer = document.querySelector('footer'); // 👈 detect footer if exists
+
+            // Stop loading if already fetching, no more data, or footer is visible
+            if (isFetching || !data?.hasMore || (footer && footer.getBoundingClientRect().top < window.innerHeight)) {
+                return;
+            }
+
+            if (target.isIntersecting) {
+                // Add a small delay for smoother UX
+                setTimeout(() => {
+                    setPageSize((prev) => prev + 10);
+                }, 800); // 👈 0.8 sec delay before adding more products
+            }
+        },
+        [isFetching, data?.hasMore]
+    );
+
+    useEffect(() => {
+        const options = { root: null, rootMargin: '200px', threshold: 0 };
+        const observer = new IntersectionObserver(handleObserver, options);
+        if (loadMoreRef.current) observer.observe(loadMoreRef.current);
+        return () => observer.disconnect();
+    }, [handleObserver]);
+
+    useEffect(() => {
+        const option = { root: null, rootMargin: '200px', threshold: 0 };
+        const observer = new IntersectionObserver(handleObserver, option);
+        if (loadMoreRef.current) observer.observe(loadMoreRef.current);
+        return () => observer.disconnect();
+    }, [handleObserver]);
+
     return (
         <>
             <BreadcrumbBanner
@@ -59,6 +96,7 @@ function ProductsContent() {
                     { label: 'Rings' },
                 ]}
             />
+
             <Box
                 sx={{
                     display: 'flex',
@@ -68,7 +106,7 @@ function ProductsContent() {
                     px: 1,
                 }}
             >
-                {/* Filter */}
+                {/* Filter Section */}
                 <Box
                     sx={{
                         flex: { xs: '0 0 auto', md: '0 0 240px' },
@@ -115,7 +153,19 @@ function ProductsContent() {
                             No products found matching the selected filters.
                         </Typography>
                     ) : (
-                        <ProductGrid products={products} />
+                        <>
+                            <ProductGrid products={products} />
+                            {/* 👇 Infinite scroll trigger */}
+                            {data?.hasMore && <div ref={loadMoreRef} style={{ height: 40 }} />}
+                            {isFetching && (
+                                <Typography sx={{ textAlign: 'center', mt: 2 }}>Loading more products...</Typography>
+                            )}
+                            {!data?.hasMore && (
+                                <Typography sx={{ textAlign: 'center', mt: 3, color: 'gray' }}>
+                                    All products loaded.
+                                </Typography>
+                            )}
+                        </>
                     )}
                 </Box>
             </Box>

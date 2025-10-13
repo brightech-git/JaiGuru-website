@@ -544,27 +544,7 @@ const FilterBar: React.FC = () => {
                                             valueLabelDisplay="auto"
                                             valueLabelFormat={(value) => formatCurrency(value)}
                                             aria-labelledby="price-range-slider"
-                                            sx={{
-                                                color: theme.custom.colors.mainHeader,
-                                                '& .MuiSlider-thumb': {
-                                                    backgroundColor: theme.custom.colors.mainHeader,
-                                                    boxShadow: theme.custom.shadows.light,
-                                                    transition: 'all 0.3s ease',
-                                                    '&:hover, &.Mui-focusVisible, &.Mui-active': {
-                                                        backgroundColor: theme.palette.primary.dark,
-                                                        boxShadow: theme.custom.shadows.medium,
-                                                        transform: 'scale(1.2)',
-                                                    },
-                                                },
-                                                '& .MuiSlider-rail': {
-                                                    backgroundColor: theme.custom.colors.subtleBlue,
-                                                    opacity: 0.5,
-                                                },
-                                                '& .MuiSlider-track': {
-                                                    backgroundColor: theme.custom.colors.mainHeader,
-                                                    transition: 'all 0.3s ease',
-                                                },
-                                            }}
+                                            sx={{}} // Remove custom styles for testing
                                         />
                                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
                                             <Typography

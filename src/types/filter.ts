@@ -35,4 +35,12 @@ export interface Product {
 export interface FilterResponse {
     data: Product[];
     recentSearches: string[];
+    noMoreProducts?: boolean;
+    totalProducts?: number;
+    totalPages?: number;
+    hasMore?: boolean;      // 👈 add this
+    pageSize?: number;
+    page?: number;
+    currentPage?: number;
+    message?: string;
 }

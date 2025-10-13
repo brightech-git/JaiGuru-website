@@ -65,13 +65,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 component="main"
                 sx={{
                     flex: 1,
-<<<<<<< Updated upstream
                     pt: getMainTopPadding(), // Dynamic padding based on page type
                     minHeight: "calc(100vh - 60px)", // Ensure footer stays at bottom
-=======
-                    pt: getMainTopPadding(),
-                    minHeight: 'calc(100vh - 200px)', // Ensure footer stays at bottom
->>>>>>> Stashed changes
                 }}
             >
                 {children}

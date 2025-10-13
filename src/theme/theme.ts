@@ -24,6 +24,7 @@ declare module "@mui/material/styles" {
             };
             fonts: {
                 special: string;
+                domine:string;
             };
             fontSize?: {
                 title?: string;
@@ -54,6 +55,7 @@ declare module "@mui/material/styles" {
             };
             fonts?: {
                 special?: string;
+                domine?:string;
             };
             fontSize?:{
                 title?: string;
@@ -145,18 +147,14 @@ const theme = createTheme({
         colors: {
             cartBackground: "#ffffffff",
             topHeader: "#fcc5d8",
-<<<<<<< Updated upstream
             mainHeader: "#334b8c",
-=======
-            mainHeader: "#041f60",
->>>>>>> Stashed changes
             categoryHeader: "#021136",
             footer: "#686868ff",
             highlight: "#ffcc00",
             subtleBlue: "#eef2ff",
             danger: "#d32f2f",
             imageBorder: "#8f8e8eff",
-            addtoCart: "linear-gradient(90deg, #ff7b00, #ffcc00)", // ✅ gradient stored as string
+            addtoCart: "linear-gradient(90deg, #DC143C, #f7bcc7ff)", // ✅ gradient stored as string
         },
         shadows: {
             light: "0 2px 4px rgba(0,0,0,0.05)",
@@ -165,6 +163,8 @@ const theme = createTheme({
         },
         fonts: {
             special: `"Creepster", "Amatic SC", "Parisienne", "Poiret One", cursive`,
+            domine: `"Domine", "Saira", serif, sans-serif`,
+
             
         },
         fontSize:{

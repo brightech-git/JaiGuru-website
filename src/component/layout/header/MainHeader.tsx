@@ -140,7 +140,7 @@ export default function Header({
     }, []);
 
     // Consistent height for all headers
-    const headerHeight = { xs: "60px", md: "70px" };
+    const headerHeight = { xs: "45px", md: "70px" };
 
     // Desktop Header
     const renderDesktopHeader = () => {
