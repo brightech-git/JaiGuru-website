@@ -18,11 +18,13 @@ export default function TopHeader({ message, onLogin, onRegister }: TopHeaderPro
                 bgcolor: theme.custom.colors.topHeader,
                 px: 2,
                 py: 0.5,
+                zIndex:40,
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
                 borderBottom: `1px solid ${theme.palette.divider}`,
             }}
+            className=" z-40 "
         >
             {/* Left message */}
             <Typography

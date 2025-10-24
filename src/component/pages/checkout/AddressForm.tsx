@@ -12,6 +12,7 @@ import {
     useTheme,
 } from "@mui/material";
 import AppButton from "@/component/ui/AppButton";
+import GetLocation from "@/component/extra/GetLocation";
 
 interface AddressFormProps {
     address?: any;
@@ -235,21 +236,26 @@ const AddressForm: React.FC<AddressFormProps> = ({
                 </Grid>
 
                 <Grid size={{xs:12}}>
-                    <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+                    <Box sx={{ display: 'flex', gap:0.5 }}>
+                        <Box>  {!isEditing && <GetLocation />} </Box>
+                       
                         <AppButton
-                            label="Cancel"
-                            appVariant="ghost"
-                            onClick={onCancel}
-                            fullWidth
-                        />
-                        <AppButton
-                            label={isEditing ? 'Update Address' : 'Save and Deliver Here'}
+                            label={isEditing ? 'Update Address' : 'Save'}
                             onClick={handleSave}
                             fullWidth
                             sx={{
                                 background: 'linear-gradient(45deg, #ec607eff 30%, #ff53e2ff 90%)',
                             }}
                         />
+                        <AppButton
+                            label="Cancel"
+                            appVariant="ghost"
+                            onClick={onCancel}
+                            fullWidth
+                        />
+                        
+                       
+                        
                     </Box>
                 </Grid>
             </Grid>

@@ -3,11 +3,24 @@
 
 :root {
   --background: #ffffff;
+  --primary-background-color:#ffffff;
   --foreground: #171717;
   --thumb-color:#000000;
+  --card-background-primary:#e2f7fd;
+  --card-background-secondary:#0c376a;
+  --card-background-accent:#fee9ec;
+  --card-background-violet:#e3d6fb;
+  --card-background-violet-dark:#7e3c9e;
+  --primary-text-color:#222;
+  --secondary-text-color:#444;
 
 }
-
+html {
+  scroll-behavior: smooth;
+}
+body {
+  scroll-behavior: smooth;
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -25,7 +38,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: sans-serif, Helvetica, sans-serif;
 
   
 }

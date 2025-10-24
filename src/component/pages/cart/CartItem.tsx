@@ -85,14 +85,14 @@ const CartItem: React.FC<CartItemProps> = ({
                     position: 'relative',
                 }}
             >
-                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' ,flexDirection:'row',gap:2}}>                {/* Product Image */}
+                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' ,flexDirection:'row',gap:1}}>                {/* Product Image */}
                 <CardMedia
                     component="img"
                     image={image}
                     alt={name}
                     sx={{
-                        width: { xs: 100, md: 100 },
-                        height: { xs: 100, md: 100 },
+                        width: { xs: 80, md: 100 },
+                        height: { xs: 80, md: 100 },
                         borderRadius: 1,
                         objectFit: 'cover',
                         flexShrink: 0,
@@ -103,7 +103,7 @@ const CartItem: React.FC<CartItemProps> = ({
                 <CardContent sx={{
                     flex: 1,
                     p: 0,
-                    pl: { md: 2 },
+                    pl: { md: 2 ,xs:1 },
                     width: { xs: '100%', md: 'auto' },
                     mt: { xs: 1, md: 0 }
                 }}>
@@ -111,7 +111,7 @@ const CartItem: React.FC<CartItemProps> = ({
                         <Typography variant="h6" component="h3" sx={{
                             fontWeight: 500,
                             lineHeight: 1.2,
-                            fontSize: { xs: '1.1rem', md: '1.25rem' }
+                            fontSize: { xs: '1rem', md: '1.25rem' }
                         }}>
                             {name}
                         </Typography>
@@ -121,17 +121,23 @@ const CartItem: React.FC<CartItemProps> = ({
                                 fontWeight: 400,
                                 lineHeight: 1,
                                 color: theme.palette.text.secondary,
-                                fontSize: { xs: '0.875rem', md: '1rem' }
+                                fontSize: { xs: '0.775rem', md: '1rem' }
                             }}>
                                 SKU: {sku}
                             </Typography>
                         )}
 
                         <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: 0.5, md: 2 }}>
-                            <Typography variant="body1" color="primary" fontWeight={600}>
+                            <Typography variant="body1" color="primary" fontWeight={600} sx={{
+                               
+                                fontSize: { xs: '0.775rem', md: '1rem' }
+                            }} >
                                 Price: ${price.toFixed(2)}
                             </Typography>
-                            <Typography variant="body2" color="text.secondary">
+                                <Typography variant="body2" color="text.secondary" sx={{
+
+                                    fontSize: { xs: '0.775rem', md: '1rem' }
+                                }}>
                                 Weight: {weight.toFixed(3)} grams
                             </Typography>
                         </Stack>
@@ -166,7 +172,7 @@ const CartItem: React.FC<CartItemProps> = ({
                         spacing={1}
                         sx={{
                             width: '100%',
-                            mt: 1,
+                            mt: 0.5,
                             justifyContent: 'space-between'
                         }}
                     >

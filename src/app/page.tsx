@@ -1,9 +1,14 @@
-"use client";
+// app/page.tsx
+'use client';
 
 import React from "react";
 import HomePage from "@/component/pages/home/Home";
-
+import AnimatedPage from "@/component/ui/AnimatedPage";
 
 export default function App() {
-  return <HomePage />;
+  return (
+    <AnimatedPage pageId="home-page">
+      <HomePage />
+    </AnimatedPage>
+  );
 }

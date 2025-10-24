@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo ,useEffect} from "react";
 import {
     Box,
     Container,
@@ -21,6 +21,8 @@ import {
 import { Edit, Add, ArrowForward, ArrowBack } from "@mui/icons-material";
 import AppButton from "@/component/ui/AppButton";
 import AddressForm from "./AddressForm";
+import DynamicBreadcrumbs from "@/component/layout/breadcrumb/DynamicBreadcrumbs";
+import GetLocation from "@/component/extra/GetLocation";
 // Mock user data
 const MOCK_USER = {
     name: "Aswin Kumar",
@@ -75,6 +77,38 @@ const MOCK_CART_ITEMS = [
         weight: 0.120,
         sku: "SW-500",
         image: "/images/3.webp"
+    },
+    {
+        id: 3,
+        name: "Premium Wireless Headphones",
+        price: 299,
+        weight: 0.350,
+        sku: "PH-001",
+        image: "/images/2.webp"
+    },
+    {
+        id: 4,
+        name: "Smart Watch Series 5",
+        price: 343,
+        weight: 0.120,
+        sku: "SW-500",
+        image: "/images/3.webp"
+    },
+     {
+        id: 5,
+        name: "Premium Wireless Headphones",
+        price: 299,
+        weight: 0.350,
+        sku: "PH-001",
+        image: "/images/2.webp"
+    },
+    {
+        id: 6,
+        name: "Smart Watch Series 5",
+        price: 343,
+        weight: 0.120,
+        sku: "SW-500",
+        image: "/images/3.webp"
     }
 ];
 
@@ -88,6 +122,19 @@ const MobileCheckoutPage: React.FC = () => {
     const [showAddressForm, setShowAddressForm] = useState(false);
     const [editingAddress, setEditingAddress] = useState<any>(null);
     const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('online');
+    const [isFooterVisible, setIsFooterVisible] = useState(false);
+        
+            useEffect(() => {
+                const handleScroll = () => {
+                    const footer = document.getElementById("footer");
+                    if (footer) {
+                        const footerTop = footer.getBoundingClientRect().top;
+                        setIsFooterVisible(footerTop <= window.innerHeight);
+                    }
+                };
+                window.addEventListener("scroll", handleScroll);
+                return () => window.removeEventListener("scroll", handleScroll);
+            }, []);
 
     // Calculate order totals
     const { subtotal, platformFee, total, savings } = useMemo(() => {
@@ -236,50 +283,107 @@ const MobileCheckoutPage: React.FC = () => {
                         sx={{ mt: 2 }}
                     />
                 </Card>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt:2 }}>
+                    <Box>
+                        <Typography variant="body2" color="body.text">
+                            Total: ${total}
+                        </Typography>
+                    </Box>
+                    <AppButton
+                        label="Deliver Here"
+                        endIcon={<ArrowForward />}
+                        onClick={handleNext}
+                        sx={{
+                            background: '#FCF9EA',
+                            color: '#000000',
+                            px: 3,
+                            '&:hover': {
+                                background: '#FCF9EA',
+                                color: '#000000',
+                            },
+                        }}
+                    />
+                </Box>
             </Box>
         );
     };
 
     const renderOrderSummaryStep = () => {
         return (
-            <Card sx={{ p: 2, borderRadius: 2 }}>
-                <Typography variant="h6" fontWeight={600} gutterBottom>
-                    Order Summary
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
+            <Box>
+                <Card sx={{ p: 2, borderRadius: 2}}>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                        Order Summary
+                    </Typography>
+                    <Divider sx={{ mb: 2 }} />
 
-                {MOCK_CART_ITEMS.map((item) => (
-                    <Box key={item.id} sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 2 }}>
-                        <Box
-                            component="img"
-                            src={item.image}
-                            alt={item.name}
-                            sx={{ width: 60, height: 60, borderRadius: 1, objectFit: 'cover' }}
-                        />
-                        <Box sx={{ flex: 1 }}>
-                            <Typography variant="body1" fontWeight={500}>
-                                {item.name}
-                            </Typography>
-                            {item.sku && (
-                                <Typography variant="body2" color="text.secondary">
-                                    SKU: {item.sku}
+                    {MOCK_CART_ITEMS.map((item) => (
+                        <Box key={item.id} sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 2 }}>
+                            <Box
+                                component="img"
+                                src={item.image}
+                                alt={item.name}
+                                sx={{ width: 60, height: 60, borderRadius: 1, objectFit: 'cover' }}
+                            />
+                            <Box sx={{ flex: 1 }}>
+                                <Typography variant="body1" fontWeight={500}>
+                                    {item.name}
                                 </Typography>
-                            )}
-                            <Typography variant="body2" color="text.secondary">
-                                Weight: {item.weight.toFixed(3)} gm
+                                {item.sku && (
+                                    <Typography variant="body2" color="text.secondary">
+                                        SKU: {item.sku}
+                                    </Typography>
+                                )}
+                                <Typography variant="body2" color="text.secondary">
+                                    Weight: {item.weight.toFixed(3)} gm
+                                </Typography>
+                            </Box>
+                            <Typography variant="body1" fontWeight={600}>
+                                ${item.price}
                             </Typography>
                         </Box>
-                        <Typography variant="body1" fontWeight={600}>
-                            ${item.price}
+                    ))}
+                </Card>
+
+                {/* Inline footer (visible even if fixed footer shows) */}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        mt: 2,
+                       
+                        transition: 'margin-bottom 0.3s ease',
+                    }}
+                >
+                    <AppButton
+                        label="Back"
+                        startIcon={<ArrowBack />}
+                        onClick={handleBack}
+                        appVariant="ghost"
+                    />
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Typography variant="body2" fontWeight={600}>
+                            ${total}
                         </Typography>
+                        <AppButton
+                            label="Continue"
+                            endIcon={<ArrowForward />}
+                            onClick={handleNext}
+                            sx={{
+                                background: 'linear-gradient(45deg, #ec607eff 30%, #ff53e2ff 90%)',
+                            }}
+                        />
                     </Box>
-                ))}
-            </Card>
+                </Box>
+            </Box>
         );
     };
 
+
     const renderPaymentStep = () => {
         return (
+            <Box>
             <Card sx={{ p: 2, borderRadius: 2 }}>
                 <Typography variant="h6" fontWeight={600} gutterBottom>
                     Payment
@@ -316,7 +420,7 @@ const MobileCheckoutPage: React.FC = () => {
                 </Box>
 
                 {/* Price Summary */}
-                <Box sx={{ p: 2, bgcolor: theme.palette.background.default, borderRadius: 1 }}>
+                <Box sx={{ p: 2,  borderRadius: 1 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                         <Typography variant="body2">Price ({MOCK_CART_ITEMS.length} items)</Typography>
                         <Typography variant="body2">${subtotal}</Typography>
@@ -332,6 +436,24 @@ const MobileCheckoutPage: React.FC = () => {
                     </Box>
                 </Box>
             </Card>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' ,mt:2 ,mb:2 }}>
+                    <AppButton
+                        label="Back"
+                        startIcon={<ArrowBack />}
+                        onClick={handleBack}
+                        appVariant="ghost"
+                    />
+                    <AppButton
+                        label={paymentMethod === 'cod' ? 'Place Order' : 'Pay Now'}
+                        onClick={handlePlaceOrder}
+                        sx={{
+                            background: 'linear-gradient(45deg, #ec607eff 30%, #ff53e2ff 90%)',
+                            px: 3,
+                        }}
+                    />
+
+                </Box>
+            </Box>
         );
     };
 
@@ -341,7 +463,8 @@ const MobileCheckoutPage: React.FC = () => {
     }
 
     return (
-        <Container maxWidth="sm" sx={{ py: 2, pb: 12 }}>
+        <Container maxWidth="sm" sx={{ py: 2}}>
+            <DynamicBreadcrumbs />
             {/* Stepper */}
             <Stepper activeStep={activeStep} sx={{ mb: 3  ,fontSize:{xs:'0.5rem', sm:'0.75rem'}}} alternativeLabel>
                 {STEPS.map((label) => (
@@ -355,23 +478,27 @@ const MobileCheckoutPage: React.FC = () => {
             {renderStepContent()}
 
             {/* Sticky Bottom Navigation */}
-            <Box
-                sx={{
-                    position: 'fixed',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    backgroundColor: theme.palette.background.paper,
-                    borderTop: `1px solid ${theme.palette.divider}`,
-                    p: 2,
-                    boxShadow: '0 -2px 10px rgba(0,0,0,0.1)',
-                    zIndex: 1000,
-                }}
-            >
+           <Box sx={{ display: 'flex', justifyContent: 'center',margin:'0 auto' }}>
+                <Box
+                    sx={{
+                        position: "fixed",
+                        bottom: isFooterVisible ? -100 : { xs: 0.5, sm: 1.5, md: 2 },
+                        left: 0,
+                        right: 0,
+                        mx: "auto",
+                        background: theme.custom.colors.addtoCart,
+                        boxShadow: theme.custom.shadows.medium,
+                        zIndex: 1000,
+                        transition: "bottom 0.3s ease",
+                        padding: { xs: 1, sm: 1.5, md: 2 },
+                        width: { xs: '90%', sm: '80%' },
+                        borderRadius: 2,
+                    }}
+                >  
                 {activeStep === 0 && (
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Box>
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography variant="body2" color="white">
                                 Total: ${total}
                             </Typography>
                         </Box>
@@ -380,22 +507,29 @@ const MobileCheckoutPage: React.FC = () => {
                             endIcon={<ArrowForward />}
                             onClick={handleNext}
                             sx={{
-                                background: 'linear-gradient(45deg, #ec607eff 30%, #ff53e2ff 90%)',
+                                background: '#FCF9EA',
+                                color: '#000000',
+                                px: 3,
+                                '&:hover': {
+                                    background: '#FCF9EA',
+                                    color: '#000000',
+                                },
                             }}
                         />
                     </Box>
                 )}
 
                 {activeStep === 1 && (
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Box sx={{ display: isFooterVisible?'none':'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <AppButton
                             label="Back"
                             startIcon={<ArrowBack />}
                             onClick={handleBack}
                             appVariant="ghost"
+                            
                         />
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <Typography variant="body2" fontWeight={600}>
+                            <Typography variant="body2" fontWeight={600} color="white">
                                 ${total}
                             </Typography>
                             <AppButton
@@ -403,7 +537,8 @@ const MobileCheckoutPage: React.FC = () => {
                                 endIcon={<ArrowForward />}
                                 onClick={handleNext}
                                 sx={{
-                                    background: 'linear-gradient(45deg, #ec607eff 30%, #ff53e2ff 90%)',
+                                    background: '#FCF9EA',
+                                    color: '#000000',
                                 }}
                             />
                         </Box>
@@ -422,13 +557,17 @@ const MobileCheckoutPage: React.FC = () => {
                             label={paymentMethod === 'cod' ? 'Place Order' : 'Pay Now'}
                             onClick={handlePlaceOrder}
                             sx={{
-                                background: 'linear-gradient(45deg, #ec607eff 30%, #ff53e2ff 90%)',
-                                px: 3,
+                                background: '#FCF9EA',
+                                color: '#000000',
+                                p:1
                             }}
                         />
+                        
                     </Box>
                 )}
             </Box>
+            </Box>
+            <Box id='footer'></Box>
         </Container>
     );
 };

@@ -7,6 +7,7 @@ import { Box, useScrollTrigger, useTheme } from "@mui/material";
 import { useState } from "react";
 import AuthDrawer from "../ui/AuthDrawer";
 import CategoryHeader from "../layout/header/CategoryHeader";
+import AnimatedWrapper from "../ui/AnimatedWrapper";
 
 interface HeaderSectionProps {
     pageType: "home" | "productDetail" | "other" | "cart" | "checkout";
@@ -72,8 +73,7 @@ export default function HeaderSection({ pageType, pageName }: HeaderSectionProps
                     left: 0,
                     width: "100%",
                     zIndex: 50,
-                    backgroundColor: theme.custom.colors.mainHeader,
-                    boxShadow: theme.custom.shadows.medium,
+                    boxShadow: pageType === "home" ? (trigger ? theme.custom.shadows.medium : 0 ) : theme.custom.shadows.medium, 
                     transition: "all 0.3s ease-in-out",
                 }}
             >
@@ -88,6 +88,7 @@ export default function HeaderSection({ pageType, pageName }: HeaderSectionProps
                     onCart={handleCart}
                     onWishlist={handleWishlist}
                     onBack={() => router.back()}
+                    trigger={trigger}
                 />
             </Box>
 
@@ -121,11 +122,15 @@ export default function HeaderSection({ pageType, pageName }: HeaderSectionProps
             />
 
             {/* Auth Drawer */}
+            <AnimatedWrapper componentId="drawer"
+                animationType="fadeUp"
+                delay={0.4}>
             <AuthDrawer
                 open={authOpen}
                 onClose={() => setAuthOpen(false)}
                 initialView={authView}
             />
+            </AnimatedWrapper>
         </>
     );
 }

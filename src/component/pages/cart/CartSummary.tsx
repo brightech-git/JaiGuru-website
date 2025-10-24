@@ -50,7 +50,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
                 boxShadow: theme.shadows[3],
                 position: { md: 'sticky' },
                 top: { md: 40 },
-                mb: { xs: 8, md: 0 }, // Add margin bottom for mobile to accommodate sticky button
+               
             }}
         >
             <Typography

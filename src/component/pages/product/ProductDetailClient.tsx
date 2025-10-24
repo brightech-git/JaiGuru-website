@@ -43,6 +43,9 @@ import {
 } from "@mui/material";
 import { Product } from "@/types/product";
 import DynamicBreadcrumbs from "@/component/layout/breadcrumb/DynamicBreadcrumbs";
+import { useCompanyName } from "@/context/name/companyNameContext";
+import Image from "next/image";
+import BrandAssurance from "@/component/layout/BrandAssurance";
 
 interface ProductDetailsClientProps {
     product: Product;
@@ -67,7 +70,10 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
     const [showPriceBreakup, setShowPriceBreakup] = useState(true);
     const [showMetalDetails, setShowMetalDetails] = useState(true);
     const [isFooterVisible, setIsFooterVisible] = useState(false);
+    const companyName = useCompanyName();
 
+    const logo = companyName?.company?.logo || "/images/2.webp";
+    const title = companyName?.company?.name || "VRAjewels";
     useEffect(() => {
         const handleScroll = () => {
             const footer = document.getElementById("footer");
@@ -189,10 +195,28 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                             {product.description}
                         </Typography>
                         <Divider sx={{ my: 2 }} />
+                        <Box sx={{ p:1.5, mx:'auto', background: theme.custom.colors.backgroundColor  ,color:theme.palette.primary.contrastText}}>
+                            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, justifyContent:'center' ,alignItems:'center'}} >
+                                <Image
+                                    src={logo}
+                                    alt={title}
+                                    height={34}
+                                    width={30}
+                                    priority
+                                    style={{ objectFit: "contain", borderRadius: '50%' }}
+                                />
+
+                                <Typography variant="h6">{title}</Typography>
+                            </Box>
+                           
+                        </Box>
                         <Box>
+                            <BrandAssurance />
+                        </Box>
+                        <Box sx={{mt:1}}>
                             <Typography
                                 variant="h5"
-                                sx={{ mb: 2, fontFamily: theme.typography.h5.fontFamily }}
+        
                             >
                                 Key Features
                             </Typography>
@@ -464,7 +488,7 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                 <Box
                     sx={{
                         position: "fixed",
-                            bottom: isFooterVisible ? -100 : { xs: 0.5, sm: 1.5, md: 2 },
+                        bottom: isFooterVisible ? -100 : { xs: 0.5, sm: 1.5, md: 2 },
                         right: "auto",
                         left: "auto",
                         background: theme.custom.colors.addtoCart,

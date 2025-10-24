@@ -42,10 +42,10 @@ const Footer: React.FC = () => {
     ];
 
     return (
-        <footer className="bg-[#021136] text-white">
+        <footer className="bg-[var(--card-background-accent)] text-white">
             {/* Desktop Footer */}
             <div className="hidden md:block ">
-                <div className=" max-w-7xl mx-auto  py-6">
+                <div className="max-w-7xl mx-auto  py-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                         {/* Column 1 - Company Info */}
                         <div className="ml-2">
@@ -58,9 +58,9 @@ const Footer: React.FC = () => {
                                     height={45}
                                     className="brightness-110"
                                 /> */}
-                                <h3 className="text-2xl font-bold text-white">{companyname}</h3>
+                                <h3 className="text-2xl font-bold text-[var(--primary-text-color)]">{companyname}</h3>
                             </div>
-                            <p className="text-sm text-gray-200 mb-3 leading-relaxed">
+                            <p className="text-sm text-[var(--secondary-text-color)] mb-3 leading-relaxed">
                                 © {new Date().getFullYear()} {companyname}. All rights reserved.
                             </p>
                             
@@ -85,13 +85,13 @@ const Footer: React.FC = () => {
 
                         {/* Column 2 - Useful Links */}
                         <div>
-                            <h3 className="text-lg font-semibold mb-6 text-white">Useful Links</h3>
+                            <h3 className="text-lg font-semibold mb-6 text-[var(--primary-text-color)]">Useful Links</h3>
                             <div className="space-y-3">
                                 {footerData.links.map((link) => (
                                     <Link
                                         key={link.name}
                                         href={link.link}
-                                        className="block text-sm text-gray-200 hover:text-yellow-400 transition-all duration-200 hover:translate-x-1"
+                                        className="block text-sm text-[var(--secondary-text-color)] hover:text-yellow-400 transition-all duration-200 hover:translate-x-1"
                                     >
                                         {link.name}
                                     </Link>
@@ -101,7 +101,7 @@ const Footer: React.FC = () => {
 
                         {/* Column 3 - Contact */}
                         <div>
-                            <h3 className="text-lg font-semibold mb-6 text-white">Contact Us</h3>
+                            <h3 className="text-lg font-semibold mb-6 text-[var(--primary-text-color)]">Contact Us</h3>
                             {/* <div className="space-y-4">
                                 <div className="flex gap-3">
                                     <MapPin className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-1" />
@@ -151,11 +151,11 @@ const Footer: React.FC = () => {
                 {/* Footer Bottom */}
                 <div className="border-t border-white/10">
                     <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-sm text-gray-300">
+                        <p className="text-sm text-[var(--primary-text-color)]">
                             © {new Date().getFullYear()} {companyname}. All rights reserved.
                         </p>
                         <div className="flex gap-2">
-                            <p className="text-md text-center align-center justify-center">
+                            <p className="text-md text-center align-center justify-center text-[var(--primary-text-color)]">
                                 Crafted by
                             </p>
                             <Image
@@ -166,7 +166,7 @@ const Footer: React.FC = () => {
                                 priority
                                 style={{ objectFit: "cover" }}
                             />        
-                            <p className="text-md">
+                            <p className="text-md text-[var(--primary-text-color)]" >
                              {ourcompanyname}
                             </p>
                          </div>
@@ -183,9 +183,9 @@ const Footer: React.FC = () => {
                             onClick={() => toggleSection("company")}
                             className="w-full flex justify-between items-center py-4 text-left"
                         >
-                            <h3 className="text-base font-semibold text-white">Company</h3>
+                            <h3 className="text-base font-semibold text-[var(--primary-text-color)]">Company</h3>
                             <ChevronDown
-                                className={`w-5 h-5 text-gray-300 transition-transform duration-300 ${openSections.company ? "rotate-180" : ""
+                                className={`w-5 h-5 text-[var(--secondary-text-color)] transition-transform duration-300 ${openSections.company ? "rotate-180" : ""
                                     }`}
                             />
                         </button>
@@ -195,9 +195,9 @@ const Footer: React.FC = () => {
                         >
                             <div className="pb-4 pt-2">
                                 <div className="mb-4">
-                                    <h4 className="text-xl font-bold text-white mb-2">{companyname}</h4>
+                                    <h4 className="text-xl font-bold text-[var(--primary-text-color)] mb-2">{companyname}</h4>
                                 </div>
-                                <p className="text-xs text-gray-200 mb-3 leading-relaxed">
+                                <p className="text-xs text-[var(--secondary-text-color)] mb-3 leading-relaxed">
                                     © {new Date().getFullYear()} {companyname}. All rights reserved.
                                 </p>
                                 
@@ -208,7 +208,7 @@ const Footer: React.FC = () => {
                                             href={social.link}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-300"
+                                            className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-300 text-[var(--primary-text-color)]"
                                         >
                                             <div className="w-4 h-4 bg-white/50 rounded-full" />
                                         </a>
@@ -224,9 +224,9 @@ const Footer: React.FC = () => {
                             onClick={() => toggleSection("links")}
                             className="w-full flex justify-between items-center py-4 text-left border-t border-white/10"
                         >
-                            <h3 className="text-base font-semibold text-white">Useful Links</h3>
+                            <h3 className="text-base font-semibold text-[var(--primary-text-color)]">Useful Links</h3>
                             <ChevronDown
-                                className={`w-5 h-5 text-gray-300 transition-transform duration-300 ${openSections.links ? "rotate-180" : ""
+                                className={`w-5 h-5 text-[var(--secondary-text-color)] transition-transform duration-300 ${openSections.links ? "rotate-180" : ""
                                     }`}
                             />
                         </button>
@@ -239,7 +239,7 @@ const Footer: React.FC = () => {
                                     <Link
                                         key={link.name}
                                         href={link.link}
-                                        className="block text-sm text-gray-200 hover:text-yellow-400 transition-colors duration-200"
+                                        className="block text-sm text-[var(--secondary-text-color)] hover:text-yellow-400 transition-colors duration-200"
                                     >
                                         {link.name}
                                     </Link>
@@ -254,9 +254,9 @@ const Footer: React.FC = () => {
                             onClick={() => toggleSection("contact")}
                             className="w-full flex justify-between items-center py-4 text-left border-t border-white/10"
                         >
-                            <h3 className="text-base font-semibold text-white">Contact</h3>
+                            <h3 className="text-base font-semibold text-[var(--primary-text-color)]">Contact</h3>
                             <ChevronDown
-                                className={`w-5 h-5 text-gray-300 transition-transform duration-300 ${openSections.contact ? "rotate-180" : ""
+                                className={`w-5 h-5 text-gray-300 text-[var(--secondary-text-color)] transition-transform duration-300 ${openSections.contact ? "rotate-180" : ""
                                     }`}
                             />
                         </button>
@@ -316,14 +316,14 @@ const Footer: React.FC = () => {
                         {paymentIcons.map((method) => (
                             <div
                                 key={method.name}
-                                className="w-12 h-8 bg-white/10 rounded flex items-center justify-center"
+                                className="w-12 h-8 bg-white/10 rounded flex items-center justify-center text-[var(--primary-text-color)]"
                             >
-                                <div className="w-8 h-5 bg-white/30 rounded" />
+                                <div className="w-8 h-5 bg-white/30 rounded text-[var(--primary-text-color)]" />
                             </div>
                         ))}
                     </div>
                     <div className="flex gap-2 justify-center">
-                        <p className="text-xs">
+                        <p className="text-xs text-[var(--primary-text-color)]">
                             Crafted by
                         </p>
                         <Image
@@ -334,7 +334,7 @@ const Footer: React.FC = () => {
                             priority
                             style={{ objectFit: "cover" }}
                         />
-                        <p className="text-xs">
+                        <p className="text-xs text-[var(--primary-text-color)]">
                             {ourcompanyname}
                         </p>
                     </div>

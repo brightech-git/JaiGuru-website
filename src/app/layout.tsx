@@ -3,21 +3,28 @@
 import "./globals.css";
 import Provider from "@/providers/Provider";
 import Layout from "@/component/layoutWrapper/LayoutWrapper";
-// Google Fonts imports remain the same
-import { Domine, Saira } from "next/font/google";
-
-const domine = Domine({ subsets: ["latin"], weight: ["400", "500", "700"] });
-const saira = Saira({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] });
+import * as fonts from '@/lib/font'; // all fonts imported as object
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${domine.className} ${saira.className}`}>
+    <html
+      lang="en"
+      className={`
+        ${fonts.domine.className} 
+        ${fonts.saira.className} 
+        ${fonts.creepster.className} 
+        ${fonts.amaticSC.className} 
+        ${fonts.parisienne.className} 
+        ${fonts.poiretOne.className} 
+        ${fonts.merriweather.className} 
+        ${fonts.satisfy.className} 
+        ${fonts.cinzel.className} 
+        ${fonts.courgette.className}
+      `}
+    >
       <body>
-        {/* Wrap all children in the combined Provider */}
         <Provider>
-          <Layout>
-            {children}
-          </Layout>
+          <Layout>{children}</Layout>
         </Provider>
       </body>
     </html>

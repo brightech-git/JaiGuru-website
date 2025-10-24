@@ -15,6 +15,7 @@ import {
     Divider,
     useTheme,
 } from "@mui/material";
+import GetLocation from "@/component/extra/GetLocation";
 import AppButton from "@/component/ui/AppButton";
 
 interface AddressDialogProps {
@@ -108,7 +109,7 @@ const AddressDialog: React.FC<AddressDialogProps> = ({
             fullWidth
             PaperProps={{ sx: { borderRadius: 2 } }}
         >
-            <DialogTitle sx={{ fontWeight: 600 }}>
+            <DialogTitle sx={{ fontWeight: 600 ,background:theme.palette.primary.main, color:theme.palette.primary.contrastText}}>
                 {isEditing ? 'Edit Address' : 'Add New Address'}
             </DialogTitle>
 
@@ -262,22 +263,25 @@ const AddressDialog: React.FC<AddressDialogProps> = ({
                 </Grid>
             </DialogContent>
 
-            <DialogActions sx={{ p: 3, gap: 2 }}>
-                <AppButton
-                    label="Cancel"
-                    appVariant="ghost"
-                    onClick={onClose}
-                    sx={{ borderRadius: 2 }}
-                />
+            <DialogActions sx={{ p: 1, gap: 2,  display:'flex' ,}}>
+               
                 
+              
+                <GetLocation />
                 <AppButton
                     label={isEditing ? 'Update Address' : 'Save and Deliver Here'}
-                    appVariant="ghost"
+                    appVariant="primary"
                     onClick={handleSave}
                     sx={{
                         borderRadius: 2,
                         background: 'linear-gradient(45deg, #ec607eff 30%, #ff53e2ff 90%)',
                     }}
+                />
+                <AppButton
+                    label="Cancel"
+                    appVariant="ghost"
+                    onClick={onClose}
+                    sx={{ borderRadius: 2 }}
                 />
                    
               

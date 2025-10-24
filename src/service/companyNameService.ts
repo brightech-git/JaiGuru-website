@@ -4,7 +4,7 @@ import PublicUrl from "@/api/publicUrl";
 // Hardcoded fallback data
 const HARDCODED_COMPANY: Company = {
     name: "VRA jewels",
-    logo: "/images/11.webp", // put the image in public/images/
+    logo: "/images/2.webp", // put the image in public/images/
 };
 
 export const getCompanyName = async (): Promise<Company> => {

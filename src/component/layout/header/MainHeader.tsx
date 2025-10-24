@@ -23,6 +23,7 @@ import MiniCartModal from "@/component/ui/MiniCartModal";
 import MobileCategoryDrawer from "./MobileCategoryDrawer";
 import { useCompanyName } from "@/context/name/companyNameContext";
 import Image from "next/image";
+import SearchDrawer from "@/component/ui/SearchDrawer";
 
 interface HeaderProps {
     pageType?: "home" | "productDetail" | "other" | "cart" | "checkout";
@@ -35,6 +36,7 @@ interface HeaderProps {
     onCart?: () => void;
     onWishlist?: () => void;
     onBack?: () => void;
+    trigger?: boolean | undefined;
 }
 
 // Mock cart data - replace with your actual cart data
@@ -76,6 +78,7 @@ export default function Header({
     onCart,
     onWishlist,
     onBack,
+    trigger
 }: HeaderProps) {
     const isLoggedIn = Boolean(userName);
     const theme = useTheme();
@@ -84,6 +87,7 @@ export default function Header({
 
     const logo = companyName?.company?.logo || "/images/2.webp";
     const title = companyName?.company?.name || "VRAjewels";
+    const [searchDrawerOpen, setSearchDrawerOpen] = useState(false);
 
     const [cartOpen, setCartOpen] = useState(false);
     const cartButtonRef = useRef<HTMLButtonElement>(null);
@@ -103,7 +107,7 @@ export default function Header({
         if (hoverTimeoutRef.current) {
             clearTimeout(hoverTimeoutRef.current);
         }
-        if (cartCount > 0) {
+        if (cartCount > 0 && pageName?.toLowerCase() !== "cart") {
             setCartOpen(true);
         }
     };
@@ -158,13 +162,13 @@ export default function Header({
                             position: 'relative',
                         }}
                     >   
-                    <Box display="flex" flexDirection="row" gap={2}>
+                    <Box display="flex" flexDirection="row"  sx={{alignItems:'center'}} gap={2}>
 
                             <Image
                                 src={logo}
                                 alt={title}
-                                height={50}
-                                width={50}
+                                height={trigger?45:60}
+                                width={trigger ? 45 : 60}
                                 priority
                                 style={{ objectFit: "cover" }}
                             />
@@ -172,9 +176,10 @@ export default function Header({
                             <Typography
                                 variant="h5"
                                 sx={{
-                                    color: theme.palette.primary.contrastText,
+                                    color: theme.palette.primary.dark,
                                     cursor: 'pointer',
-                                    fontWeight: 700,
+                                    fontWeight: 600,
+                                    fontFamily:theme.custom.fonts.special
                                 }}
                                 onClick={() => router.push('/')}
                             >
@@ -185,13 +190,14 @@ export default function Header({
                     </Box>
                         
                         <Box sx={{ flex: 1, mx: 4, maxWidth: "600px" }}>
-                            <SearchBar />
+                            <SearchBar onFocus={() => setSearchDrawerOpen(true)} />
+                                
                         </Box>
                         <Box display="flex" alignItems="center" gap={3} position="relative">
                             {/* Wishlist */}
                             <IconButton onClick={onWishlist}>
                                 <Badge badgeContent={wishlistCount} color="secondary">
-                                    <FavoriteBorder sx={{ color: theme.palette.primary.contrastText }} />
+                                    <FavoriteBorder sx={{ color: theme.palette.primary.dark, }} />
                                 </Badge>
                             </IconButton>
 
@@ -210,10 +216,9 @@ export default function Header({
                                     }}
                                 >
                                     <Badge badgeContent={cartCount} color="secondary">
-                                        <ShoppingCart sx={{ color: theme.palette.primary.contrastText }} />
+                                        <ShoppingCart sx={{ color: theme.palette.primary.dark, }} />
                                     </Badge>
                                 </IconButton>
-
                                 <MiniCartModal
                                     cartItems={mockCartItems}
                                     cartCount={cartCount}
@@ -221,6 +226,7 @@ export default function Header({
                                     onClose={() => setCartOpen(false)}
                                     anchorEl={cartButtonRef.current}
                                 />
+                               
                             </Box>
 
                             {/* Profile */}
@@ -238,8 +244,8 @@ export default function Header({
                                     }
                                 }}
                             >
-                                <AccountCircle sx={{ color: theme.palette.primary.contrastText }} />
-                                <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 500 }}>
+                                <AccountCircle sx={{ color: theme.palette.primary.dark, }} />
+                                <Typography sx={{ color: theme.palette.primary.dark,  fontWeight: 500 }}>
                                     {isLoggedIn ? userName : "Login"}
                                 </Typography>
                             </Box>
@@ -262,7 +268,7 @@ export default function Header({
                     }}>
                        
                             <IconButton onClick={toggleDrawer(true)}>
-                                <MenuIcon sx={{ color: theme.palette.primary.contrastText }} />
+                                <MenuIcon sx={{ color: theme.palette.primary.main }} />
                             </IconButton>
                           
                      
@@ -270,8 +276,8 @@ export default function Header({
                                    <Image
                                     src={logo}
                                     alt={title}
-                                    height={40}
-                                    width={40}
+                                    height={trigger ? 45 : 60}
+                                    width={trigger ? 45 : 60}
                                     priority
                                     style={{ objectFit: "cover" }}
                                 />
@@ -279,9 +285,10 @@ export default function Header({
                                 <Typography
                                     variant="h6"
                                     sx={{
-                                        color: theme.palette.primary.contrastText,
+                                        color: theme.palette.primary.dark,
                                         cursor: 'pointer',
                                         fontWeight: 600,
+                                        fontFamily:theme.custom.fonts.special
                                     }}
                                     onClick={() => router.push('/')}
                                 >
@@ -293,12 +300,12 @@ export default function Header({
                         <Box display="flex" alignItems="center" gap={1}>
                             <IconButton onClick={onWishlist}>
                                 <Badge badgeContent={wishlistCount} color="secondary">
-                                    <FavoriteBorder sx={{ color: theme.palette.primary.contrastText }} />
+                                    <FavoriteBorder sx={{ color: theme.palette.primary.main }} />
                                 </Badge>
                             </IconButton>
                             <IconButton onClick={handleCartClick}>
                                 <Badge badgeContent={cartCount} color="secondary">
-                                    <ShoppingCart sx={{ color: theme.palette.primary.contrastText }} />
+                                    <ShoppingCart sx={{ color: theme.palette.primary.main }} />
                                 </Badge>
                             </IconButton>
                         </Box>
@@ -316,11 +323,11 @@ export default function Header({
                     }}>
                         <Box display="flex" alignItems="center" gap={1}>
                             <IconButton onClick={handleBack}>
-                                <ArrowBack sx={{ color: theme.palette.primary.contrastText }} />
+                                <ArrowBack sx={{ color: theme.palette.primary.dark }} />
                             </IconButton>
                             <Typography
                                 sx={{
-                                    color: theme.palette.primary.contrastText,
+                                    color: theme.palette.primary.dark,
                                     fontWeight: 700,
                                     fontSize: "1rem"
                                 }}
@@ -332,7 +339,7 @@ export default function Header({
                             {pageType !== "cart" && pageType !== "checkout" && (
                                 <IconButton onClick={handleCartClick}>
                                     <Badge badgeContent={cartCount} color="secondary">
-                                        <ShoppingCart sx={{ color: theme.palette.primary.contrastText }} />
+                                        <ShoppingCart sx={{ color: theme.palette.primary.dark }} />
                                     </Badge>
                                 </IconButton>
                             )}
@@ -346,10 +353,11 @@ export default function Header({
         <AppBar
             position="static"
             color="inherit"
-            elevation={1}
+            elevation={0}
             sx={{
-                backgroundColor: theme.custom?.colors?.mainHeader || theme.palette.primary.main,
+                backgroundColor: theme.palette.background.default || theme.custom?.colors?.mainHeader ,
                 minHeight: headerHeight,
+                boxShadow:0,
             }}
         >
             {renderDesktopHeader()}
@@ -367,6 +375,24 @@ export default function Header({
                     <SearchBar />
                 </Box>
             )}
+            <SearchDrawer
+                open={searchDrawerOpen}
+                onClose={() => setSearchDrawerOpen(false)}
+                trigger={trigger}
+                popularSearches={[
+                    "Gold Necklace",
+                    "Diamond Rings",
+                    "Men’s Chains",
+                    "Wedding Bangles",
+                ]}
+                recommended={[
+                    { id: 1, title: "18K Gold Ring", image: "/images/2.webp", link: "#" },
+                    { id: 2, title: "Ruby Pendant", image: "/images/111.jpg", link: "#" },
+                    { id: 3, title: "Silver Bracelet", image: "/images/3.webp", link: "#" },
+                    { id: 4, title: "Pearl Necklace", image: "/images/2.webp", link: "#" },
+                ]}
+            />
+
         </AppBar>
     );
 }

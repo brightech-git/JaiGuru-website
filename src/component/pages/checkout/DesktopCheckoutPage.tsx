@@ -26,7 +26,8 @@ import AppButton from "@/component/ui/AppButton";
 import AddressDialog from "./AddressDialog";
 import PriceDetailsCard from "./PriceDetailsCard";
 import PaymentPage from "./PaymentPage";
-
+import DynamicBreadcrumbs from "@/component/layout/breadcrumb/DynamicBreadcrumbs";
+import GetLocation from "@/component/extra/GetLocation";
 // Mock user data
 const MOCK_USER = {
     name: "Aswin Kumar",
@@ -133,6 +134,7 @@ const CheckoutPage: React.FC = () => {
 
     return (
         <Container maxWidth="xl" sx={{ py: 4 }}>
+            <DynamicBreadcrumbs />
             <Typography variant="h4" component="h1" gutterBottom sx={{
                 fontWeight: 600,
                 color: theme.palette.text.primary,
@@ -204,13 +206,16 @@ const CheckoutPage: React.FC = () => {
                                 </Box>
                             ))}
                         </RadioGroup>
-
-                        <AppButton
-                            label="Add New Address"
-                            startIcon={<Add />}
-                            onClick={handleAddNewAddress}
-                            sx={{ borderRadius: 2 }}
-                        />
+                     
+                            <AppButton
+                                label="Add New Address"
+                                startIcon={<Add />}
+                                onClick={handleAddNewAddress}
+                                sx={{ borderRadius: 2 }}
+                            />
+                          
+                        
+                   
                     </Card>
 
                     {/* Order Summary */}

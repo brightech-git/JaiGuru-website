@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback ,useEffect } from "react";
 import {
     Box,
     useTheme,
@@ -13,6 +13,7 @@ import { ShoppingCartCheckout } from "@mui/icons-material";
 import CartItem from "./CartItem";
 import CartSummary from "./CartSummary";
 import EmptyCart from "./EmptyCart";
+import DynamicBreadcrumbs from "@/component/layout/breadcrumb/DynamicBreadcrumbs";
 
 interface CartItemType {
     id: number;
@@ -65,6 +66,19 @@ const CartPage: React.FC = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const [cartItems, setCartItems] = useState<CartItemType[]>(MOCK_CART_ITEMS);
+    const [isFooterVisible, setIsFooterVisible] = useState(false);
+    
+        useEffect(() => {
+            const handleScroll = () => {
+                const footer = document.getElementById("footer");
+                if (footer) {
+                    const footerTop = footer.getBoundingClientRect().top;
+                    setIsFooterVisible(footerTop <= window.innerHeight);
+                }
+            };
+            window.addEventListener("scroll", handleScroll);
+            return () => window.removeEventListener("scroll", handleScroll);
+        }, []);
 
     const handleRemoveItem = useCallback((id: number) => {
         setCartItems((currentItems) => currentItems.filter((item) => item.id !== id));
@@ -95,8 +109,11 @@ const CartPage: React.FC = () => {
     }
 
     return (
-        <Container maxWidth="xl" sx={{ py: 4, pb: { xs: 10, md: 2 } }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', textAlign: 'center', mb: 2, px:{xs:1 ,sm:2,md:4}}}>
+        <Container maxWidth="xl" sx={{ py: { xs: 1, md: 4 }, pb: { xs: 10, md: 2 } }}>
+            
+            <Box sx={{ alignItems: 'center', textAlign: 'center', px: { xs: 1, sm: 1, md: 2 } }}>
+                <DynamicBreadcrumbs />
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1, px:{xs:0,md:2 ,lg:4} }} >
             <Typography
                 variant="h4"
                 component="h1"
@@ -110,6 +127,7 @@ const CartPage: React.FC = () => {
                 Shopping Cart 
             </Typography>
             <Typography variant="h6" gutterBottom> Items ({cartItems.length})</Typography>
+            </Box>
             </Box>
 
             <Box
@@ -148,31 +166,88 @@ const CartPage: React.FC = () => {
                         onCheckout={handleCheckout}
                     />
                 </Box>
+                {isMobile && (
+                    <Box sx={{ display: 'flex' }}>
+                        <Box
+                            sx={{
+                                width: '100%',
+                                bottom: 'auto',
+                                right: "auto",
+                                left: "auto",
+                                zIndex: 1000,
+                                background: theme.palette.background.default,
+                                transition: "bottom 0.3s ease",
+                                padding: { xs: 1, sm: 1.5, md: 2 },
+                                borderRadius: 2,
+                                display: 'flex',
+                                justifyContent:'space-between',
+                                gap:5
+
+                            }}
+                        >
+
+                            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
+                                <Typography variant="body2" color="body.text">
+                                    Total
+                                </Typography>
+                                <Typography variant="body1" fontWeight={400} color="body.text">
+                                    ${total.toFixed(2)}
+                                </Typography>
+                            </Box>
+
+                            <Fab
+                                variant="extended"
+                                onClick={handleCheckout}
+                                sx={{
+                                    background: '#BADFDB',
+                                    color: 'primary',
+                                    borderRadius: 2,
+                                    px: 2,
+                                    height: 40,
+                                    minWidth: 'auto',
+                                    '&:hover': {
+                                        transform: 'translateY(-2px)',
+                                        boxShadow: theme.shadows[6],
+                                    },
+                                    transition: 'all 0.3s ease',
+                                }}
+                            >
+                                <ShoppingCartCheckout sx={{ mr: 1 }} />
+                                Checkout
+                            </Fab>
+                        </Box>
+                    </Box>
+                )}
             </Box>
 
             {/* Sticky Mobile Checkout Button */}
             {isMobile && cartItems.length > 0 && (
+             <Box sx={{ display: 'flex', justifyContent: 'center',margin:'0 auto' }}>
                 <Box
                     sx={{
-                        position: 'fixed',
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        backgroundColor: theme.palette.background.paper,
-                        borderTop: `1px solid ${theme.palette.divider}`,
-                        p: 1,
-                        boxShadow: '0 -2px 10px rgba(0,0,0,0.1)',
-                        zIndex: 1000,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
+                            position: "fixed",
+                            bottom: isFooterVisible ? -100 : { xs: 1, sm: 1.5, md: 2 },
+                            right: "auto",
+                            left: "auto",
+                            background: theme.custom.colors.addtoCart,
+                            boxShadow: theme.custom.shadows.medium,
+                            zIndex: 1000,
+                            transition: "bottom 0.3s ease",
+                            padding: { xs: 1, sm: 1.5, md: 2 },
+                            width: { xs: '90%', sm: '80%', },
+                            borderRadius: 2,
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent:'space-between'
+                        
                     }}
-                >
-                    <Box sx={{ display: 'flex', flexDirection: 'row' ,gap:2, alignItems:'center'}}>
-                        <Typography variant="body2" color="text.secondary">
+                >   
+            
+                    <Box sx={{ display: 'flex', flexDirection: 'row'  ,gap:2, alignItems:'center'}}>
+                        <Typography variant="body2" color="white">
                             Total
                         </Typography>
-                        <Typography variant="h6" fontWeight={600} color="primary">
+                        <Typography variant="body1" fontWeight={400} color="white">
                             ${total.toFixed(2)}
                         </Typography>
                     </Box>
@@ -181,8 +256,8 @@ const CartPage: React.FC = () => {
                         variant="extended"
                         onClick={handleCheckout}
                         sx={{
-                            background: 'linear-gradient(45deg, #ec607eff 30%, #ff53e2ff 90%)',
-                            color: 'white',
+                            background: '#BADFDB',
+                            color: 'primary',
                             borderRadius: 2,
                             px: 2,
                             height: 40,
@@ -198,7 +273,9 @@ const CartPage: React.FC = () => {
                         Checkout
                     </Fab>
                 </Box>
+            </Box>
             )}
+             <Box id='footer' ></Box>
         </Container>
     );
 };

@@ -134,7 +134,7 @@ export default function CategoryHeader() {
                 <Box
                     ref={categoryRef}
                     sx={{
-                        backgroundColor: theme.palette.background.paper,
+                        background: theme.custom.colors.categoryHeader,
                         position: "fixed",
                         top: isTopHeaderVisible ? "105px" : "70px",
                         left: 0,
@@ -144,14 +144,13 @@ export default function CategoryHeader() {
                         height: isShrunk ? "45px" : "50px",
                         display: "flex",
                         alignItems: "center",
-                        borderBottom: `1px solid ${theme.palette.divider}`,
-                        boxShadow: theme.shadows[1],
+                        // borderBottom: `1px solid ${theme.palette.divider}`,
                     }}
                 >
                     <Box
                         sx={{
                             width: "100%",
-                            maxWidth: "1400px",
+                            maxWidth: "1200px",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",

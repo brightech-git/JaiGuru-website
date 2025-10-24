@@ -90,7 +90,7 @@ export default function TransitionWrapper({ children, transitionType = "slide" }
             <AnimatePresence>
                 {isLoading && (
                     <motion.div
-                        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 z-50 shadow-lg"
+                        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 z-0 shadow-lg"
                         variants={loadingVariants as any}
                         initial="initial"
                         animate="animate"
@@ -130,7 +130,7 @@ export default function TransitionWrapper({ children, transitionType = "slide" }
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.02 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-black z-40 pointer-events-none"
+                        className="fixed inset-0 bg-black z-0 pointer-events-none"
                     />
                 )}
             </AnimatePresence>

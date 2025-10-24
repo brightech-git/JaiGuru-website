@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Box, Typography, IconButton, useTheme,Divider } from "@mui/material";
+import { Box, Typography, IconButton, useTheme, useMediaQuery } from "@mui/material";
 import Image from "next/image";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
@@ -46,6 +46,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const [cartAnimation, setCartAnimation] = useState(false);
     const [isTouchActive, setIsTouchActive] = useState(false);
     const hasMultipleImages = images.length > 1;
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
     useEffect(() => {
         let hoverTimer: NodeJS.Timeout;
@@ -53,6 +54,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
             hoverTimer = setTimeout(() => setShowSecondImage(true), 100);
         } else if (!(hovered || isTouchActive) && hasMultipleImages) {
             setShowSecondImage(false);
+        }
+        if (isMobile) {
+            setShowSecondImage(false);
+            return;
         }
         return () => clearTimeout(hoverTimer);
     }, [hovered, isTouchActive, hasMultipleImages]);
@@ -103,8 +108,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 width: "100%",
                 textDecoration: "none",
             }}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
+            onMouseEnter={() => !isMobile && setHovered(true)}
+            onMouseLeave={() => !isMobile && setHovered(false)}
             onTouchStart={handleTouchToggle}
         >
             <Box
@@ -113,11 +118,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 href={link ? String(link) : "#"}
                 sx={{
                     position: "relative",
-                    background: bg,
-                    borderRadius: "0px",
+                    borderRadius: "20px 20px 0px 0px",
                     overflow: "hidden",
-                    border: "1px solid #ebebeb",
-                    transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                    transition: "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
                 }}
             >
                 {/* Image Section */}
@@ -128,6 +131,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         width: "100%",
                         aspectRatio: "1/1",
                         overflow: "hidden",
+                        borderRadius:'20px',
                         backgroundColor: theme.palette.grey[100],
                     }}
                 >
@@ -139,6 +143,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                                 fill
                                 style={{
                                     objectFit: "cover",
+
                                     transition: "opacity 0.5s ease",
                                     filter: "brightness(1.02)",
                                     opacity: showSecondImage && hasMultipleImages ? 0 : 1,

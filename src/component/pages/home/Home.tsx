@@ -16,15 +16,25 @@ import ThemeRadiusCategoryCard from "@/component/layout/ThemeRadiusCategoryCard"
 import HighlightBanner from "@/component/layout/HighlightBanner";
 import ProductGrid from "@/component/layout/ProductGrid";
 import ToastExample from "@/component/layout/ToastExample";
+import VerifiedIcon from "@mui/icons-material/Verified";
+import DiamondIcon from "@mui/icons-material/Diamond";
+import LockIcon from "@mui/icons-material/Lock";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
+
 
 // ✅ Import data
 import { categories, banners, products, banner, mainProducts, sampleProducts} from "@/data/Home";
+import BrandAssurance from "@/component/layout/BrandAssurance";
+import GallerySection from "@/component/layout/GallerySection";
+import ResponsiveImageGallery from "@/component/layout/ResponsiveImageGallery";
+import HorizontalMasonryGallery from "@/component/layout/HorizontalMasonryGallery";
 
 export default function HomePage() {
     const isSuccess = false;
 
     return (
-        <>
+        <Box sx={{gap:{xs:1 , md:2} }} gap={2}>
             <Banner
                 title="Summer Collection 2025"
                 subtitle="Discover fresh arrivals and trending styles curated just for you."
@@ -40,6 +50,11 @@ export default function HomePage() {
                 rightImage="/images/22.webp"
                 height={{ xs: 200, sm: 300, md: 400 }}
             />
+            <ResponsiveImageGallery
+                images={['/images/11.webp', '/images/22.webp']}
+                altTexts={['Product 1', 'Product 2']}
+            />
+
 {/* 
             <LargeScreenBanner title="Featured Products" products={products} banner={banner} />
             <LargeScreenBanner2 title="Featured Products" products={products} banner={banner} />
@@ -52,6 +67,19 @@ export default function HomePage() {
                 backgroundColor="#f5f5f5"
                 baseUrl="https://app.bmgjewellers.com"
             /> */}
+            <GallerySection />
+            <HorizontalMasonryGallery
+                items={[
+                    { id: 1, image: '/images/11.webp', title: 'Item 1', link: '#' },
+                    { id: 2, image: '/images/22.webp', title: 'Item 2', link: '#' },
+                    { id: 3, image: '/images/11.webp', title: 'Item 3', link: '#' },
+                    { id: 4, image: '/images/22.webp', title: 'Item 4', link: '#' },
+                    { id: 5, image: '/images/11.webp', title: 'Item 5', link: '#' },
+                    { id: 6, image: '/images/22.webp', title: 'Item 6', link: '#' },
+                ]}
+                
+            />
+
 
             <HighlightBanner
                 title="Discover Premium Watches"
@@ -63,7 +91,19 @@ export default function HomePage() {
                 ]}
                 backgroundColor="#d3adf1ff"
             />
-
+            <BrandAssurance assurances={[
+                { icon: <VerifiedIcon sx={{ fontSize: 20 }} />, label: "100% Authentic Jewellery" },
+                { icon: <DiamondIcon sx={{ fontSize: 20 }} />, label: "BIS Hallmarked Gold" },
+                { icon: <LockIcon sx={{ fontSize: 20 }} />, label: "Secure Payments" },
+                { icon: <LocalShippingIcon sx={{ fontSize: 20 }} />, label: "Free & Insured Delivery" },
+                { icon: <AutorenewIcon sx={{ fontSize: 20 }} />, label: "Lifetime Exchange" },
+            ]}
+                backgroundColor="#bebec4ff"
+                primaryColor="#ce45e9ff"
+                secondaryColor="#560f60ff"
+                accentColor="#cbdd2aff"
+                iconColor="#ffffff"
+                textColor="#111" />
             <ToastExample />
 
             <Box
@@ -143,6 +183,6 @@ export default function HomePage() {
                     </CardContent>
                 </Card>
             </Container>
-        </>
+        </Box>
     );
 }

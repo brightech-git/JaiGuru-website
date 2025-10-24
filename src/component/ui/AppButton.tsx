@@ -40,7 +40,7 @@ export default function AppButton({
         error: { variant: "contained", color: "error" },
         warning: { variant: "contained", color: "warning" },
         addtoCart: { variant: "contained", color: "info" },
-        ghost: { variant: "outlined" }, // no color, just border
+        ghost: { variant: "outlined"   }, // no color, just border
     };
 
     const v = variantMap[appVariant];
