@@ -27,7 +27,7 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images }) => {
                             "relative w-full overflow-hidden rounded-2xl shadow-md bg-gray-100 cursor-pointer",
                             "transition-all duration-300 hover:shadow-xl",
                             // responsive heights
-                            "h-70 md:h-80 lg:h-100 xl:h-130",
+                            "h-65 sm:h-75 md:h-80 lg:h-90 xl:h-[25rem] 2xl:h-[28rem]",
                         )}
                     >
                         <Image
@@ -35,7 +35,7 @@ const ImageGrid: React.FC<ImageGridProps> = ({ images }) => {
                             alt={img.alt || img.title || `Image ${index + 1}`}
                             fill
                             className="object-cover hover:scale-105 transition-transform duration-500"
-                            sizes="(max-width: 768px) 50vw, 35vw"
+                            sizes="(max-width: 768px) 40vw, 30vw"
                         />
 
                        

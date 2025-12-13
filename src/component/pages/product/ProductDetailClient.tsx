@@ -174,7 +174,7 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                                 </Typography>
                             </Box>
                         </Box>
-                        <Typography variant="h3" color="secondary" sx={{ fontWeight: "bold", fontSize: { xs: "1.25rem", sm: "1.2rem", md: "1.5rem" }, lineHeight: 1.2, fontFamily: theme.typography.h4.fontFamily }}>
+                        <Typography variant="subtitle1" color="secondary" sx={{ fontWeight: "bold", fontSize: { xs: "1.25rem", sm: "1.2rem", md: "1.5rem" }, lineHeight: 1.2,}}>
                             {product.name}
                         </Typography>
                         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2, fontSize: { xs: "0.95rem", sm: "1.2rem", md: "1.5rem" } }} >

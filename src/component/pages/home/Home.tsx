@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import { Container, Typography, Button, Card, CardContent, TextField, Box } from "@mui/material";
 import InfoOutlined from "@mui/icons-material/InfoOutlined";
 import AppButton from "@/component/ui/AppButton";
@@ -21,6 +21,7 @@ import DiamondIcon from "@mui/icons-material/Diamond";
 import LockIcon from "@mui/icons-material/Lock";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
+import AutoScrollCarousel from "@/component/ui/AutoScrollCarousel";
 
 
 // ✅ Import data
@@ -33,27 +34,25 @@ import HorizontalMasonryGallery from "@/component/layout/HorizontalMasonryGaller
 export default function HomePage() {
     const isSuccess = false;
 
+    
+
+
     return (
-        <Box sx={{gap:{xs:1 , md:2} }} gap={2}>
-            <Banner
-                title="Summer Collection 2025"
-                subtitle="Discover fresh arrivals and trending styles curated just for you."
-                ctaLabel="Explore Now"
-                ctaHref="/collection/summer"
-                imageUrl="/images/33.webp"
-            />
+    
+   
+        <Box sx={{gap:{xs:1 , md:2} }} gap={2} >
 
             <BannerCarousel banners={banners} />
 
+            <GallerySection />
+
+            
             <TwoBannerRow
                 leftImage="/images/11.webp"
                 rightImage="/images/22.webp"
                 height={{ xs: 200, sm: 300, md: 400 }}
             />
-            <ResponsiveImageGallery
-                images={['/images/11.webp', '/images/22.webp']}
-                altTexts={['Product 1', 'Product 2']}
-            />
+            
 
 {/* 
             <LargeScreenBanner title="Featured Products" products={products} banner={banner} />
@@ -67,7 +66,14 @@ export default function HomePage() {
                 backgroundColor="#f5f5f5"
                 baseUrl="https://app.bmgjewellers.com"
             /> */}
-            <GallerySection />
+           
+            <Banner
+                title="Summer Collection 2025"
+                subtitle="Discover fresh arrivals and trending styles curated just for you."
+                ctaLabel="Explore Now"
+                ctaHref="/collection/summer"
+                imageUrl="/images/33.webp"
+            />
             <HorizontalMasonryGallery
                 items={[
                     { id: 1, image: '/images/11.webp', title: 'Item 1', link: '#' },
@@ -91,6 +97,16 @@ export default function HomePage() {
                 ]}
                 backgroundColor="#d3adf1ff"
             />
+           
+            <ToastExample />
+
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+                <AutoScrollCarousel autoScrollSpeed={0.6} gap={1}>
+                    {categories.map((item, idx) => (
+                        <ThemeRadiusCategoryCard key={idx} {...item} backgroundColor="#ffffffff" />
+                    ))}
+                </AutoScrollCarousel>
+            </Box>
             <BrandAssurance assurances={[
                 { icon: <VerifiedIcon sx={{ fontSize: 20 }} />, label: "100% Authentic Jewellery" },
                 { icon: <DiamondIcon sx={{ fontSize: 20 }} />, label: "BIS Hallmarked Gold" },
@@ -98,30 +114,12 @@ export default function HomePage() {
                 { icon: <LocalShippingIcon sx={{ fontSize: 20 }} />, label: "Free & Insured Delivery" },
                 { icon: <AutorenewIcon sx={{ fontSize: 20 }} />, label: "Lifetime Exchange" },
             ]}
-                backgroundColor="#bebec4ff"
+                backgroundColor="linear-gradient(135deg, #eb0a0aff, #81b6f3ff)"
                 primaryColor="#ce45e9ff"
                 secondaryColor="#560f60ff"
                 accentColor="#cbdd2aff"
                 iconColor="#ffffff"
                 textColor="#111" />
-            <ToastExample />
-
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                    gap: 0,
-                    padding: { xs: 1, md: 2 },
-                    maxWidth: "100%",
-                    overflowX: "auto",
-                }}
-            >
-                {categories.map((item, id) => (
-                    <ThemeRadiusCategoryCard key={id} {...item} backgroundColor="#ffffffff" />
-                ))}
-            </Box>
 
             {/* <PremiumFinds title="Premium Finds for You" products={products} /> */}
 
@@ -137,8 +135,12 @@ export default function HomePage() {
             />
 
             <ProductGrid products={sampleProducts} />
+            <ResponsiveImageGallery
+                images={['/images/11.webp', '/images/22.webp']}
+                altTexts={['Product 1', 'Product 2']}
+            />
 
-            <Container sx={{ py: 6 }}>
+            {/* <Container sx={{ py: 6 }}>
                 <Typography variant="h1" gutterBottom>
                     Welcome to Our Store
                 </Typography>
@@ -147,7 +149,7 @@ export default function HomePage() {
                 </Typography>
 
                 {/* Buttons */}
-                <AppButton label="Special Offer" appVariant="primary" color="secondary" fontVariant="satisfy" />
+                {/* <AppButton label="Special Offer" appVariant="primary" color="secondary" fontVariant="satisfy" />
                 <Button variant="text" color="secondary" size="large">Shop Now</Button>
                 <AppButton label="Buy Now" variant="outlined" color="primary" size="small" />
                 <AppButton label="Shop Now" variant="contained" color="primary" size="large" />
@@ -182,7 +184,8 @@ export default function HomePage() {
                         </Button>
                     </CardContent>
                 </Card>
-            </Container>
+            </Container> */} 
         </Box>
+        
     );
 }

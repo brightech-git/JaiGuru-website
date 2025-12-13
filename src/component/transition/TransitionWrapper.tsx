@@ -62,7 +62,7 @@ interface TransitionWrapperProps {
     transitionType?: "slide" | "fade" | "scale";
 }
 
-export default function TransitionWrapper({ children, transitionType = "slide" }: TransitionWrapperProps) {
+export default function TransitionSectionWrapper({ children, transitionType = "slide" }: TransitionWrapperProps) {
     const pathname = usePathname();
     const [isLoading, setIsLoading] = useState(false);
     const [previousPathname, setPreviousPathname] = useState(pathname);

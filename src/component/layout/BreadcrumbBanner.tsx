@@ -21,12 +21,14 @@ export default function BreadcrumbBanner({
             sx={{
                 position: "relative",
                 width: "100%",
-                minHeight: { xs: "180px", sm: "240px", md: "300px" },
+                
+                minHeight: { xs: "180px", sm: "240px", md: "400px" },
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 color: theme.palette.common.white,
                 overflow: "hidden",
+                mt: 3,
             }}
         >
             {/* Background Image */}

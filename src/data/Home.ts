@@ -8,6 +8,15 @@ export const categories = [
     { title: "Rounded 50%", image: "/images/11.webp", link: "/category/rounded" },
     { title: "Theme Radius", image: "/images/22.webp", link: "/category/theme" },
     { title: "No Radius", image: "/images/33.webp", link: "/category/no-radius" },
+    { title: "Rounded 50%", image: "/images/11.webp", link: "/category/rounded" },
+    { title: "Theme Radius", image: "/images/22.webp", link: "/category/theme" },
+    { title: "No Radius", image: "/images/33.webp", link: "/category/no-radius" },
+    { title: "Rounded 50%", image: "/images/11.webp", link: "/category/rounded" },
+    { title: "Theme Radius", image: "/images/22.webp", link: "/category/theme" },
+    { title: "No Radius", image: "/images/33.webp", link: "/category/no-radius" },
+    { title: "Rounded 50%", image: "/images/11.webp", link: "/category/rounded" },
+    { title: "Theme Radius", image: "/images/22.webp", link: "/category/theme" },
+    { title: "No Radius", image: "/images/33.webp", link: "/category/no-radius" },
 ];
 
 export const banners = [
@@ -118,6 +127,7 @@ export const sampleProducts: Product[] = [
         rating: 4.5,
         reviewCount: 128,
         features: ["Water Resistant", "Stainless Steel", "2-Year Warranty"],
+        badges: ["Sale", "New"],
     },
     {
         id: 2,
@@ -131,5 +141,6 @@ export const sampleProducts: Product[] = [
         rating: 4.0,
         reviewCount: 85,
         features: ["Genuine Leather", "Adjustable Strap", "1-Year Warranty"],
+        badges: ["Sale", "New"],
     },
 ];

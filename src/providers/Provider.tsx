@@ -12,6 +12,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { CompanyNameProvider } from "@/context/name/companyNameContext";
 import { NavigationProvider } from "@/context/transition/NavigationContext";
+import { NotificationProvider } from "@/context/notification/NotificationContext";
+import NotificationRequestModal from "@/component/notification/NotificationRequestModal";
 
 interface ProviderProps {
     children: ReactNode;
@@ -34,9 +36,14 @@ const AppProvider: React.FC<ProviderProps> = ({ children }) => {
                         <TransitionWrapper transitionType="slide">
                             <CompanyNameProvider>
                                 <NavigationProvider>
+                                    <NotificationProvider>
 
-                                    {children}
-                                    
+
+                                        {children}
+
+
+                                        <NotificationRequestModal />
+                                    </NotificationProvider>
                                 </NavigationProvider>
                             </CompanyNameProvider>
 

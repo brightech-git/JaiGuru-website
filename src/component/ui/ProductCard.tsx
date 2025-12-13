@@ -73,14 +73,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
     };
 
     const handleAddToCart = (e: React.MouseEvent) => {
-        if (isAuthenticated) {
+        if (!isAuthenticated) {
             router.push("user/customer/login"); // redirect to login if not logged in
             return;
         }
         e.preventDefault();
         e.stopPropagation();
+        console.log("Adding to cart:");
         if (itemSno && onAddToCart) {
             setCartAnimation(true);
+           
             onAddToCart({
                 itemSno,
                 itemName: name,
@@ -99,8 +101,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <Box
-            
-        
             className="card-container"
             sx={{
                 display: "flex",
@@ -113,9 +113,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             onTouchStart={handleTouchToggle}
         >
             <Box
-                component="a"
-                className="product-item"
-                href={link ? String(link) : "#"}
                 sx={{
                     position: "relative",
                     borderRadius: "20px 20px 0px 0px",
@@ -123,6 +120,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     transition: "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
                 }}
             >
+                <Box component="a"
+                    className="product-item"
+                    href={link ? String(link) : "#"}
+                   >
                 {/* Image Section */}
                 <Box
                     className="image-wrapper"
@@ -248,26 +249,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         </Typography>
                     </Box>
                 </Box>
+                </Box>
                 <AppButton
                     label="Add to Cart"
-                    
-                    fontVariant="shadow"
+                    fontVariant="amatic"
                     className={`action-button add-cart-btn ${cartAnimation ? "cart-animation" : ""}`}
                     sx={{
                         width: { xs: "100%", sm: "100%", md: "100%" },
                         height: { xs: "28px", sm: "32px", md: "36px" },
-                        fontSize: { xs: "0.65rem", sm: "0.75rem", md: "0.85rem" },
-                        fontWeight: 600,
+                        fontSize: { xs: "0.85rem", sm: "0.95rem", md: "1.35rem" },
+                        fontWeight: 'bolder',
                         borderRadius: "0px",
                         padding: "0 12px",
                         background: 'linear-gradient(360deg, #ff80b5af, #fd679eff) !important', 
                         color: textColor,
-                      
                         "&:hover": {
                             background: theme.palette.action.hover,
-                        },
-                    
-                        
+                        },  
                     }}
                     onClick={handleAddToCart}
                 />

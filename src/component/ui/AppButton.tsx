@@ -1,9 +1,8 @@
 "use client";
 
-import theme from "@/theme/theme";
 import { Button, ButtonProps } from "@mui/material";
 
-type FontVariant = "default" | "shadow" | "satisfy" | "exo" | "creepster" | "amatic" | "parisienne" | "poiret" | "domine";
+type FontVariant = "default" | "shadow" | "satisfy" | "exo" | "creepster" | "amatic" | "parisienne" | "poiret" | "domine" ;
 type AppVariant = "primary" | "secondary" | "ghost" | "success" | "error" | "warning" | "addtoCart";
 
 interface AppButtonProps extends ButtonProps {

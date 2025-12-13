@@ -39,6 +39,36 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: sans-serif, Helvetica, sans-serif;
+}
 
-  
+
+
+/* Global scrollbar styling */
+* {
+  scrollbar-width: thin;
+  /* For Firefox */
+  scrollbar-color: #888 transparent;
+  /* For Firefox */
+}
+
+/* Webkit browsers */
+*::-webkit-scrollbar {
+  width: 0px !important;
+  /* sets scrollbar width to 0 */
+  height: 0px;
+  /* if horizontal scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  /* optional: track background */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  /* optional: thumb color */
+  border-radius: 0px;
+  /* optional */
+  border: none;
+  /* optional */
 }

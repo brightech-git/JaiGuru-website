@@ -1,3 +1,4 @@
+// src/components/ui/SearchDrawer.tsx
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -9,15 +10,17 @@ import {
     Grid,
     Card,
     CardMedia,
-    CardContent,
-    TextField,
-    InputAdornment,
+    Chip
 } from "@mui/material";
-import { Close, Search } from "@mui/icons-material";
+import { Close, Star, LocalFireDepartment ,Search } from "@mui/icons-material";
 import { gsap } from "gsap";
 import Image from "next/image";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import SearchBar from "./SearchBar";
+import { useRouter } from "next/navigation";
+import TransitionWrapper from "../transition/SmoothSection";
+import TransitionSectionWrapper from "../transition/TransitionWrapper";
 
 interface SearchPanelProps {
     open: boolean;
@@ -35,273 +38,399 @@ export default function SearchPanel({
     trigger
 }: SearchPanelProps) {
     const drawerRef = useRef<HTMLDivElement>(null);
-    const searchInputRef = useRef<HTMLInputElement>(null);
     const theme = useTheme();
     const isLargeScreen = useMediaQuery(theme.breakpoints.up("md"));
+    const router = useRouter();
 
-    // GSAP animation for mobile
+    // Simplified GSAP animations
     useEffect(() => {
         if (open && drawerRef.current) {
             if (isLargeScreen) {
-                // Large screen animation
+                // Desktop: simple fade in
                 gsap.fromTo(
                     drawerRef.current,
-                    { y: -20, opacity: 0 },
-                    { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }
+                    { opacity: 0 },
+                    { opacity: 1, duration: 0.3, ease: "power2.out" }
                 );
             } else {
-                // Mobile animation - from bottom to top
+                // Mobile: simple slide up
                 gsap.fromTo(
                     drawerRef.current,
-                    { y: "100%", opacity: 1 },
-                    { y: 0, duration: 0.5, ease: "power3.out" }
+                    { y: "100%" },
+                    { y: 0, duration: 0.3, ease: "power2.out" }
                 );
             }
-
-            // Focus search input when opened
-            setTimeout(() => {
-                searchInputRef.current?.focus();
-            }, 100);
         }
     }, [open, isLargeScreen]);
 
-    // Close when clicking outside (for large screens)
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (
-                isLargeScreen &&
-                open &&
-                drawerRef.current &&
-                !drawerRef.current.contains(event.target as Node)
-            ) {
-                onClose();
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [open, onClose, isLargeScreen]);
-
-    // Close when clicking on popular search items or recommended cards
     const handleItemClick = (link?: string) => {
         if (link) {
-            window.open(link, "_blank");
+            router.push(link);
         }
         onClose();
+    };
+
+    const handleCloseWithAnimation = () => {
+        if (drawerRef.current) {
+            if (isLargeScreen) {
+                // Desktop: fade out
+                gsap.to(drawerRef.current, {
+                    opacity: 0,
+                    duration: 0.2,
+                    ease: "power2.in",
+                    onComplete: onClose
+                });
+            } else {
+                // Mobile: slide down
+                gsap.to(drawerRef.current, {
+                    y: "100%",
+                    duration: 0.2,
+                    ease: "power2.in",
+                    onComplete: onClose
+                });
+            }
+        } else {
+            onClose();
+        }
     };
 
     const content = (
         <Box
             ref={drawerRef}
             sx={{
-                p: { xs: 2, md: 4 },
-                spaceY: { xs: 3, md: 4 },
-                position: "relative",
+                p: 2,
                 bgcolor: "background.paper",
-                borderRadius: { xs: 0, md: 2 },
-                boxShadow: { md: 3 },
                 width: "100%",
-                height: { xs: "100vh", md: "auto" },
-                maxWidth: { md: "720px" },
-                maxHeight: { md: "70vh" },
+                height: "100%",
                 overflowY: "auto",
-                // Hide scrollbars for cleaner look
                 scrollbarWidth: "none",
-                "&::-webkit-scrollbar": {
-                    display: "none",
-                },
-                border: { md: `1px solid ${theme.palette.divider}` },
+                "&::-webkit-scrollbar": { display: "none" },
                 display: "flex",
                 flexDirection: "column",
+                background: theme.palette.background.default,
             }}
         >
-            {/* Header - Mobile has close button only, desktop has title */}
+            {/* Compact Header */}
             <Box
                 display="flex"
-                justifyContent={isLargeScreen ? "space-between" : "flex-end"}
+                justifyContent="space-between"
                 alignItems="center"
                 sx={{ mb: 2 }}
             >
-                {isLargeScreen && (
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            fontWeight: 600,
-                            fontFamily: "var(--secondary-font)",
-                            color: "text.primary"
-                        }}
-                    >
-                        Search
-                    </Typography>
-                )}
+               
+                    <Box display="flex" alignItems="center"  gap={1}>
+                        <Search sx={{
+                            color: theme.palette.primary.main,
+                            fontSize: 24,
+                        }} />
+                        <Typography
+                            variant="h5"
+                           sx={{
+                            background:theme.custom.colors.addtoCart,
+                            backgroundClip:'text',
+                           }}
+                        >
+                            Search Products
+                        </Typography>
+                    </Box>
+              
+
                 <IconButton
-                    onClick={onClose}
-                    sx={{
-                        color: "text.primary"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onClose();
                     }}
+                    sx={{
+                        color: theme.palette.primary.main,
+                        backgroundColor: theme.palette.background.paper,
+                        '&:hover': {
+                            backgroundColor: theme.palette.primary.light,
+                            color: 'white',
+                        },
+                        transition: 'all 0.2s ease',
+                        width: 40,
+                        height: 40,
+                    }}
+                    size="small"
                 >
-                    <Close />
+                    <Close fontSize="small" />
                 </IconButton>
             </Box>
 
-            {/* Search Bar - Top for mobile */}
-            <Box sx={{ mb: 3 }}>
-                <TextField
-                    fullWidth
+            {/* Mobile Search Bar */}
+            <Box sx={{ mb: 3, display: { xs: "block", md: "none" } }}>
+                <SearchBar
                     placeholder="Search for products..."
-                    variant="outlined"
-                    inputRef={searchInputRef}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <Search sx={{ color: "text.secondary" }} />
-                            </InputAdornment>
-                        ),
-                        sx: {
-                            borderRadius: 2,
-                            backgroundColor: "background.default",
-                            '& .MuiOutlinedInput-notchedOutline': {
-                                borderColor: "divider",
-                            },
-                            '&:hover .MuiOutlinedInput-notchedOutline': {
-                                borderColor: "primary.main",
-                            },
-                        }
-                    }}
                 />
             </Box>
 
-            {/* Popular Searches */}
-            <Box sx={{ mb: 3 }}>
-                <Typography
-                    variant="subtitle1"
+            {/* Compact Popular Searches with Auto Scroll */}
+            <Box sx={{ mb: { xs: 2, md: 3 } }}>
+                <Box display="flex" alignItems="center" gap={1} sx={{ mb: { xs: 1.5, md: 2 } }}>
+                    <LocalFireDepartment sx={{
+                        color: theme.palette.secondary.main,
+                        fontSize: { xs: 18, md: 20 }
+                    }} />
+                    <Typography
+                        variant="subtitle1"
+                        sx={{
+                            fontWeight: 600,
+                            color: theme.palette.text.primary,
+                            fontFamily: theme.custom.fonts.domine,
+                            fontSize: { xs: theme.custom.fontSize?.medium, md: theme.custom.fontSize?.larger },
+                        }}
+                    >
+                        Popular Searches
+                    </Typography>
+                </Box>
+
+                <Box
                     sx={{
-                        mb: 2,
-                        fontWeight: 500,
-                        color: "text.secondary",
-                        fontSize: { xs: "0.9rem", md: "1rem" }
+                        position: 'relative',
+                        overflow: 'hidden',
+                        mx: { xs: -1, md: 0 }, // Negative margin for better edge alignment
                     }}
                 >
-                    Popular Searches
-                </Typography>
-                <Grid container spacing={1}>
-                    {popularSearches.map((term, index) => (
-                        <Grid  key={index}>
-                            <Box
+                    <Box
+                        className="popular-scroll-container"
+                        sx={{
+                            display: 'flex',
+                            gap: { xs: 1, md: 1.5 },
+                            padding: { xs: 1, md: 2 },
+                            width: 'max-content',
+                            animation: 'scrollPopular 40s linear infinite',
+                            '@keyframes scrollPopular': {
+                                '0%': { transform: 'translateX(0)' },
+                                '100%': { transform: 'translateX(-50%)' }
+                            },
+                            '&:hover': {
+                                animationPlayState: 'paused',
+                            },
+                            // Enable manual scrolling
+                            overflowX: 'auto',
+                            scrollbarWidth: 'none',
+                            '&::-webkit-scrollbar': { display: 'none' },
+                            WebkitOverflowScrolling: 'touch',
+                            cursor: 'grab',
+                            '&:active': {
+                                cursor: 'grabbing',
+                            }
+                        }}
+                    >
+                        {[...popularSearches, ...popularSearches].map((term, index) => (
+                            <Chip
+                                key={`${term}-${index}`}
+                                label={term}
+                                onClick={() => handleItemClick()}
                                 sx={{
                                     cursor: "pointer",
                                     borderRadius: "20px",
-                                    px: 3,
-                                    py: 1,
-                                    border: `1px solid ${theme.palette.divider}`,
-                                    fontSize: { xs: "0.8rem", md: "0.875rem" },
+                                    px: { xs: 1.5, md: 2 },
+                                    py: { xs: 0.5, md: 1 },
+                                    fontSize: { xs: '0.7rem', md: theme.custom.fontSize?.small },
                                     transition: "all 0.2s ease",
                                     whiteSpace: "nowrap",
+                                    backgroundColor: theme.custom.colors.cardBackgroundColor,
+                                    border: `1px solid ${theme.palette.divider}`,
+                                    minWidth: 'auto',
+                                    flexShrink: 0,
                                     "&:hover": {
                                         borderColor: theme.palette.primary.main,
                                         color: theme.palette.primary.main,
-                                        backgroundColor: theme.palette.action.hover,
+                                        backgroundColor: theme.palette.primary.light + '20',
+                                        transform: "scale(1.05)",
                                     },
                                 }}
-                                onClick={() => handleItemClick()}
-                            >
-                                {term}
-                            </Box>
-                        </Grid>
-                    ))}
-                </Grid>
+                                size="small"
+                            />
+                        ))}
+                    </Box>
+                </Box>
             </Box>
 
-            {/* Recommended for You */}
-            <Box sx={{ flex: 1 }}>
-                <Typography
-                    variant="subtitle1"
-                    sx={{
-                        mb: 2,
-                        fontWeight: 500,
-                        color: "text.primary",
-                        fontSize: { xs: "0.9rem", md: "1rem" }
-                    }}
-                >
-                    Recommended for You
-                </Typography>
+            {/* Compact Recommended for You with Auto Scroll */}
+            <Box>
+                <Box display="flex" alignItems="center" gap={1} sx={{ mb: { xs: 1.5, md: 2 } }}>
+                    <Star sx={{
+                        color: theme.palette.warning.main,
+                        fontSize: { xs: 18, md: 20 }
+                    }} />
+                    <Typography
+                        variant="subtitle1"
+                        sx={{
+                            fontWeight: 600,
+                            color: theme.palette.text.primary,
+                            fontFamily: theme.custom.fonts.domine,
+                            fontSize: { xs: theme.custom.fontSize?.medium, md: theme.custom.fontSize?.larger },
+                        }}
+                    >
+                        Recommended for You
+                    </Typography>
+                </Box>
+
                 <Box
                     sx={{
-                        display: "flex",
-                        gap: 2,
-                        overflowX: "auto",
-                        pb: 2,
-                        scrollbarWidth: "none",
-                        "&::-webkit-scrollbar": {
-                            display: "none",
-                        },
+                        position: 'relative',
+                        overflow: 'hidden',
+                        mx: { xs: -1, md: 0 }, // Negative margin for better edge alignment
+                        flex: 1,
                     }}
                 >
-                    {recommended.map((item) => (
-                        <Box
-                            key={item.id}
+                    <Box
+                        className="recommended-scroll-container"
+                        sx={{
+                            display: 'flex',
+                            gap: { xs: 1.5, md: 2 },
+                            padding: { xs: 1, md: 0 },
+                            pb: 1,
+                            width: 'max-content',
+                            animation: 'scrollRecommended 45s linear infinite',
+                            '@keyframes scrollRecommended': {
+                                '0%': { transform: 'translateX(0)' },
+                                '100%': { transform: 'translateX(-50%)' }
+                            },
+                            '&:hover': {
+                                animationPlayState: 'paused',
+                            },
+                            // Enable manual scrolling
+                            overflowX: 'auto',
+                            scrollbarWidth: 'none',
+                            '&::-webkit-scrollbar': { display: 'none' },
+                            WebkitOverflowScrolling: 'touch',
+                            cursor: 'grab',
+                            '&:active': {
+                                cursor: 'grabbing',
+                            }
+                        }}
+                    >
+                        {[...recommended, ...recommended].map((item, index) => (
+                            <Box
+                                key={`${item.id}-${index}`}
+                                sx={{
+                                    minWidth: { xs: 130, md: 150 },
+                                    flexShrink: 0,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                }}
+                            >
+                                <Card
+                                    sx={{
+                                        borderRadius: 2,
+                                        boxShadow: theme.custom.shadows.light,
+                                        transition: "all 0.3s ease",
+                                        cursor: "pointer",
+                                        overflow: "hidden",
+                                        backgroundColor: theme.custom.colors.cardBackgroundColor,
+                                        "&:hover": {
+                                            transform: "translateY(-2px)",
+                                            boxShadow: theme.custom.shadows.medium,
+                                        },
+                                    }}
+                                    onClick={() => handleItemClick(item.link)}
+                                >
+                                    <CardMedia>
+                                        <Image
+                                            src={item.image}
+                                            alt={item.title}
+                                            width={150}
+                                            height={120}
+                                            style={{
+                                                width: "100%",
+                                                height: "120px",
+                                                objectFit: "cover",
+                                            }}
+                                        />
+                                    </CardMedia>
+                                </Card>
+
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontWeight: 500,
+                                        textAlign: 'center',
+                                        mt: { xs: 0.5, md: 1 },
+                                        fontSize: { xs: '0.7rem', md: theme.custom.fontSize?.small },
+                                        lineHeight: 1.2,
+                                        color: theme.palette.text.primary,
+                                        fontFamily: theme.custom.fonts.domine,
+                                        display: '-webkit-box',
+                                        WebkitLineClamp: 2,
+                                        WebkitBoxOrient: 'vertical',
+                                        overflow: 'hidden',
+                                    }}
+                                >
+                                    {item.title}
+                                </Typography>
+                            </Box>
+                        ))}
+                    </Box>
+                </Box>
+            </Box>
+
+            {/* Quick Categories - Compact */}
+            <Box sx={{ mt: 2, pt: 2, borderTop: `1px solid ${theme.palette.divider}` }}>
+                <Typography
+                    variant="subtitle2"
+                    sx={{
+                        mb: 1.5,
+                        fontWeight: 600,
+                        color: theme.palette.text.primary,
+                        fontFamily: theme.custom.fonts.domine,
+                    }}
+                >
+                    Quick Categories
+                </Typography>
+                <Box display="flex" gap={1} flexWrap="wrap">
+                    {['Jewelry', 'Electronics', 'Fashion', 'Home', 'Beauty'].map((category) => (
+                        <Chip
+                            key={category}
+                            label={category}
+                            onClick={() => handleItemClick()}
+                            size="small"
                             sx={{
-                                minWidth: { xs: "140px", md: "160px" },
-                                display: "flex",
-                                flexDirection: "column",
+                                borderRadius: 1.5,
+                                px: 1.5,
+                                fontSize: theme.custom.fontSize?.small,
+                                cursor: 'pointer',
+                                transition: 'all 0.2s ease',
+                                backgroundColor: theme.custom.colors.cardBackgroundColor,
+                                border: `1px solid ${theme.palette.divider}`,
+                                '&:hover': {
+                                    backgroundColor: theme.palette.primary.light + '20',
+                                    borderColor: theme.palette.primary.main,
+                                    color: theme.palette.primary.main,
+                                }
                             }}
-                        >
-                            <Card
-                                sx={{
-                                    borderRadius: 2,
-                                    boxShadow: 1,
-                                    transition: "all 0.3s ease-in-out",
-                                    cursor: "pointer",
-                                    "&:hover": {
-                                        transform: "translateY(-4px)",
-                                        boxShadow: 4,
-                                    },
-                                }}
-                                onClick={() => handleItemClick(item.link)}
-                            >
-                                <CardMedia>
-                                    <Image
-                                        src={item.image}
-                                        alt={item.title}
-                                        width={160}
-                                        height={160}
-                                        style={{
-                                            width: "100%",
-                                            height: "140px",
-                                            objectFit: "cover",
-                                        }}
-                                    />
-                                </CardMedia>
-                            </Card>
-                            <Typography
-                                variant="body2"
-                                sx={{
-                                    fontWeight: 500,
-                                    textAlign: "center",
-                                    fontFamily: "var(--secondary-font)",
-                                    mt: 1,
-                                    fontSize: { xs: "0.75rem", md: "0.875rem" },
-                                    lineHeight: 1.2,
-                                }}
-                            >
-                                {item.title}
-                            </Typography>
-                        </Box>
+                            variant="outlined"
+                        />
                     ))}
                 </Box>
+            </Box>
+
+            {/* Scroll Instructions */}
+            <Box sx={{ mt: "auto", textAlign: 'center'  }}>
+                <Typography
+                    variant="caption"
+                    sx={{
+                        color: theme.palette.text.secondary,
+                        fontSize: theme.custom.fontSize?.small,
+                        fontFamily: theme.custom.fonts.domine,
+                    }}
+                >
+                    💡 Hover to pause auto-scroll
+                </Typography>
             </Box>
         </Box>
     );
 
-    // For large screens: render as absolute positioned element without modal overlay
+    // For large screens: simple centered modal
     if (isLargeScreen) {
         return open ? (
             <Box
                 sx={{
                     position: "fixed",
-                    top: trigger ? 33 : 70,
+                    top: trigger ? 60 : 90 ,
                     left: 0,
                     right: 0,
                     bottom: 0,
@@ -309,37 +438,54 @@ export default function SearchPanel({
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "center",
-                    pt: 4,
-                    backgroundColor: "transparent",
-                    pointerEvents: "none",
+                    pt: 1,
                 }}
+                onClick={handleCloseWithAnimation}
             >
-                <Box sx={{ pointerEvents: "auto" }}>
+                <Box
+                    onClick={(e) => e.stopPropagation()}
+                    sx={{
+                        width: "90%",
+                        maxWidth: "720px",
+                        maxHeight: "80vh",
+                        borderRadius: 2,
+                        overflow: "hidden",
+                    }}
+                >
                     {content}
                 </Box>
             </Box>
         ) : null;
     }
 
-    // For mobile: use drawer with full screen
+    // For mobile: full screen drawer
     return (
         <Drawer
             anchor="bottom"
             open={open}
-            onClose={onClose}
+            onClose={handleCloseWithAnimation}
             sx={{
                 "& .MuiDrawer-paper": {
-                    height: "100vh",
-                    borderRadius: 0,
+                    height: "100vh", // Full screen height
+                    width: "100%", // Full screen width
+                    borderRadius: 0, // Remove border radius for full screen
                     backgroundColor: "background.paper",
                     overflow: "hidden",
                 },
             }}
-            SlideProps={{
-                timeout: 0, // Disable default transition since we're using GSAP
-            }}
+            SlideProps={{ timeout: 0 }} // Disable default transition for GSAP
         >
-            {content}
+            <Box>
+                
+                <TransitionWrapper variant="slideUp" isVisible={true}
+                    duration={0.4}>
+                        <TransitionSectionWrapper>
+
+                {content}
+                    </TransitionSectionWrapper>
+                </TransitionWrapper>
+            </Box>
+           
         </Drawer>
     );
 }

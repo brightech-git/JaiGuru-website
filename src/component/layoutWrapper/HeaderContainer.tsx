@@ -122,15 +122,17 @@ export default function HeaderSection({ pageType, pageName }: HeaderSectionProps
             />
 
             {/* Auth Drawer */}
-            <AnimatedWrapper componentId="drawer"
-                animationType="fadeUp"
-                delay={0.4}>
-            <AuthDrawer
-                open={authOpen}
-                onClose={() => setAuthOpen(false)}
-                initialView={authView}
-            />
-            </AnimatedWrapper>
+            {/* Auth Drawer — render above all */}
+            <Box sx={{ position: "relative", zIndex: 2000 }}>
+                <AnimatedWrapper componentId="drawer" animationType="fadeUp" delay={0.4}>
+                    <AuthDrawer
+                        open={authOpen}
+                        onClose={() => setAuthOpen(false)}
+                        initialView={authView}
+                    />
+                </AnimatedWrapper>
+            </Box>
+
         </>
     );
 }

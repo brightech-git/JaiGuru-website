@@ -6,6 +6,7 @@ import DiamondIcon from "@mui/icons-material/Diamond";
 import LockIcon from "@mui/icons-material/Lock";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
+import AutoScrollCarousel from "../ui/AutoScrollCarousel";
 
 export interface AssuranceItem {
     icon: React.ReactNode;
@@ -83,7 +84,8 @@ const BrandAssurance: React.FC<BrandAssuranceProps> = ({
     }, [isPaused, userScrolling]);
 
     // Use props colors or fallback to theme colors
-    const getBackgroundColor = () => backgroundColor || theme.custom.colors.backgroundColor;
+    const getBackgroundColor = () => backgroundColor?.startsWith("linear")? backgroundColor
+        : `linear-gradient(90deg, ${primaryColor}, ${secondaryColor})` || theme.custom.colors.backgroundColor;
     const getPrimaryColor = () => primaryColor || theme.palette.primary.main;
     const getSecondaryColor = () => secondaryColor || theme.palette.secondary.main;
     const getAccentColor = () => accentColor || theme.palette.primary.light;
@@ -118,25 +120,11 @@ const BrandAssurance: React.FC<BrandAssuranceProps> = ({
             />
 
             <Box
-                ref={scrollContainerRef}
                 sx={{
                     display: "flex",
-                    overflowX: "auto",
-                    scrollBehavior: "smooth",
-                    gap: 2,
-                    py: 2,
-                    px: 2,
-                    cursor: "grab",
-                    "&:active": { cursor: "grabbing" },
-                    scrollbarWidth: "none",
-                    "&::-webkit-scrollbar": { display: "none" },
-                    maxWidth: "100%",
-                    mx:'auto',
-                    justifyContent:{xs:'flex-start' ,sm:'flex-start', md:'center'}
                 }}
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
             >
+                <AutoScrollCarousel >
                 {enhancedAssurances.map((item, index) => (
                     <Box
                         key={index}
@@ -207,6 +195,8 @@ const BrandAssurance: React.FC<BrandAssuranceProps> = ({
                         </Typography>
                     </Box>
                 ))}
+
+                </AutoScrollCarousel>
             </Box>
         </Box>
     );

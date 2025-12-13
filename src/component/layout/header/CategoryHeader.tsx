@@ -171,11 +171,11 @@ export default function CategoryHeader() {
                             >
                                 {/* Main Category */}
                                 <Typography
-                                    variant="body1"
+                                    variant="subtitle2"
                                     sx={{
                                         color: theme.palette.text.primary,
                                         fontWeight: 600,
-                                        fontSize: isShrunk ? "0.85rem" : "0.9rem",
+                                        fontSize: isShrunk ? "0.75rem" : "0.85rem",
                                         textTransform: "uppercase",
                                         cursor: "pointer",
                                         transition: "all 0.2s ease-in-out",

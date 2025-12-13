@@ -73,7 +73,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     sx={{
                         flex: 1,
                         pt: getMainTopPadding(), // Dynamic padding based on page type
-                        minHeight: "calc(100vh - 60px)", // Ensure footer stays at bottom
+                        minHeight: "calc(100vh - 10px)", // Ensure footer stays at bottom
+                        margin:1
+                        
                     }}
                 >
                     {children}
