@@ -1,20 +1,20 @@
 // src/data/homeData.ts
 import { Product } from "@/types/product";
-import img1 from "../images/11.webp";
+import img1 from "../images/11.png";
 import img2 from "../images/22.webp";
 import img3 from "../images/33.webp";
 
 export const categories = [
-    { title: "Rounded 50%", image: "/images/11.webp", link: "/category/rounded" },
+    { title: "Rounded 50%", image: "/images/11.png", link: "/category/rounded" },
     { title: "Theme Radius", image: "/images/22.webp", link: "/category/theme" },
     { title: "No Radius", image: "/images/33.webp", link: "/category/no-radius" },
-    { title: "Rounded 50%", image: "/images/11.webp", link: "/category/rounded" },
+    { title: "Rounded 50%", image: "/images/11.png", link: "/category/rounded" },
     { title: "Theme Radius", image: "/images/22.webp", link: "/category/theme" },
     { title: "No Radius", image: "/images/33.webp", link: "/category/no-radius" },
-    { title: "Rounded 50%", image: "/images/11.webp", link: "/category/rounded" },
+    { title: "Rounded 50%", image: "/images/11.png", link: "/category/rounded" },
     { title: "Theme Radius", image: "/images/22.webp", link: "/category/theme" },
     { title: "No Radius", image: "/images/33.webp", link: "/category/no-radius" },
-    { title: "Rounded 50%", image: "/images/11.webp", link: "/category/rounded" },
+    { title: "Rounded 50%", image: "/images/11.png", link: "/category/rounded" },
     { title: "Theme Radius", image: "/images/22.webp", link: "/category/theme" },
     { title: "No Radius", image: "/images/33.webp", link: "/category/no-radius" },
 ];
@@ -26,7 +26,7 @@ export const banners = [
         subtitle: "Trendy & comfortable fashion for the season",
         ctaText: "Shop Now",
         ctaLink: "/shop",
-        id:1
+        id: 1
     },
     {
         image: img2,
@@ -34,7 +34,7 @@ export const banners = [
         subtitle: "Up to 50% off on selected items",
         ctaText: "Grab Offer",
         ctaLink: "/offers",
-        id:2
+        id: 2
     },
     {
         image: img3,
@@ -42,15 +42,15 @@ export const banners = [
         subtitle: "Discover the latest styles today",
         ctaText: "Explore",
         ctaLink: "/new",
-        id:3
+        id: 3
     },
 ];
 
 export const products = [
-    { name: "Leather Bag", image: img1  ,id:1},
-    { name: "Sneakers", image: img2 ,id:2},
-    { name: "Smart Watch", image: img3 ,id:3},
-    { name: "Sunglasses", image: img3 ,id:4},
+    { name: "Leather Bag", image: img1, id: 1 },
+    { name: "Sneakers", image: img2, id: 2 },
+    { name: "Smart Watch", image: img3, id: 3 },
+    { name: "Sunglasses", image: img3, id: 4 },
 ];
 
 export const banner = { image: img2, alt: "Main Banner" };
@@ -63,9 +63,9 @@ export const mainProducts = [
         itemName: "Headphones",
         subItemName: "Premium",
         subProducts: [
-            { name: "Earbuds", image: "/images/111.jpg", link: "/products/earbuds",id:1 },
-            { name: "Portable Speaker", image: "/images/111.jpg", link: "/products/speaker" ,id:2},
-            { name: "Wireless Charger", image: "/images/111.jpg", link: "/products/charger" ,id:3},
+            { name: "Earbuds", image: "/images/111.jpg", link: "/products/earbuds", id: 1 },
+            { name: "Portable Speaker", image: "/images/111.jpg", link: "/products/speaker", id: 2 },
+            { name: "Wireless Charger", image: "/images/111.jpg", link: "/products/charger", id: 3 },
         ],
     },
     {
@@ -75,8 +75,8 @@ export const mainProducts = [
         itemName: "Smartwatch",
         subItemName: "Classic",
         subProducts: [
-            { name: "Extra Strap", image: "/images/111.jpg", link: "/products/strap" ,id:1},
-            { name: "Charger", image: "/images/111.jpg", link: "/products/charger" ,id:2},
+            { name: "Extra Strap", image: "/images/111.jpg", link: "/products/strap", id: 1 },
+            { name: "Charger", image: "/images/111.jpg", link: "/products/charger", id: 2 },
         ],
     },
     {

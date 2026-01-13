@@ -4,7 +4,7 @@ import PublicUrl from "@/api/publicUrl";
 // Hardcoded fallback data
 const HARDCODED_COMPANY: Company = {
     name: "BrightechSoftwareSolutions",
-    logo: "/images/11.webp", // put the image in public/images/
+    logo: "/images/11.png", // put the image in public/images/
 };
 
 export const getOurCompanyName = async (): Promise<Company> => {

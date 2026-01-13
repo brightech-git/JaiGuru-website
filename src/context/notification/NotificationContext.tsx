@@ -13,8 +13,6 @@ const NotificationContext = createContext<NotificationContextType | undefined>(u
 
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 
-
-    console.log(process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY ,'capid')
     const [permission, setPermission] = useState<NotificationPermission>(
         typeof window !== "undefined" ? Notification.permission : "default"
     );

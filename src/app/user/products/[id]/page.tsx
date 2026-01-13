@@ -3,7 +3,7 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import { useProductById } from "@/hooks/useProductById";
-import ProductDetailsClient from "@/component/pages/product/ProductDetailClient";
+import ProductDetailsClient from "@/component/component/product/ProductDetailClient";
 import { CircularProgress, Box, Typography } from "@mui/material";
 import { getProductImages } from "@/lib/utils";
 import { getProductPrice } from "@/lib/priceUtils";
@@ -48,7 +48,7 @@ export default function ProductPage() {
             `Purity: ${productData.PURITY}%`,
             `Occasion: ${productData.Occasion}`,
             `Studded: ${productData.STUDDEDSTONE}`,
-            
+
         ],
         badges: [
             ...(productData.FeaturedProducts === "1" ? ["Featured"] : []),

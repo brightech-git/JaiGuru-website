@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  output: undefined, // remove 'export'
-  dynamicParams: "force-dynamic",
+
+  output: "export", // remove 'export'
   images: {
     unoptimized: true, // required if you use next/image
     remotePatterns: [

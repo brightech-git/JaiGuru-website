@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import HomePage from "@/component/pages/home/Home";
+import HomePage from "@/component/component/home/Home";
 import AnimatedPage from "@/component/ui/AnimatedPage";
 
 export default function App() {

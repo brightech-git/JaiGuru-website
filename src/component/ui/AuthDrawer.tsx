@@ -12,9 +12,9 @@ import {
     useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import LoginForm from "../pages/login/LoginForm";
-import RegisterForm from "../pages/register/RegisterForm";
-import ForgotPasswordForm from "../pages/forgotPassword/ForgotPasswordForm";
+import LoginForm from "../component/login/LoginForm";
+import RegisterForm from "../component/register/RegisterForm";
+import ForgotPasswordForm from "../component/forgotPassword/ForgotPasswordForm";
 import TransitionWrapper from "../transition/SmoothSection";
 
 interface AuthDrawerProps {
@@ -66,19 +66,19 @@ const AuthDrawer: React.FC<AuthDrawerProps> = ({
         >
             <TransitionWrapper
                 isVisible={open}
-                variant={isMobile ? "slideDown" :"slideUp"}
+                variant={isMobile ? "slideDown" : "slideUp"}
                 duration={0.4}
-                
+
             >
-            <Box sx={{ overflowY: "auto" }}>
-             
+                <Box sx={{ overflowY: "auto" }}>
+
                     <Box
                         sx={{
                             textAlign: "center",
                             background: "linear-gradient(180deg, #ecc8a3ff, #FFFFFF)",
                             py: 1,
                             px: 2,
-                            p:{ xs:1,sm:2 },
+                            p: { xs: 1, sm: 2 },
                             borderBottom: `1px solid ${theme.palette.divider}`,
                             position: "sticky",
                         }}
@@ -94,7 +94,7 @@ const AuthDrawer: React.FC<AuthDrawerProps> = ({
                         {/* Circle with icon */}
                         <Box
                             sx={{
-                                position:'absolute',
+                                position: 'absolute',
                                 width: 50,
                                 height: 50,
                                 mx: "auto",
@@ -131,27 +131,27 @@ const AuthDrawer: React.FC<AuthDrawerProps> = ({
                                     : "Reset Your Password"}
                         </Typography>
                     </Box>
-      
 
-                <Box sx={{ p: { xs: 1, md: 2, lg: 3}, background: "linear-gradient(180deg, #ffffff, #f7f3e6ff)", }}>
 
-                    <Box sx={{ mt: 0 }}>
-                        {view === "login" && (
-                            <LoginForm
-                                switchToRegister={switchToRegister}
-                                switchToForgot={switchToForgot}
-                                onSuccess={onClose}
-                            />
-                        )}
-                        {view === "register" && (
-                            <RegisterForm switchToLogin={switchToLogin} />
-                        )}
-                        {view === "forgot" && (
-                            <ForgotPasswordForm switchToLogin={switchToLogin} />
-                        )}
+                    <Box sx={{ p: { xs: 1, md: 2, lg: 3 }, background: "linear-gradient(180deg, #ffffff, #f7f3e6ff)", }}>
+
+                        <Box sx={{ mt: 0 }}>
+                            {view === "login" && (
+                                <LoginForm
+                                    switchToRegister={switchToRegister}
+                                    switchToForgot={switchToForgot}
+                                    onSuccess={onClose}
+                                />
+                            )}
+                            {view === "register" && (
+                                <RegisterForm switchToLogin={switchToLogin} />
+                            )}
+                            {view === "forgot" && (
+                                <ForgotPasswordForm switchToLogin={switchToLogin} />
+                            )}
+                        </Box>
                     </Box>
                 </Box>
-            </Box>
             </TransitionWrapper>
         </Drawer>
     );
